@@ -1,0 +1,23 @@
+{
+  "payment": "Payment",
+  "payment-des": "Place to pay for movie ticket bookings at NHCinema",
+  "movie-inf": "Movie information",
+  "movie": "Movie",
+  "show-date-and-time": "Show date and time",
+  "format": "Format",
+  "chair": "Chair",
+  "cinema-room": "Cinema Room",
+  "billing-infor": "Billing Information",
+  "category": "Category",
+  "quantity": "Quantity",
+  "total-amount": "Total amount",
+  "vnd": "VND",
+  "payment-methods": "Payment methods",
+  "expense": "Expense",
+  "pay": "Pay",
+  "fee": "Fee",
+  "total": "Total",
+  "back": "Back",
+  "note": "Note",
+  "note-des": "Do not buy tickets for children under 13 years old for movie screenings that end after 10:00 p.m. and do not buy tickets for children under 16 years old for movie screenings that end after 11:00 p.m."
+}

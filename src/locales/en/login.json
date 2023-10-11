@@ -1,0 +1,14 @@
+{
+  "login": "Login",
+  "name": "Full name",
+  "email": "Email",
+  "phone": "Phone",
+  "password": "Password",
+  "forgot-password": "Forgot password",
+  "register": "Register",
+  "confirm-password": "Confirm password",
+  "login-des": "Log in to the NHCinema project",
+  "register-des": "Register an account for NHCinema movie theater",
+  "forgot-password-des": "Retrieve your password for your NCHinema movie theater account",
+  "send": "Send"
+}

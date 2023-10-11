@@ -1,0 +1,23 @@
+{
+  "payment": "Thanh toán",
+  "payment-des": "Nơi thanh toán hoá đơn đặt vé xem phim tại rạp NHCinema",
+  "movie-inf": "Thông tin phim",
+  "movie": "Phim",
+  "show-date-and-time": "Ngày giờ chiếu",
+  "format": "Định dạng",
+  "chair": "Ghế",
+  "cinema-room": "Phòng chiếu",
+  "billing-infor": "Thông tin thanh toán",
+  "category": "Danh mục",
+  "quantity": "Số lượng",
+  "total-amount": "Tổng tiền",
+  "vnd": "đ",
+  "payment-methods": "Phương thức thanh toán",
+  "expense": "Chi phí",
+  "pay": "Thanh toán",
+  "fee": "Pee",
+  "total": "Tổng",
+  "back": "Quay lại",
+  "note": "Ghi chú",
+  "note-des": "Không mua vé cho trẻ em dưới 13 tuổi đối với các suất chiếu phim kết thúc sau 22h00 và không mua vé cho trẻ em dưới 16 tuổi đối với các suất chiếu phim kết thúc sau 23h00."
+}

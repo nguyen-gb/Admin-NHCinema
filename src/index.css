@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  height: 100%;
+  line-height: 1.2;
+}
+
+body {
+  font-weight: 400;
+}
+
+.player-wrapper {
+  width: auto;
+  height: auto;
+}
+
+.react-player {
+  padding-top: 56.25%;
+  position: relative;
+}
+
+.react-player>div {
+  position: absolute;
+}

@@ -1,0 +1,18 @@
+{
+  "detail": "Detail",
+  "premiere": "Premiere",
+  "duration": "Duration",
+  "minutes": "minutes",
+  "launched-from": "Launched from",
+  "category": "Category",
+  "format": "Format",
+  "director": "Director",
+  "performer": "Performer",
+  "age": "Age",
+  "T13": "Not for persons under 13 years of age",
+  "T16": "Not for persons under 16 years of age",
+  "T18": "Not for persons under 18 years of age",
+  "book-tickets": "Book tickets",
+  "showtimes": "Showtimes",
+  "today": "Today"
+}

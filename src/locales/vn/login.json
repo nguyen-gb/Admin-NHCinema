@@ -1,0 +1,14 @@
+{
+  "login": "Đăng nhập",
+  "name": "Họ và tên",
+  "email": "Email",
+  "phone": "Số điện thoại",
+  "password": "Mật khẩu",
+  "forgot-password": "Quên mật khẩu",
+  "register": "Đăng ký",
+  "confirm-password": "Xác nhận mật khẩu",
+  "login-des": "Đăng nhập vào dự án NHCinema",
+  "register-des": "Đăng ký tài khoản rạp chiếu phim NHCinema",
+  "forgot-password-des": "Lấy lại mật khẩu cho tài khoản rạp chiếu phim NCHinema của bạn",
+  "send": "Gửi"
+}
