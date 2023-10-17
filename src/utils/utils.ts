@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import config from 'src/constants/config'
+
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import { ErrorResponse } from 'src/types/utils.type'
 
@@ -23,20 +23,6 @@ export function isAxiosExpiredTokenError<UnauthorizedError>(error: unknown): err
   )
 }
 
-export function formatCurrency(currency: number) {
-  return new Intl.NumberFormat('de-DE').format(currency)
-}
-
-export function formatNumberToSocialStyle(value: number) {
-  return new Intl.NumberFormat('en', {
-    notation: 'compact',
-    maximumFractionDigits: 1
-  })
-    .format(value)
-    .replace('.', ',')
-    .toLowerCase()
-}
-
 export function formatDateToString(date: Date) {
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -45,8 +31,6 @@ export function formatDateToString(date: Date) {
   const formattedDate = `${year}-${month}-${day}`
   return formattedDate
 }
-
-export const rateSale = (original: number, sale: number) => Math.round(((original - sale) / original) * 100) + '%'
 
 export const removeSpecialCharacter = (str: string) =>
   // eslint-disable-next-line no-useless-escape
@@ -60,8 +44,3 @@ export const getIdFromNameId = (nameId: string) => {
   const arr = nameId.split('@')
   return arr[arr.length - 1]
 }
-
-export const getAvatarURL = (avatarName?: string) =>
-  avatarName
-    ? `${config.baseUrl}images/${avatarName}`
-    : 'https://img6.thuthuatphanmem.vn/uploads/2022/11/18/anh-avatar-don-gian-ma-dep_081757969.jpg'
