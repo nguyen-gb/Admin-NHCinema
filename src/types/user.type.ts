@@ -1,14 +1,18 @@
-type Role = 'User' | 'Admin'
+enum Role {
+  User = 0,
+  Manager = 1
+}
 
 export interface User {
   _id: string
-  roles: Role[]
+  name: string
+  phone: string
   email: string
-  name?: string
-  date_of_birth?: string // ISO 8601
-  avatar?: string
-  address?: string
-  phone?: string
-  createdAt: string
-  updatedAt: string
+  password: string
+  role: Role
+  status: number
+  date_of_birth?: string
+  gender?: string
+  theater_id?: string
+  theater_name?: string
 }

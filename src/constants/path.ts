@@ -1,17 +1,19 @@
 const path = {
   home: '/',
+  cinema: '/cinema',
   room: '/room',
   showtimes: '/show-times',
+  ticket: '/ticket',
   user: '/user',
   profile: '/user/profile',
   changePassword: '/user/password',
-  historyPurchase: '/user/purchase',
-  historyPoint: '/user/bonus-points',
   login: '/login',
-  register: '/register',
   forgotPass: 'password/reset',
   logout: '/logout',
   member: '/member',
+  banner: '/banner',
+  userManagement: '/user-management',
+  combo: '/combo'
 } as const
 
 export default path

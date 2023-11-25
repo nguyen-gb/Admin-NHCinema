@@ -24,6 +24,7 @@ import PAYMENT_VN from 'src/locales/vn/payment.json'
 import USER_VN from 'src/locales/vn/user.json'
 import FARE_VN from 'src/locales/vn/ticket-prices.json'
 import MEMBER_VN from 'src/locales/vn/member.json'
+import { getLanguageFromLS } from 'src/utils/language'
 
 export const locales = {
   'en-EN': 'English',
@@ -61,10 +62,11 @@ export const resources = {
 
 export const defaultNS = 'header'
 
+const lng = getLanguageFromLS()
 // eslint-disable-next-line import/no-named-as-default-member
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'vi-VN',
+  lng: lng,
   ns: [
     'header',
     'footer',

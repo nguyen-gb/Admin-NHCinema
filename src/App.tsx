@@ -8,10 +8,17 @@ import useRouteElements from './useRouteElements'
 import { localStorageEventTarget } from './utils/auth'
 import { AppContext } from './contexts/app.context'
 import ErrorBoundary from './components/ErrorBoundary'
+import { getLanguageFromLS, setLanguageToLS } from './utils/language'
 
 function App() {
   const routeElements = useRouteElements()
   const { reset } = useContext(AppContext)
+
+  const language = getLanguageFromLS()
+
+  useEffect(() => {
+    setLanguageToLS(language || 'vi-VN')
+  })
 
   useEffect(() => {
     localStorageEventTarget.addEventListener('clearLS', reset)

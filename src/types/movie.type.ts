@@ -2,7 +2,7 @@ export interface Movie {
   _id: string
   name: string
   english_name: string
-  genre: string
+  genres: string
   title: string
   format: string
   age: string
@@ -21,7 +21,7 @@ export interface Movie {
   updated_at?: string
 }
 
-export interface ProductListConfig {
+export interface MovieListConfig {
   genre_id?: number
   status?: number
   key_search?: string

@@ -45,7 +45,6 @@ export const AppProvider = ({
         setIsAuthenticated,
         profile,
         setProfile,
-
         reset
       }}
     >

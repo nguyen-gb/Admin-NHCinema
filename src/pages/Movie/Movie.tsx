@@ -1,87 +1,19 @@
 import React, { useState } from 'react'
-import { Table, Button, Card, Space, notification, Divider, Input, Tooltip, Modal } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Image } from 'antd'
+import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
 
 import * as Icon from '@ant-design/icons'
 import DeleteNav from './components/DeleteNav'
 import ModalDelete from './components/DeleteModel'
-import { Movie } from 'src/types/movie.type'
+import { Movie, MovieListConfig } from 'src/types/movie.type'
 import { PopupForm } from './components/PopupForm'
-
-const dataTable = [
-  {
-    _id: '1',
-    name: 'Cú máy ăn tiền',
-    english_name: 'COWEB',
-    genre: 'Tâm Lý',
-    format: '2D',
-    age: '13T',
-    release: '20/10/2023',
-    duration: '110',
-    director: 'Nguyễn Quang Dũng',
-    performer: 'Hồng Ánh, Huỳnh Hạo Khang, Mai Tài Phến, Công Ninh, Hứa Vĩ Văn, Tuyền Mập, Tuấn Trần,...',
-    description:
-      'Cú Máy Ăn Tiền lấy bối cảnh thực tế và câu chuyện làm phim những năm 1970 ở Hàn Quốc. Kim Yeol (Song Kang Ho thủ vai) - một đạo diễn điện ảnh có bộ phim đầu tay được giới phê bình khen ngợi, nhưng sự nghiệp của ông tuột dốc không phanh khi liên tiếp ra đời những tác phẩm bị coi là “phim rác”. Sau khi hoàn thành xong bộ phim mới nhất là Cobweb, đạo diễn Kim cảm thấy cần quay lại cái kết để có thể tạo ra một kiệt tác.',
-    poster: 'https://touchcinema.com/uploads/phim-2021/470x700-1-1696833721-poster.jpg',
-    thumbnail: 'https://touchcinema.com/storage/slider-app/1920x1080-3-1696833894.jpg',
-    trailer: 'https://youtu.be/d-ck5QxqgMg',
-    rating: 0,
-    status: 1,
-    times: ['13:00', '14:00', '16:00'],
-    title: 'hi'
-  },
-  {
-    _id: '2',
-    name: 'Cú máy ăn tiền',
-    english_name: 'COWEB',
-    genre: 'Tâm Lý',
-    format: '2D',
-    age: '13T',
-    release: '20/10/2023',
-    duration: '110',
-    director: 'Nguyễn Quang Dũng',
-    performer: 'Hồng Ánh, Huỳnh Hạo Khang, Mai Tài Phến, Công Ninh, Hứa Vĩ Văn, Tuyền Mập, Tuấn Trần,...',
-    description:
-      'Cú Máy Ăn Tiền lấy bối cảnh thực tế và câu chuyện làm phim những năm 1970 ở Hàn Quốc. Kim Yeol (Song Kang Ho thủ vai) - một đạo diễn điện ảnh có bộ phim đầu tay được giới phê bình khen ngợi, nhưng sự nghiệp của ông tuột dốc không phanh khi liên tiếp ra đời những tác phẩm bị coi là “phim rác”. Sau khi hoàn thành xong bộ phim mới nhất là Cobweb, đạo diễn Kim cảm thấy cần quay lại cái kết để có thể tạo ra một kiệt tác.',
-    poster: 'https://touchcinema.com/uploads/phim-2021/470x700-1-1696833721-poster.jpg',
-    thumbnail: 'https://touchcinema.com/storage/slider-app/1920x1080-3-1696833894.jpg',
-    trailer: 'https://youtu.be/d-ck5QxqgMg',
-    rating: 0,
-    status: 1,
-    times: ['13:00', '14:00', '16:00'],
-    title: 'hi'
-  },
-  {
-    _id: '3',
-    name: 'Cú máy ăn tiền',
-    english_name: 'COWEB',
-    genre: 'Tâm Lý',
-    format: '2D',
-    age: '13T',
-    release: '20/10/2023',
-    duration: '110',
-    director: 'Nguyễn Quang Dũng',
-    performer: 'Hồng Ánh, Huỳnh Hạo Khang, Mai Tài Phến, Công Ninh, Hứa Vĩ Văn, Tuyền Mập, Tuấn Trần,...',
-    description:
-      'Cú Máy Ăn Tiền lấy bối cảnh thực tế và câu chuyện làm phim những năm 1970 ở Hàn Quốc. Kim Yeol (Song Kang Ho thủ vai) - một đạo diễn điện ảnh có bộ phim đầu tay được giới phê bình khen ngợi, nhưng sự nghiệp của ông tuột dốc không phanh khi liên tiếp ra đời những tác phẩm bị coi là “phim rác”. Sau khi hoàn thành xong bộ phim mới nhất là Cobweb, đạo diễn Kim cảm thấy cần quay lại cái kết để có thể tạo ra một kiệt tác.',
-    poster: 'https://touchcinema.com/uploads/phim-2021/470x700-1-1696833721-poster.jpg',
-    thumbnail: 'https://touchcinema.com/storage/slider-app/1920x1080-3-1696833894.jpg',
-    trailer: 'https://youtu.be/d-ck5QxqgMg',
-    rating: 0,
-    status: 1,
-    times: ['13:00', '14:00', '16:00'],
-    title: 'hi'
-  }
-]
+import movieApi from 'src/apis/movie.api'
 
 export const MoviePage = () => {
-  // hook
-
-  // query api
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
-
-  // state
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false)
   const [isOpenDeleteMultiModal, setIsOpenDeleteMultiModal] = useState<boolean>(false)
@@ -90,7 +22,20 @@ export const MoviePage = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [keywordInput, setKeywordInput] = useState('')
 
-  // handle action
+  const queryConfig = {
+    key_search: keyword
+  }
+  const { data, isLoading } = useQuery({
+    queryKey: ['movie', queryConfig],
+    queryFn: () => {
+      return movieApi.getMovies(queryConfig as MovieListConfig)
+    }
+    // keepPreviousData: true,
+    // staleTime: 3 * 60 * 1000
+  })
+  const dataTable = data?.data.data
+
+  // reset & refresh
   const resetParamsAndRefresh = () => {
     setCurrentPage(1)
     setPageSize(20)
@@ -171,13 +116,21 @@ export const MoviePage = () => {
           onChange={(event) => {
             setKeywordInput(event.target.value)
           }}
+          loading={isLoading}
         />
+        <Button
+          type='primary'
+          loading={isLoading}
+          icon={<Icon.ReloadOutlined />}
+          onClick={resetParamsAndRefresh}
+        ></Button>
       </Space>
       <Divider />
       {selectedRowKeys.length > 0 && (
         <DeleteNav countItem={selectedRowKeys.length} setIsOpenDeleteMultiModal={setIsOpenDeleteMultiModal} />
       )}
       <Table
+        loading={isLoading}
         rowKey='_id'
         scroll={{ x: 1080 }}
         rowSelection={{
@@ -196,10 +149,39 @@ export const MoviePage = () => {
         }}
         columns={[
           {
-            title: '#',
-            dataIndex: 'id',
-            width: '7%',
-            render: (_, movie) => movie._id
+            title: 'Tên',
+            dataIndex: 'name',
+            render: (_, movie) => movie.name
+          },
+          {
+            title: 'poster',
+            dataIndex: 'poster',
+            render: (_, movie) => <Image src={movie.poster} style={{ maxHeight: '50px' }} />
+          },
+          {
+            title: 'thumbnail',
+            dataIndex: 'thumbnail',
+            render: (_, movie) => <Image src={movie.thumbnail} style={{ maxWidth: '100px' }} />
+          },
+          {
+            title: 'Thời lượng',
+            dataIndex: 'duration',
+            render: (_, movie) => `${movie.duration} (phút)`
+          },
+          {
+            title: 'Ngày khởi chiếu',
+            dataIndex: 'release',
+            render: (_, movie) => dayjs(movie.release).format('DD-MM-YYYY')
+          },
+          {
+            title: 'Thể loại',
+            dataIndex: 'genres',
+            render: (_, movie) => movie.genres
+          },
+          {
+            title: 'Định dạng',
+            dataIndex: 'format',
+            render: (_, movie) => movie.format
           },
           {
             title: 'Action',
