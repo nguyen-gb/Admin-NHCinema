@@ -1,3 +1,4 @@
+import { Cinema } from 'src/types/cinema.type'
 import { User } from 'src/types/user.type'
 
 export const localStorageEventTarget = new EventTarget()
@@ -30,11 +31,11 @@ export const getProfileFromLS = () => {
   return result ? JSON.parse(result) : null
 }
 
-// export const setIdCinemaFromLS = (_id: string) => {
-//   localStorage.setItem('id_cinema', JSON.stringify(_id))
-// }
+export const setCinemaFromLS = (cinema: Cinema) => {
+  localStorage.setItem('cinema', JSON.stringify(cinema))
+}
 
-// export const getIdCinemaFromLS = () => {
-//   const result = localStorage.getItem('id_cinema')
-//   return result ? JSON.parse(result) : null
-// }
+export const getCinemaFromLS = () => {
+  const result = localStorage.getItem('cinema')
+  return result ? JSON.parse(result) : null
+}

@@ -1,13 +1,16 @@
 import { createContext, useState } from 'react'
+import { Cinema } from 'src/types/cinema.type'
 
 import { User } from 'src/types/user.type'
-import { getAccessTokenFromLS, getProfileFromLS } from 'src/utils/auth'
+import { getAccessTokenFromLS, getCinemaFromLS, getProfileFromLS } from 'src/utils/auth'
 
 interface AppContextInterface {
   isAuthenticated: boolean
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
   profile: User | null
   setProfile: React.Dispatch<React.SetStateAction<User | null>>
+  cinema: Cinema | null
+  setCinema: React.Dispatch<React.SetStateAction<Cinema | null>>
   reset: () => void
 }
 
@@ -16,6 +19,8 @@ export const getInitialAppContext: () => AppContextInterface = () => ({
   setIsAuthenticated: () => null,
   profile: getProfileFromLS(),
   setProfile: () => null,
+  cinema: getCinemaFromLS(),
+  setCinema: () => null,
   reset: () => null
 })
 
@@ -32,6 +37,7 @@ export const AppProvider = ({
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(defaultValue.isAuthenticated)
   const [profile, setProfile] = useState<User | null>(defaultValue.profile)
+  const [cinema, setCinema] = useState<Cinema | null>(defaultValue.cinema)
 
   const reset = () => {
     setIsAuthenticated(false)
@@ -45,6 +51,8 @@ export const AppProvider = ({
         setIsAuthenticated,
         profile,
         setProfile,
+        cinema,
+        setCinema,
         reset
       }}
     >

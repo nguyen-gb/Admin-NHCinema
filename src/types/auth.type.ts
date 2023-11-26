@@ -1,3 +1,4 @@
+import { Cinema } from './cinema.type'
 import { User } from './user.type'
 import { SuccessResponse } from './utils.type'
 
@@ -7,6 +8,7 @@ export type AuthResponse = SuccessResponse<{
   expires: number
   expires_refresh_token: number
   user: User
+  theater: Cinema
 }>
 
 export type RefreshTokenResponse = SuccessResponse<{ access_token: string }>

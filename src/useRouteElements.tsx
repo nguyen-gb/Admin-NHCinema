@@ -14,6 +14,9 @@ const TicketPage = lazy(() => import('./pages/Ticket'))
 const BannerPage = lazy(() => import('./pages/Banner'))
 const UserPage = lazy(() => import('./pages/User'))
 const ComboPage = lazy(() => import('./pages/Combo'))
+const InformationPage = lazy(() => import('./pages/Information'))
+const ChangePasswordPage = lazy(() => import('./pages/ChangePassword'))
+const NotFoundPage = lazy(() => import('./pages/NotFound'))
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -99,6 +102,30 @@ export default function useRouteElements() {
                   <ComboPage />
                 </Suspense>
               )
+            },
+            {
+              path: path.profile,
+              element: (
+                <Suspense>
+                  <InformationPage />
+                </Suspense>
+              )
+            },
+            {
+              path: path.changePassword,
+              element: (
+                <Suspense>
+                  <ChangePasswordPage />
+                </Suspense>
+              )
+            },
+            {
+              path: '*',
+              element: (
+                <Suspense>
+                  <NotFoundPage />
+                </Suspense>
+              )
             }
           ]
         }
@@ -117,6 +144,14 @@ export default function useRouteElements() {
               element: (
                 <Suspense>
                   <Login />
+                </Suspense>
+              )
+            },
+            {
+              path: '*',
+              element: (
+                <Suspense>
+                  <NotFoundPage />
                 </Suspense>
               )
             }

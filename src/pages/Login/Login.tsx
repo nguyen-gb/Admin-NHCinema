@@ -5,6 +5,7 @@ import * as Icon from '@ant-design/icons'
 import { useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 
 import logo from 'src/assets/images/nhcinema-logo.png'
 import background from 'src/assets/images/background.jpg'
@@ -13,6 +14,7 @@ import authApi from 'src/apis/auth.api'
 import path from 'src/constants/path'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
+import { setCinemaFromLS } from 'src/utils/auth'
 
 type FormData = {
   email: string
@@ -45,18 +47,23 @@ export default function LoginPage() {
           onSuccess: (data) => {
             setIsAuthenticated(true)
             setProfile(data.data.data.user)
+            setCinemaFromLS(data.data.data.theater)
             navigate(path.home)
           },
           onError: (error) => {
-            if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
+            if (isAxiosUnprocessableEntityError<ErrorResponse<string[]>>(error)) {
               const formError = error.response?.data.data
               if (formError) {
-                // Object.keys(formError).forEach((key) => {
-                //   setError(key as keyof FormData, {
-                //     message: formError[key as keyof FormData],
-                //     type: 'Server'
-                //   })
-                // })
+                Object.keys(formError).forEach((key) => {
+                  form.setFields([
+                    {
+                      name: key,
+                      errors: [formError[key as keyof string[]] as string]
+                    }
+                  ])
+                })
+              } else {
+                toast.error(error.response?.data.message)
               }
             }
           }

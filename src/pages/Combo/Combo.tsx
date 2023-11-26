@@ -159,7 +159,7 @@ export const ComboPage = () => {
           {
             title: 'Type',
             dataIndex: 'type',
-            render: (_, combo) => comboType[combo.type]
+            render: (_, combo) => comboType[combo.type - 1]
           },
           {
             title: 'Action',

@@ -1,12 +1,13 @@
-import React, { useContext } from 'react'
-import { Form, Input, Modal, Button, notification } from 'antd'
+import React, { useContext, useEffect } from 'react'
+import { Form, Input, Modal, Button } from 'antd'
 import { omit } from 'lodash'
-import { Room } from 'src/types/room.type'
+import { toast } from 'react-toastify'
 import { useMutation } from '@tanstack/react-query'
+
+import { Room } from 'src/types/room.type'
 import roomApi from 'src/apis/room.api'
 import { ErrorResponse } from 'src/types/utils.type'
 import { AppContext } from 'src/contexts/app.context'
-import { toast } from 'react-toastify'
 
 interface Props {
   title: string
@@ -85,6 +86,12 @@ export const PopupForm: React.FC<Props> = (props) => {
       )
       .catch((err) => console.log(err))
   }
+
+  useEffect(() => {
+    if (!props.open) {
+      form.resetFields()
+    }
+  }, [form, props.open])
 
   return (
     <Modal

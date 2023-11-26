@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form, Input, Modal, Button } from 'antd'
 import { omit } from 'lodash'
 import { toast } from 'react-toastify'
@@ -82,6 +82,12 @@ export const PopupForm: React.FC<Props> = (props) => {
       )
       .catch((err) => console.log(err))
   }
+
+  useEffect(() => {
+    if (!props.open) {
+      form.resetFields()
+    }
+  }, [form, props.open])
 
   return (
     <Modal

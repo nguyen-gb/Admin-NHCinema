@@ -50,59 +50,60 @@ function MainLayoutInner({ children }: Props) {
     setLanguageToLS(lng)
   }
 
-  const menuItems = !profile?.theater_id
-    ? [
-        {
-          key: path.home,
-          icon: <BiMoviePlay />,
-          label: 'Movie',
-          path: path.home
-        },
-        {
-          key: path.cinema,
-          icon: <TbTheater />,
-          label: 'Cinema',
-          path: path.cinema
-        },
-        {
-          key: path.banner,
-          icon: <BsImage />,
-          label: 'Banner',
-          path: path.banner
-        },
-        {
-          key: path.userManagement,
-          icon: <Icon.UserOutlined />,
-          label: 'User',
-          path: path.userManagement
-        },
-        {
-          key: path.combo,
-          icon: <PiPopcorn />,
-          label: 'Combo',
-          path: path.combo
-        }
-      ]
-    : [
-        {
-          key: path.home,
-          icon: <BiMoviePlay />,
-          label: 'Movie',
-          path: path.home
-        },
-        {
-          key: path.showtimes,
-          icon: <AiOutlineCalendar />,
-          label: 'Showtimes',
-          path: path.showtimes
-        },
-        {
-          key: path.ticket,
-          icon: <BsTicketPerforated />,
-          label: 'Ticket',
-          path: path.ticket
-        }
-      ]
+  const menuItems =
+    (profile?.role as number) === 2
+      ? [
+          {
+            key: path.home,
+            icon: <BiMoviePlay />,
+            label: 'Movie',
+            path: path.home
+          },
+          {
+            key: path.cinema,
+            icon: <TbTheater />,
+            label: 'Cinema',
+            path: path.cinema
+          },
+          {
+            key: path.banner,
+            icon: <BsImage />,
+            label: 'Banner',
+            path: path.banner
+          },
+          {
+            key: path.userManagement,
+            icon: <Icon.UserOutlined />,
+            label: 'User',
+            path: path.userManagement
+          },
+          {
+            key: path.combo,
+            icon: <PiPopcorn />,
+            label: 'Combo',
+            path: path.combo
+          }
+        ]
+      : [
+          {
+            key: path.home,
+            icon: <BiMoviePlay />,
+            label: 'Movie',
+            path: path.home
+          },
+          {
+            key: path.showtimes,
+            icon: <AiOutlineCalendar />,
+            label: 'Showtimes',
+            path: path.showtimes
+          },
+          {
+            key: path.ticket,
+            icon: <BsTicketPerforated />,
+            label: 'Ticket',
+            path: path.ticket
+          }
+        ]
 
   return (
     <Layout style={{ height: '100%' }}>
@@ -156,6 +157,12 @@ function MainLayoutInner({ children }: Props) {
                         icon: <Icon.UserOutlined />,
                         onClick: () => navigate(path.profile),
                         label: 'Personal information'
+                      },
+                      {
+                        key: 'change-password',
+                        icon: <Icon.LockOutlined />,
+                        onClick: () => navigate(path.changePassword),
+                        label: 'Change password'
                       },
                       {
                         key: 'logout',

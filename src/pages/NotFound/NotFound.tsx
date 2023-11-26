@@ -1,23 +1,20 @@
-import { Link } from 'react-router-dom'
+import { Button, Result } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 import path from 'src/constants/path'
 
-export default function NotFound() {
+export default function NotFoundPage() {
+  const navigate = useNavigate()
   return (
-    <main className='flex h-screen w-full flex-col items-center justify-center'>
-      <h1 className='text-9xl font-extrabold tracking-widest text-gray-900'>404</h1>
-      <div className='absolute rotate-12 rounded bg-primary px-2 text-sm text-white'>Page Not Found</div>
-      <button className='mt-5'>
-        <Link
-          to={path.home}
-          className='active:text-primary-500 group relative inline-block text-sm font-medium text-white focus:outline-none focus:ring'
-        >
-          <span className='absolute inset-0 translate-x-0.5 translate-y-0.5 bg-primary transition-transform group-hover:translate-x-0 group-hover:translate-y-0' />
-          <span className='relative block border border-current px-8 py-3'>
-            <span>Go Home</span>
-          </span>
-        </Link>
-      </button>
-    </main>
+    <Result
+      status='404'
+      title='404'
+      subTitle='Sorry, the page you visited does not exist.'
+      extra={
+        <Button type='primary' onClick={() => navigate(path.home)}>
+          Back Home
+        </Button>
+      }
+    />
   )
 }

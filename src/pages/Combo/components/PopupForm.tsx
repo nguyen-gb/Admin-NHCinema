@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Form, Input, Modal, Button, Select } from 'antd'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
@@ -35,7 +35,8 @@ export const PopupForm: React.FC<Props> = (props) => {
         if (props.formType === 'UPDATE') {
           const body = {
             ...props.formData,
-            ...value
+            ...value,
+            price: Number(value.price)
           }
           console.log(body)
           updateCombo.mutate(body, {
@@ -49,7 +50,8 @@ export const PopupForm: React.FC<Props> = (props) => {
           })
         } else {
           const body = {
-            ...value
+            ...value,
+            price: Number(value.price)
           }
           createCombo.mutate(body, {
             onSuccess: () => {
@@ -71,6 +73,12 @@ export const PopupForm: React.FC<Props> = (props) => {
       )
       .catch((err) => console.log(err))
   }
+
+  useEffect(() => {
+    if (!props.open) {
+      form.resetFields()
+    }
+  }, [form, props.open])
 
   return (
     <Modal
@@ -137,7 +145,7 @@ export const PopupForm: React.FC<Props> = (props) => {
             showSearch={false}
             options={comboType.map((combo, index) => {
               return {
-                value: index,
+                value: index + 1,
                 label: combo
               }
             })}

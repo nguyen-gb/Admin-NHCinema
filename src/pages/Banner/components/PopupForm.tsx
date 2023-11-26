@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useMutation } from '@tanstack/react-query'
 import { Form, Input, Modal, Button, Image } from 'antd'
@@ -89,6 +89,12 @@ export const PopupForm: React.FC<Props> = (props) => {
       )
       .catch((err) => console.log(err))
   }
+
+  useEffect(() => {
+    if (!props.open) {
+      form.resetFields()
+    }
+  }, [form, props.open])
 
   return (
     <Modal
