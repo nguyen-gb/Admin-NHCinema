@@ -15,7 +15,7 @@ export default function ChangePassword() {
   const [form] = Form.useForm()
 
   const updateMutation = useMutation({
-    mutationFn: (body: { password: string; new_password: string; password_confirm: string }) =>
+    mutationFn: (body: { password: string; new_password: string; confirm_password: string }) =>
       userApi.changePassword(body)
   })
 
@@ -130,7 +130,7 @@ export default function ChangePassword() {
                 </Form.Item>
                 <Form.Item
                   label='Confirm password'
-                  name='password_confirm'
+                  name='confirm_password'
                   dependencies={['newPassword']}
                   colon={false}
                   labelCol={{ sm: 24, md: 8, lg: 8 }}

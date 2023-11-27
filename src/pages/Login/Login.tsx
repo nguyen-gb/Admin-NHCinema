@@ -117,7 +117,7 @@ export default function LoginPage() {
                 <Input
                   prefix={<Icon.UserOutlined />}
                   onKeyDownCapture={handleInputKeyDown}
-                  placeholder='Username'
+                  placeholder='Email'
                   size='large'
                 ></Input>
               </Form.Item>
@@ -144,6 +144,9 @@ export default function LoginPage() {
                 Login
               </Button>
             </Form>
+            <Button type='link' style={{ paddingLeft: 0 }} onClick={() => navigate(path.forgotPassword)}>
+              Forgot password?
+            </Button>
           </Spin>
           <Typography.Text
             style={{

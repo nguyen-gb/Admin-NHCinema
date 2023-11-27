@@ -17,7 +17,7 @@ const userApi = {
   deleteUser(_id: string[]) {
     return http.post(`${URL}/${_id}/delete`)
   },
-  changePassword(body: { password: string; new_password: string; password_confirm: string }) {
+  changePassword(body: { password: string; new_password: string; confirm_password: string }) {
     return http.post(`${URL}/change-password`, body)
   }
 }

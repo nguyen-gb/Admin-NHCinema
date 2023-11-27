@@ -3,9 +3,11 @@ import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
 import * as Icon from '@ant-design/icons'
 import { useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { RuleObject } from 'antd/lib/form'
+import { NamePath } from 'antd/es/form/interface'
 
 import logo from 'src/assets/images/nhcinema-logo.png'
 import background from 'src/assets/images/background.jpg'
@@ -13,20 +15,17 @@ import authApi from 'src/apis/auth.api'
 import path from 'src/constants/path'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
+import { ForgotPassConfirm } from 'src/types/auth.type'
 
-type FormData = {
-  email: string
-  password: string
-}
-
-export default function ForgotPassword() {
+export default function ForgotPasswordConfirm() {
+  const { _id } = useParams()
   const { t } = useTranslation('login')
   const [form] = Form.useForm()
   const buttonSubmitHtml = useRef<HTMLElement | null>(null)
   const navigate = useNavigate()
 
   const forgotPassMutation = useMutation({
-    mutationFn: (body: FormData) => authApi.forgotPass(body)
+    mutationFn: (body: ForgotPassConfirm) => authApi.forgotPassConfirm({ ...body, user_id: _id as string })
   })
 
   // handle ENTER action
@@ -36,13 +35,22 @@ export default function ForgotPassword() {
     }
   }
 
+  const confirmPasswordValidator = ({ getFieldValue }: { getFieldValue: (name: NamePath) => any }) => ({
+    validator(_: RuleObject, value: string) {
+      if (getFieldValue('new_password') === value || (!getFieldValue('new_password') && !value)) {
+        return Promise.resolve()
+      }
+      return Promise.reject(new Error("Confirm password doesn't match your password"))
+    }
+  })
+
   const handleSubmit = () => {
     form
       .validateFields()
       .then((body) => {
         forgotPassMutation.mutate(body, {
-          onSuccess: (data) => {
-            navigate(`/forgot-password-confirm/${data.data._id}`)
+          onSuccess: () => {
+            navigate(path.home)
           },
           onError: (error) => {
             if (isAxiosUnprocessableEntityError<ErrorResponse<string[]>>(error)) {
@@ -104,16 +112,55 @@ export default function ForgotPassword() {
                 </Spin>
               </Form.Item>
               <Form.Item
-                name='email'
+                name='otp'
                 rules={[{ required: true, message: 'Required field' }]}
                 style={{ marginBottom: 24 }}
               >
                 <Input
                   prefix={<Icon.UserOutlined />}
                   onKeyDownCapture={handleInputKeyDown}
-                  placeholder='Email'
+                  placeholder='OTP'
                   size='large'
                 ></Input>
+              </Form.Item>
+              <Form.Item
+                name='new_password'
+                colon={false}
+                style={{ marginBottom: 24 }}
+                labelCol={{ sm: 24, md: 8, lg: 8 }}
+                labelAlign='right'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Required field'
+                  }
+                ]}
+              >
+                <Input.Password
+                  prefix={<Icon.LockOutlined />}
+                  placeholder='New password'
+                  iconRender={(visible) => (visible ? <Icon.EyeTwoTone /> : <Icon.EyeInvisibleOutlined />)}
+                />
+              </Form.Item>
+              <Form.Item
+                name='confirm_password'
+                dependencies={['newPassword']}
+                colon={false}
+                labelCol={{ sm: 24, md: 8, lg: 8 }}
+                labelAlign='right'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Required field'
+                  },
+                  confirmPasswordValidator
+                ]}
+              >
+                <Input.Password
+                  prefix={<Icon.LockOutlined />}
+                  placeholder='Confirm password'
+                  iconRender={(visible) => (visible ? <Icon.EyeTwoTone /> : <Icon.EyeInvisibleOutlined />)}
+                />
               </Form.Item>
               <Button
                 ref={buttonSubmitHtml}

@@ -13,7 +13,9 @@ const path = {
   member: '/member',
   banner: '/banner',
   userManagement: '/user-management',
-  combo: '/combo'
+  combo: '/combo',
+  forgotPassword: '/forgot-password',
+  forgotPasswordConfirm: '/forgot-password-confirm/:_id'
 } as const
 
 export default path

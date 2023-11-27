@@ -16,6 +16,8 @@ const UserPage = lazy(() => import('./pages/User'))
 const ComboPage = lazy(() => import('./pages/Combo'))
 const InformationPage = lazy(() => import('./pages/Information'))
 const ChangePasswordPage = lazy(() => import('./pages/ChangePassword'))
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPassword'))
+const ForgotPasswordConfirmPage = lazy(() => import('./pages/ForgotPasswordConfirm'))
 const NotFoundPage = lazy(() => import('./pages/NotFound'))
 
 function ProtectedRoute() {
@@ -144,6 +146,22 @@ export default function useRouteElements() {
               element: (
                 <Suspense>
                   <Login />
+                </Suspense>
+              )
+            },
+            {
+              path: path.forgotPassword,
+              element: (
+                <Suspense>
+                  <ForgotPasswordPage />
+                </Suspense>
+              )
+            },
+            {
+              path: path.forgotPasswordConfirm,
+              element: (
+                <Suspense>
+                  <ForgotPasswordConfirmPage />
                 </Suspense>
               )
             },
