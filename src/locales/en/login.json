@@ -5,6 +5,7 @@
   "phone": "Phone",
   "password": "Password",
   "forgot-password": "Forgot password",
+  "new-password": "New password",
   "register": "Register",
   "confirm-password": "Confirm password",
   "login-des": "Log in to the NHCinema project",

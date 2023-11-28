@@ -105,7 +105,7 @@ export default function LoginPage() {
               <Form.Item>
                 <Spin spinning={false} size='small'>
                   <Typography.Title level={4} style={{ marginBottom: 0 }}>
-                    Login
+                    {t('login')}
                   </Typography.Title>
                 </Spin>
               </Form.Item>
@@ -117,7 +117,7 @@ export default function LoginPage() {
                 <Input
                   prefix={<Icon.UserOutlined />}
                   onKeyDownCapture={handleInputKeyDown}
-                  placeholder='Email'
+                  placeholder={t('email')}
                   size='large'
                 ></Input>
               </Form.Item>
@@ -130,7 +130,7 @@ export default function LoginPage() {
                   size='large'
                   prefix={<Icon.LockOutlined />}
                   onKeyDownCapture={handleInputKeyDown}
-                  placeholder='***********'
+                  placeholder={t('password')}
                 />
               </Form.Item>
               <Button
@@ -141,11 +141,11 @@ export default function LoginPage() {
                 loading={false}
                 onClick={handleSubmit}
               >
-                Login
+                {t('login')}
               </Button>
             </Form>
             <Button type='link' style={{ paddingLeft: 0 }} onClick={() => navigate(path.forgotPassword)}>
-              Forgot password?
+              {t('forgot-password')}?
             </Button>
           </Spin>
           <Typography.Text

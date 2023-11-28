@@ -1,16 +1,14 @@
 import React, { useState, memo, useContext } from 'react'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Layout, Menu, Button, theme, Space, Select, Dropdown, MenuProps } from 'antd'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Footer } from 'antd/es/layout/layout'
 import { BiMoviePlay } from 'react-icons/bi'
-import { MdOutlineMeetingRoom } from 'react-icons/md'
 import { AiOutlineCalendar } from 'react-icons/ai'
-import { BsTicketPerforated } from 'react-icons/bs'
+import { BsTicketPerforated, BsImage } from 'react-icons/bs'
 import { TbTheater } from 'react-icons/tb'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from '@tanstack/react-query'
-import { BsImage } from 'react-icons/bs'
 import { PiPopcorn } from 'react-icons/pi'
 import * as Icon from '@ant-design/icons'
 
@@ -29,6 +27,7 @@ function MainLayoutInner({ children }: Props) {
   const { i18n, t } = useTranslation()
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
+  const location = useLocation()
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer }
@@ -109,7 +108,7 @@ function MainLayoutInner({ children }: Props) {
     <Layout style={{ height: '100%' }}>
       <Sider trigger={null} collapsible collapsed={collapsed} style={{ padding: 0, background: colorBgContainer }}>
         <div className='demo-logo-vertical' />
-        <Menu mode='inline' defaultSelectedKeys={[path.home]}>
+        <Menu mode='inline' defaultSelectedKeys={[path.home]} selectedKeys={[location.pathname]}>
           {menuItems.map((item) => (
             <Menu.Item key={item.key} icon={item.icon}>
               <Link to={item.path}>{item.label}</Link>

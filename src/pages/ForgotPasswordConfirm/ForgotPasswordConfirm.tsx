@@ -37,7 +37,7 @@ export default function ForgotPasswordConfirm() {
 
   const confirmPasswordValidator = ({ getFieldValue }: { getFieldValue: (name: NamePath) => any }) => ({
     validator(_: RuleObject, value: string) {
-      if (getFieldValue('new_password') === value || (!getFieldValue('new_password') && !value)) {
+      if (getFieldValue('password') === value || (!getFieldValue('password') && !value)) {
         return Promise.resolve()
       }
       return Promise.reject(new Error("Confirm password doesn't match your password"))
@@ -107,7 +107,7 @@ export default function ForgotPasswordConfirm() {
               <Form.Item>
                 <Spin spinning={false} size='small'>
                   <Typography.Title level={4} style={{ marginBottom: 0 }}>
-                    Forgot Password
+                    {t('forgot-password')}
                   </Typography.Title>
                 </Spin>
               </Form.Item>
@@ -124,7 +124,7 @@ export default function ForgotPasswordConfirm() {
                 ></Input>
               </Form.Item>
               <Form.Item
-                name='new_password'
+                name='password'
                 colon={false}
                 style={{ marginBottom: 24 }}
                 labelCol={{ sm: 24, md: 8, lg: 8 }}
@@ -138,13 +138,13 @@ export default function ForgotPasswordConfirm() {
               >
                 <Input.Password
                   prefix={<Icon.LockOutlined />}
-                  placeholder='New password'
+                  placeholder={t('new-password')}
                   iconRender={(visible) => (visible ? <Icon.EyeTwoTone /> : <Icon.EyeInvisibleOutlined />)}
                 />
               </Form.Item>
               <Form.Item
                 name='confirm_password'
-                dependencies={['newPassword']}
+                dependencies={['password']}
                 colon={false}
                 labelCol={{ sm: 24, md: 8, lg: 8 }}
                 labelAlign='right'
@@ -158,7 +158,7 @@ export default function ForgotPasswordConfirm() {
               >
                 <Input.Password
                   prefix={<Icon.LockOutlined />}
-                  placeholder='Confirm password'
+                  placeholder={t('confirm-password')}
                   iconRender={(visible) => (visible ? <Icon.EyeTwoTone /> : <Icon.EyeInvisibleOutlined />)}
                 />
               </Form.Item>
@@ -170,11 +170,11 @@ export default function ForgotPasswordConfirm() {
                 loading={false}
                 onClick={handleSubmit}
               >
-                Send
+                {t('send')}
               </Button>
             </Form>
             <Button type='link' style={{ paddingLeft: 0 }} onClick={() => navigate(path.login)}>
-              Login
+              {t('login')}
             </Button>
           </Spin>
           <Typography.Text

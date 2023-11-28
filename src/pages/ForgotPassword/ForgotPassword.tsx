@@ -42,7 +42,7 @@ export default function ForgotPassword() {
       .then((body) => {
         forgotPassMutation.mutate(body, {
           onSuccess: (data) => {
-            navigate(`/forgot-password-confirm/${data.data._id}`)
+            navigate(`/forgot-password-confirm/${data.data.data._id}`)
           },
           onError: (error) => {
             if (isAxiosUnprocessableEntityError<ErrorResponse<string[]>>(error)) {
@@ -99,7 +99,7 @@ export default function ForgotPassword() {
               <Form.Item>
                 <Spin spinning={false} size='small'>
                   <Typography.Title level={4} style={{ marginBottom: 0 }}>
-                    Forgot Password
+                    {t('forgot-password')}
                   </Typography.Title>
                 </Spin>
               </Form.Item>
@@ -123,11 +123,11 @@ export default function ForgotPassword() {
                 loading={false}
                 onClick={handleSubmit}
               >
-                Send
+                {t('send')}
               </Button>
             </Form>
             <Button type='link' style={{ paddingLeft: 0 }} onClick={() => navigate(path.login)}>
-              Login
+              {t('login')}
             </Button>
           </Spin>
           <Typography.Text

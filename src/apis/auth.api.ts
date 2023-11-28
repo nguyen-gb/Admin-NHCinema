@@ -10,7 +10,7 @@ export const URL_FORGOT_PASS_CONFIRM = 'oauth/forgot-password-confirm'
 const authApi = {
   login: (body: { email: string; password: string }) => http.post<AuthResponse>(URL_LOGIN, body),
 
-  forgotPass: (body: { email: string }) => http.post<{ _id: string }>(URL_FORGOT_PASS, body),
+  forgotPass: (body: { email: string }) => http.post<{ data: { _id: string } }>(URL_FORGOT_PASS, body),
 
   forgotPassConfirm: (body: ForgotPassConfirm) => http.post<AuthResponse>(URL_FORGOT_PASS_CONFIRM, body),
 
