@@ -1,29 +1,16 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-import HEADER_EN from 'src/locales/en/header.json'
-import FOOTER_EN from 'src/locales/en/footer.json'
 import LOGIN_EN from 'src/locales/en/login.json'
-import HOME_EN from 'src/locales/en/home.json'
-import SHOW_TIMES_EN from 'src/locales/en/show-times.json'
-import PRODUCT_EN from 'src/locales/en/product.json'
-import BOOK_TICKETS_EN from 'src/locales/en/book-tickets.json'
-import PAYMENT_EN from 'src/locales/en/payment.json'
-import USER_EN from 'src/locales/en/user.json'
-import FARE_EN from 'src/locales/en/ticket-prices.json'
-import MEMBER_EN from 'src/locales/en/member.json'
+import MAIN_LAYOUT_EN from 'src/locales/en/main-layout.json'
+import GENERAL_EN from 'src/locales/en/general.json'
+import BANNER_EN from 'src/locales/en/banner.json'
 
-import HEADER_VN from 'src/locales/vn/header.json'
-import FOOTER_VN from 'src/locales/vn/footer.json'
 import LOGIN_VN from 'src/locales/vn/login.json'
-import HOME_VN from 'src/locales/vn/home.json'
-import SHOW_TIMES_VN from 'src/locales/vn/show-times.json'
-import PRODUCT_VN from 'src/locales/vn/product.json'
-import BOOK_TICKETS_VN from 'src/locales/vn/book-tickets.json'
-import PAYMENT_VN from 'src/locales/vn/payment.json'
-import USER_VN from 'src/locales/vn/user.json'
-import FARE_VN from 'src/locales/vn/ticket-prices.json'
-import MEMBER_VN from 'src/locales/vn/member.json'
+import MAIN_LAYOUT_VN from 'src/locales/vn/main-layout.json'
+import GENERAL_VN from 'src/locales/vn/general.json'
+import BANNER_VN from 'src/locales/vn/banner.json'
+
 import { getLanguageFromLS } from 'src/utils/language'
 
 export const locales = {
@@ -33,30 +20,16 @@ export const locales = {
 
 export const resources = {
   'en-EN': {
-    header: HEADER_EN,
-    footer: FOOTER_EN,
     login: LOGIN_EN,
-    home: HOME_EN,
-    'show-times': SHOW_TIMES_EN,
-    product: PRODUCT_EN,
-    'book-tickets': BOOK_TICKETS_EN,
-    payment: PAYMENT_EN,
-    user: USER_EN,
-    fare: FARE_EN,
-    member: MEMBER_EN
+    'main-layout': MAIN_LAYOUT_EN,
+    general: GENERAL_EN,
+    banner: BANNER_EN
   },
   'vi-VN': {
-    header: HEADER_VN,
-    footer: FOOTER_VN,
     login: LOGIN_VN,
-    home: HOME_VN,
-    'show-times': SHOW_TIMES_VN,
-    product: PRODUCT_VN,
-    'book-tickets': BOOK_TICKETS_VN,
-    payment: PAYMENT_VN,
-    user: USER_VN,
-    fare: FARE_VN,
-    member: MEMBER_VN
+    'main-layout': MAIN_LAYOUT_VN,
+    general: GENERAL_VN,
+    banner: BANNER_VN
   }
 }
 
@@ -67,19 +40,7 @@ const lng = getLanguageFromLS()
 i18n.use(initReactI18next).init({
   resources,
   lng: lng,
-  ns: [
-    'header',
-    'footer',
-    'login',
-    'home',
-    'showtimes',
-    'product',
-    'book-tickets',
-    'payment',
-    'user',
-    'fare',
-    'member'
-  ],
+  ns: ['login', 'main-layout', 'general', 'banner'],
   defaultNS,
   fallbackLng: 'vi-VN',
   interpolation: {

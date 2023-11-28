@@ -1,0 +1,10 @@
+{
+  "delete": "Delete",
+  "add-new": "Add New",
+  "create": "Create",
+  "update": "Update",
+  "delete-confirm": "Are you sure you want to delete?",
+  "delete-confirm-multi": "Are you sure you want to delete",
+  "row": "row(s)",
+  "select": "Select"
+}

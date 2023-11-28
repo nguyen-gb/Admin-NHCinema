@@ -1,0 +1,12 @@
+{
+  "movie": "Movie",
+  "cinema": "Cinema",
+  "banner": "Banner",
+  "user": "User",
+  "combo": "Combo",
+  "showtimes": "Showtimes",
+  "ticket": "Ticket",
+  "personal-information": "Personal information",
+  "change-password": "Change password",
+  "logout": "Logout"
+}

@@ -24,7 +24,7 @@ interface Props {
 }
 
 function MainLayoutInner({ children }: Props) {
-  const { i18n, t } = useTranslation()
+  const { i18n, t } = useTranslation('main-layout')
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
   const location = useLocation()
@@ -55,31 +55,31 @@ function MainLayoutInner({ children }: Props) {
           {
             key: path.home,
             icon: <BiMoviePlay />,
-            label: 'Movie',
+            label: t('movie'),
             path: path.home
-          },
-          {
-            key: path.cinema,
-            icon: <TbTheater />,
-            label: 'Cinema',
-            path: path.cinema
           },
           {
             key: path.banner,
             icon: <BsImage />,
-            label: 'Banner',
+            label: t('banner'),
             path: path.banner
+          },
+          {
+            key: path.cinema,
+            icon: <TbTheater />,
+            label: t('cinema'),
+            path: path.cinema
           },
           {
             key: path.userManagement,
             icon: <Icon.UserOutlined />,
-            label: 'User',
+            label: t('user'),
             path: path.userManagement
           },
           {
             key: path.combo,
             icon: <PiPopcorn />,
-            label: 'Combo',
+            label: t('combo'),
             path: path.combo
           }
         ]
@@ -87,19 +87,19 @@ function MainLayoutInner({ children }: Props) {
           {
             key: path.home,
             icon: <BiMoviePlay />,
-            label: 'Movie',
+            label: t('movie'),
             path: path.home
           },
           {
             key: path.showtimes,
             icon: <AiOutlineCalendar />,
-            label: 'Showtimes',
+            label: t('showtimes'),
             path: path.showtimes
           },
           {
             key: path.ticket,
             icon: <BsTicketPerforated />,
-            label: 'Ticket',
+            label: t('ticket'),
             path: path.ticket
           }
         ]
@@ -155,19 +155,19 @@ function MainLayoutInner({ children }: Props) {
                         key: 'personal-information',
                         icon: <Icon.UserOutlined />,
                         onClick: () => navigate(path.profile),
-                        label: 'Personal information'
+                        label: t('personal-information')
                       },
                       {
                         key: 'change-password',
                         icon: <Icon.LockOutlined />,
                         onClick: () => navigate(path.changePassword),
-                        label: 'Change password'
+                        label: t('change-password')
                       },
                       {
                         key: 'logout',
                         icon: <Icon.LogoutOutlined />,
                         onClick: handleLogout,
-                        label: 'Logout'
+                        label: t('logout')
                       }
                     ] as MenuProps['items']
                   }}
@@ -176,7 +176,6 @@ function MainLayoutInner({ children }: Props) {
                 </Dropdown>
               </Space>
             )}
-            {!isAuthenticated && <Link to={path.login}>{t('login')}</Link>}
           </Space>
         </Header>
         <Content

@@ -3,6 +3,7 @@ import { Table, Button, Card, Space, Divider, Input, Tooltip, Image } from 'antd
 import * as Icon from '@ant-design/icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 import DeleteNav from './components/DeleteNav'
 import ModalDelete from './components/DeleteModel'
@@ -12,6 +13,7 @@ import { Banner } from 'src/types/banner.type'
 import { ErrorResponse } from 'src/types/utils.type'
 
 export const BannerPage = () => {
+  const { t } = useTranslation('banner')
   // hook
 
   // query api
@@ -60,7 +62,7 @@ export const BannerPage = () => {
     const body = isDeleMore ? selectedRowKeys : [idDelete]
     deleteBanner.mutate(body as string[], {
       onSuccess: () => {
-        toast.success('Delete thành công')
+        toast.success(t('delete-success'))
 
         if (isDeleMore) {
           setIsOpenDeleteMultiModal(false)
@@ -94,14 +96,14 @@ export const BannerPage = () => {
       extra={
         <Space>
           <Button type='primary' size='middle' icon={<Icon.PlusOutlined />} onClick={handleOpenModal}>
-            Add new
+            {t('add-new')}
           </Button>
         </Space>
       }
     >
       <Space wrap>
         <Input.Search
-          placeholder='Search'
+          placeholder={t('search')}
           onSearch={() => {
             setCurrentPage(1)
             setKeyword(keywordInput)
@@ -142,22 +144,22 @@ export const BannerPage = () => {
             render: (_, __, index) => index + 1
           },
           {
-            title: 'Title',
+            title: t('title'),
             dataIndex: 'title',
             width: '23%',
             render: (_, banner) => banner.title
           },
           {
-            title: 'Banner',
+            title: t('banner'),
             dataIndex: 'file',
             render: (_, banner) => <Image src={banner.file} width={'20%'} />
           },
           {
-            title: 'Action',
+            title: t('action'),
             align: 'right',
             render: (_, banner) => (
               <Space direction='horizontal'>
-                <Tooltip title={<div>Update</div>}>
+                <Tooltip title={<div>{t('update')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -165,7 +167,7 @@ export const BannerPage = () => {
                     onClick={() => handleUpdate(banner)}
                   ></Button>
                 </Tooltip>
-                <Tooltip title={<div>Delete</div>}>
+                <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -182,7 +184,7 @@ export const BannerPage = () => {
 
       <PopupForm
         key={formData?._id}
-        title={formData ? 'Update' : 'Add new'}
+        title={formData ? t('update') : t('add-new')}
         open={isOpenModal}
         formData={formData}
         onCancel={handleCloseModal}

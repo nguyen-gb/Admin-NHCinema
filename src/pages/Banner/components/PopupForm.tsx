@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useMutation } from '@tanstack/react-query'
 import { Form, Input, Modal, Button, Image } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 import { Banner } from 'src/types/banner.type'
 import bannerApi from 'src/apis/banner.api'
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export const PopupForm: React.FC<Props> = (props) => {
+  const { t } = useTranslation('banner')
   const [form] = Form.useForm<Banner>()
   const [file, setFile] = useState(props.formData?.file ?? '')
   // api
@@ -57,7 +59,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           console.log(body)
           updateBanner.mutate(body, {
             onSuccess: () => {
-              toast.success('Update thành công')
+              toast.success(t('update-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -71,7 +73,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           }
           createBanner.mutate(body, {
             onSuccess: () => {
-              toast.success('Create thành công')
+              toast.success(t('create-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -120,9 +122,9 @@ export const PopupForm: React.FC<Props> = (props) => {
           type='primary'
           onClick={handleSubmit}
           style={{ width: '100%', marginTop: '0px' }}
-          // disabled={isLoadingCreate || isLoadingUpdate}
+          disabled={createBanner.isLoading || updateBanner.isLoading}
         >
-          {props.formType}
+          {props.formType === 'UPDATE' ? t('update') : t('add-new')}
         </Button>
       ]}
     >
@@ -133,12 +135,12 @@ export const PopupForm: React.FC<Props> = (props) => {
           ...props.formData
         }}
       >
-        <Form.Item name='title' label='Title' rules={[{ required: true, message: 'Required field' }]}>
-          <Input placeholder='Title' />
+        <Form.Item name='title' label={t('title')} rules={[{ required: true, message: 'Required field' }]}>
+          <Input placeholder={t('title')} />
         </Form.Item>
         <Form.Item
           name='file'
-          label='Banner'
+          label={t('banner')}
           rules={[
             {
               validator: () => (file ? Promise.resolve() : Promise.reject('Required field'))

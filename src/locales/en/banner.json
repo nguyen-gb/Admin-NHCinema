@@ -1,0 +1,13 @@
+{
+  "banner": "Banner",
+  "title": "Title",
+  "action": "Action",
+  "add-new": "Add new",
+  "create": "Create",
+  "update": "Update",
+  "delete": "Delete",
+  "search": "Search",
+  "create-success": "Create success",
+  "delete-success": "Delete success",
+  "update-success": "Update success"
+}
