@@ -5,12 +5,14 @@ import { NamePath } from 'antd/es/form/interface'
 import { RuleObject } from 'antd/lib/form'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 import userApi from 'src/apis/user.api'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
 
 export default function ChangePassword() {
+  const { t } = useTranslation('change-pass')
   const [isVerticalLayout, setIsVerticalLayout] = useState<boolean>(false)
   const [form] = Form.useForm()
 
@@ -24,7 +26,7 @@ export default function ChangePassword() {
       if (getFieldValue('new_password') === value || (!getFieldValue('new_password') && !value)) {
         return Promise.resolve()
       }
-      return Promise.reject(new Error("Confirm password doesn't match your password"))
+      return Promise.reject(new Error(t('rule-pass-confirm')))
     }
   })
 
@@ -34,7 +36,7 @@ export default function ChangePassword() {
       .then((value) => {
         updateMutation.mutate(value, {
           onSuccess: () => {
-            toast.success('Update success')
+            toast.success(t('update-success'))
           },
           onError: (error) => {
             if (isAxiosUnprocessableEntityError<ErrorResponse<string[]>>(error)) {
@@ -78,7 +80,7 @@ export default function ChangePassword() {
   }, [window.innerWidth])
 
   return (
-    <Card className='setting-override' title='Change Password'>
+    <Card className='setting-override' title={t('change-pass')}>
       <Row gutter={[24, 24]}>
         <Col span={24}>
           <Form layout={isVerticalLayout ? 'vertical' : 'horizontal'} form={form}>
@@ -91,7 +93,7 @@ export default function ChangePassword() {
                 xl={{ span: 12, offset: 6 }}
               >
                 <Form.Item
-                  label='Current password'
+                  label={t('current-pass')}
                   name='password'
                   colon={false}
                   labelCol={{ sm: 24, md: 8, lg: 8 }}
@@ -100,7 +102,7 @@ export default function ChangePassword() {
                   rules={[
                     {
                       required: true,
-                      message: 'Required field'
+                      message: t('required-field')
                     }
                   ]}
                 >
@@ -110,7 +112,7 @@ export default function ChangePassword() {
                   />
                 </Form.Item>
                 <Form.Item
-                  label='New password'
+                  label={t('new-pass')}
                   name='new_password'
                   colon={false}
                   style={{ marginBottom: 24 }}
@@ -119,7 +121,7 @@ export default function ChangePassword() {
                   rules={[
                     {
                       required: true,
-                      message: 'Required field'
+                      message: t('required-field')
                     }
                   ]}
                 >
@@ -129,7 +131,7 @@ export default function ChangePassword() {
                   />
                 </Form.Item>
                 <Form.Item
-                  label='Confirm password'
+                  label={t('confirm-pass')}
                   name='confirm_password'
                   dependencies={['newPassword']}
                   colon={false}
@@ -138,7 +140,7 @@ export default function ChangePassword() {
                   rules={[
                     {
                       required: true,
-                      message: 'Required field'
+                      message: t('required-field')
                     },
                     confirmPasswordValidator
                   ]}
@@ -162,7 +164,7 @@ export default function ChangePassword() {
               xl={{ span: 8, offset: 10 }}
             >
               <Button block type='primary' onClick={handleSubmit} loading={false}>
-                Save
+                {t('save')}
               </Button>
             </Col>
           </Row>

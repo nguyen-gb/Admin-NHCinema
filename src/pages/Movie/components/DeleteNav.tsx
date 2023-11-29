@@ -1,4 +1,5 @@
 import { Button, Divider, Space, Typography } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   countItem: number
@@ -6,6 +7,8 @@ interface Props {
 }
 
 export default function DeleteNav({ countItem, setIsOpenDeleteMultiModal }: Props) {
+  const { t } = useTranslation('general')
+
   return (
     <>
       <Space
@@ -17,7 +20,7 @@ export default function DeleteNav({ countItem, setIsOpenDeleteMultiModal }: Prop
           background: '#E9F7FE'
         }}
       >
-        <Typography.Text>{`Select ${countItem} items`}</Typography.Text>
+        <Typography.Text>{`${t('select')} ${countItem} ${t('row')}`}</Typography.Text>
         <Button
           type='primary'
           style={{ border: 'none', color: 'red' }}

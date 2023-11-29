@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { Table, Button, Card, Space, Divider, Input, Tooltip, Image } from 'antd'
-import { useQuery } from '@tanstack/react-query'
-import dayjs from 'dayjs'
-
+import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+
 import DeleteNav from './components/DeleteNav'
 import ModalDelete from './components/DeleteModel'
 import { Movie, MovieListConfig } from 'src/types/movie.type'
 import { PopupForm } from './components/PopupForm'
 import movieApi from 'src/apis/movie.api'
+import { ErrorResponse } from 'src/types/utils.type'
 
 export const MoviePage = () => {
+  const { t } = useTranslation('movie')
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
@@ -25,7 +28,7 @@ export const MoviePage = () => {
   const queryConfig = {
     key_search: keyword
   }
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['movie', queryConfig],
     queryFn: () => {
       return movieApi.getMovies(queryConfig as MovieListConfig)
@@ -34,6 +37,11 @@ export const MoviePage = () => {
     // staleTime: 3 * 60 * 1000
   })
   const dataTable = data?.data.data
+
+  const deleteMovie = useMutation({
+    mutationKey: ['movie'],
+    mutationFn: (body: string[]) => movieApi.deleteMovie(body)
+  })
 
   // reset & refresh
   const resetParamsAndRefresh = () => {
@@ -53,36 +61,25 @@ export const MoviePage = () => {
     setIsOpenDeleteModal(true)
   }
   const handleDeleteMovie = (isDeleMore: boolean) => {
-    // if (isDeleMore) {
-    //   deleteMultiple(selectedRowKeys)
-    //     .unwrap()
-    //     .then(() => {
-    //       notification.success({
-    //         message: 'Delete success'
-    //       })
-    //       setSelectedRowKeys([])
-    //       setIsOpenDeleteModal(false)
-    //     })
-    //     .catch((err: any) => {
-    //       notification.error({
-    //         message: err.statusText
-    //       })
-    //     })
-    // } else {
-    //   deleteMovie(idDelete || id)
-    //     .unwrap()
-    //     .then(() => {
-    //       notification.success({
-    //         message: 'Delete success'
-    //       })
-    //       setIsOpenDeleteModal(false)
-    //     })
-    //     .catch((err: ResponseError) => {
-    //       notification.error({
-    //         message: err.statusText
-    //       })
-    //     })
-    // }
+    const body = isDeleMore ? selectedRowKeys : [idDelete]
+    deleteMovie.mutate(body as string[], {
+      onSuccess: () => {
+        toast.success(t('delete-success'))
+
+        if (isDeleMore) {
+          setIsOpenDeleteMultiModal(false)
+          setSelectedRowKeys([])
+        } else {
+          setIsOpenDeleteModal(false)
+          setIdDelete('')
+        }
+
+        refetch()
+      },
+      onError: (error) => {
+        toast.error((error as ErrorResponse<any>).message)
+      }
+    })
   }
 
   //handle modal
@@ -96,18 +93,18 @@ export const MoviePage = () => {
 
   return (
     <Card
-      title='Movie'
+      title={t('movie')}
       extra={
         <Space>
           <Button type='primary' size='middle' icon={<Icon.PlusOutlined />} onClick={handleOpenModal}>
-            Add new
+            {t('add-new')}
           </Button>
         </Space>
       }
     >
       <Space wrap>
         <Input.Search
-          placeholder='Search'
+          placeholder={t('search')}
           onSearch={() => {
             setCurrentPage(1)
             setKeyword(keywordInput)
@@ -149,46 +146,46 @@ export const MoviePage = () => {
         }}
         columns={[
           {
-            title: 'Tên',
+            title: t('name'),
             dataIndex: 'name',
             render: (_, movie) => movie.name
           },
           {
-            title: 'poster',
+            title: t('poster'),
             dataIndex: 'poster',
             render: (_, movie) => <Image src={movie.poster} style={{ maxHeight: '50px' }} />
           },
           {
-            title: 'thumbnail',
+            title: t('thumbnail'),
             dataIndex: 'thumbnail',
             render: (_, movie) => <Image src={movie.thumbnail} style={{ maxWidth: '100px' }} />
           },
           {
-            title: 'Thời lượng',
+            title: t('duration'),
             dataIndex: 'duration',
             render: (_, movie) => `${movie.duration} (phút)`
           },
           {
-            title: 'Ngày khởi chiếu',
+            title: t('release'),
             dataIndex: 'release',
-            render: (_, movie) => dayjs(movie.release).format('DD-MM-YYYY')
+            render: (_, movie) => movie.release
           },
           {
-            title: 'Thể loại',
+            title: t('genres'),
             dataIndex: 'genres',
             render: (_, movie) => movie.genres
           },
           {
-            title: 'Định dạng',
+            title: t('format'),
             dataIndex: 'format',
             render: (_, movie) => movie.format
           },
           {
-            title: 'Action',
+            title: t('action'),
             align: 'right',
             render: (_, movie) => (
               <Space direction='horizontal'>
-                <Tooltip title={<div>Update</div>}>
+                <Tooltip title={<div>{t('update')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -196,7 +193,7 @@ export const MoviePage = () => {
                     onClick={() => handleUpdate(movie)}
                   ></Button>
                 </Tooltip>
-                <Tooltip title={<div>Delete</div>}>
+                <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -213,7 +210,7 @@ export const MoviePage = () => {
 
       <PopupForm
         key={formData?._id}
-        title={formData ? 'Update' : 'Add new'}
+        title={formData ? t('update') : t('add-new')}
         open={isOpenModal}
         formData={formData}
         onCancel={handleCloseModal}

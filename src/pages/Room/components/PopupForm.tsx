@@ -8,6 +8,7 @@ import { Room } from 'src/types/room.type'
 import roomApi from 'src/apis/room.api'
 import { ErrorResponse } from 'src/types/utils.type'
 import { AppContext } from 'src/contexts/app.context'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   title: string
@@ -28,6 +29,7 @@ const defaultSubmit: Room = {
 const defaultSubmitWithoutId = omit(defaultSubmit, '_id')
 
 export const PopupForm: React.FC<Props> = (props) => {
+  const { t } = useTranslation('room')
   const { profile } = useContext(AppContext)
   const [form] = Form.useForm<Room>()
   // api
@@ -53,7 +55,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           console.log(body)
           updateRoom.mutate(body, {
             onSuccess: () => {
-              toast.success('Update thành công')
+              toast.success(t('update-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -68,7 +70,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           }
           createRoom.mutate(body, {
             onSuccess: () => {
-              toast.success('Create thành công')
+              toast.success(t('create-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -117,9 +119,9 @@ export const PopupForm: React.FC<Props> = (props) => {
           type='primary'
           onClick={handleSubmit}
           style={{ width: '100%', marginTop: '0px' }}
-          // disabled={isLoadingCreate || isLoadingUpdate}
+          disabled={createRoom.isLoading || updateRoom.isLoading}
         >
-          {props.formType}
+          {props.formType === 'UPDATE' ? t('update') : t('add-new')}
         </Button>
       ]}
     >
@@ -131,8 +133,12 @@ export const PopupForm: React.FC<Props> = (props) => {
           ...props.formData
         }}
       >
-        <Form.Item name='room_number' label='Name' rules={[{ required: true, message: 'Required field' }]}>
-          <Input placeholder='Name' />
+        <Form.Item
+          name='room_number'
+          label={t('room-number')}
+          rules={[{ required: true, message: t('required-field') }]}
+        >
+          <Input placeholder={t('room-number')} />
         </Form.Item>
       </Form>
     </Modal>

@@ -105,13 +105,13 @@ export default function ForgotPassword() {
               </Form.Item>
               <Form.Item
                 name='email'
-                rules={[{ required: true, message: 'Required field' }]}
+                rules={[{ required: true, message: t('required-field') }]}
                 style={{ marginBottom: 24 }}
               >
                 <Input
                   prefix={<Icon.UserOutlined />}
                   onKeyDownCapture={handleInputKeyDown}
-                  placeholder='Email'
+                  placeholder={t('email')}
                   size='large'
                 ></Input>
               </Form.Item>

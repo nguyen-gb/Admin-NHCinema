@@ -11,5 +11,16 @@
   "login-des": "Log in to the NHCinema project",
   "register-des": "Register an account for NHCinema movie theater",
   "forgot-password-des": "Retrieve your password for your NCHinema movie theater account",
-  "send": "Send"
+  "send": "Send",
+  "change-pass": "Change password",
+  "rule-pass-confirm": "Confirm password doesn't match your password",
+  "create-success": "Create success",
+  "delete-success": "Delete success",
+  "update-success": "Update success",
+  "current-pass": "Current password",
+  "required-field": "Required field",
+  "new-pass": "New password",
+  "confirm-pass": "Confirm password",
+  "save": "Save",
+  "back-home": "Back home"
 }

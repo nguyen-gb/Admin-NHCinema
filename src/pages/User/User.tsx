@@ -11,9 +11,11 @@ import userApi from 'src/apis/user.api'
 import { User } from 'src/types/user.type'
 import { ErrorResponse } from 'src/types/utils.type'
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 
 export const UserPage = () => {
   // hook
+  const { t } = useTranslation('user')
 
   // query api
   const [currentPage, setCurrentPage] = useState(1)
@@ -61,7 +63,7 @@ export const UserPage = () => {
     const body = isDeleMore ? selectedRowKeys : [idDelete]
     deleteUser.mutate(body as string[], {
       onSuccess: () => {
-        toast.success('Delete thành công')
+        toast.success(t('delete-success'))
 
         if (isDeleMore) {
           setIsOpenDeleteMultiModal(false)
@@ -91,18 +93,18 @@ export const UserPage = () => {
 
   return (
     <Card
-      title='User'
+      title={t('user')}
       extra={
         <Space>
           <Button type='primary' size='middle' icon={<Icon.PlusOutlined />} onClick={handleOpenModal}>
-            Add new
+            {t('add-new')}
           </Button>
         </Space>
       }
     >
       <Space wrap>
         <Input.Search
-          placeholder='Search'
+          placeholder={t('search')}
           onSearch={() => {
             setCurrentPage(1)
             setKeyword(keywordInput)
@@ -143,48 +145,49 @@ export const UserPage = () => {
             render: (_, __, index) => index + 1
           },
           {
-            title: 'Name',
+            title: t('full-name'),
             dataIndex: 'name',
             render: (_, user) => user.name
           },
           {
-            title: 'Role',
+            title: t('role'),
             dataIndex: 'role',
-            render: (_, user) => (user.role === 0 ? 'User' : 'Manager')
+            render: (_, user) => (user.role === 0 ? t('user') : t('manager'))
           },
           {
-            title: 'Email',
+            title: t('email'),
             dataIndex: 'email',
             render: (_, user) => user.email
           },
           {
-            title: 'Phone',
+            title: t('phone'),
             dataIndex: 'phone',
             render: (_, user) => user.phone
           },
           {
-            title: 'Gender',
+            title: t('gender'),
             dataIndex: 'gender',
             render: (_, user) => user.gender ?? '-'
           },
           {
-            title: 'Birthday',
+            title: t('date-of-birth'),
             dataIndex: 'date_of_birth',
             render: (_, user) =>
               user.date_of_birth ? dayjs(user.date_of_birth, 'YYYY-MM-DD').format('DD/MM/YYYY') : '-'
           },
           {
-            title: 'Cinema',
+            title: t('cinema'),
             dataIndex: 'cinema',
             render: (_, user) => user.theater_name ?? '-'
           },
           {
-            title: 'Status',
+            title: t('status'),
             dataIndex: 'status',
-            render: (_, user) => (user.status === 0 ? 'Not yet active' : user.status === 1 ? 'Actived' : 'Stop working')
+            render: (_, user) =>
+              user.status === 0 ? t('not-activated') : user.status === 1 ? t('activated') : t('stop-working')
           },
           {
-            title: 'Action',
+            title: t('action'),
             align: 'right',
             render: (_, user) => (
               <Space direction='horizontal'>
@@ -196,7 +199,7 @@ export const UserPage = () => {
                     onClick={() => handleUpdate(user)}
                   ></Button>
                 </Tooltip> */}
-                <Tooltip title={<div>Delete</div>}>
+                <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -213,7 +216,7 @@ export const UserPage = () => {
 
       <PopupForm
         key={formData?._id}
-        title={formData ? 'Update' : 'Add new'}
+        title={formData ? t('update') : t('add-new')}
         open={isOpenModal}
         formData={formData}
         onCancel={handleCloseModal}

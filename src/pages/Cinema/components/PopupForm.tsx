@@ -3,6 +3,7 @@ import { Form, Input, Modal, Button } from 'antd'
 import { omit } from 'lodash'
 import { toast } from 'react-toastify'
 import { useMutation } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 import { Cinema } from 'src/types/cinema.type'
 import cinemaApi from 'src/apis/cinema.api'
@@ -26,6 +27,7 @@ const defaultSubmit: Cinema = {
 const defaultSubmitWithoutId = omit(defaultSubmit, '_id')
 
 export const PopupForm: React.FC<Props> = (props) => {
+  const { t } = useTranslation('cinema')
   const [form] = Form.useForm<Cinema>()
   // api
   const createCinema = useMutation({
@@ -50,7 +52,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           console.log(body)
           updateCinema.mutate(body, {
             onSuccess: () => {
-              toast.success('Update thành công')
+              toast.success(t('update-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -64,7 +66,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           }
           createCinema.mutate(body, {
             onSuccess: () => {
-              toast.success('Create thành công')
+              toast.success(t('create-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -113,9 +115,9 @@ export const PopupForm: React.FC<Props> = (props) => {
           type='primary'
           onClick={handleSubmit}
           style={{ width: '100%', marginTop: '0px' }}
-          // disabled={isLoadingCreate || isLoadingUpdate}
+          disabled={createCinema.isLoading || updateCinema.isLoading}
         >
-          {props.formType}
+          {props.formType === 'UPDATE' ? t('update') : t('add-new')}
         </Button>
       ]}
     >
@@ -127,11 +129,11 @@ export const PopupForm: React.FC<Props> = (props) => {
           ...props?.formData
         }}
       >
-        <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Required field' }]}>
-          <Input placeholder='Name' />
+        <Form.Item name='name' label={t('name')} rules={[{ required: true, message: t('required-field') }]}>
+          <Input placeholder={t('name')} />
         </Form.Item>
-        <Form.Item name='address' label='Address' rules={[{ required: true, message: 'Required field' }]}>
-          <Input placeholder='Address' />
+        <Form.Item name='address' label={t('address')} rules={[{ required: true, message: t('required-field') }]}>
+          <Input placeholder={t('address')} />
         </Form.Item>
       </Form>
     </Modal>

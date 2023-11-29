@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { Button, Card, Col, DatePicker, Form, Input, Row, Spin } from 'antd'
 import dayjs from 'dayjs'
 import { useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 
 import userApi from 'src/apis/user.api'
@@ -12,6 +13,7 @@ import { setProfileToLS } from 'src/utils/auth'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 
 export default function InformationPage() {
+  const { t } = useTranslation('user')
   const { profile, setProfile, cinema } = useContext(AppContext)
   const [isVerticalLayout, setIsVerticalLayout] = useState<boolean>(false)
   const [form] = Form.useForm()
@@ -34,7 +36,7 @@ export default function InformationPage() {
           onSuccess: (data) => {
             setProfile(data.data.data)
             setProfileToLS(data.data.data)
-            toast.success('Update success')
+            toast.success(t('update-success'))
           },
           onError: (error) => {
             if (isAxiosUnprocessableEntityError<ErrorResponse<string[]>>(error)) {
@@ -79,7 +81,7 @@ export default function InformationPage() {
 
   return (
     <Spin spinning={false}>
-      <Card className='setting-override' title='Information'>
+      <Card className='setting-override' title={t('personal-information')}>
         <Row gutter={[24, 24]}>
           <Col span={24}>
             <Form
@@ -101,7 +103,7 @@ export default function InformationPage() {
                 >
                   {profile?.role === 1 && (
                     <Form.Item
-                      label='Cinema'
+                      label={t('cinema')}
                       name='cinema'
                       colon={false}
                       style={{ marginBottom: 24 }}
@@ -110,15 +112,15 @@ export default function InformationPage() {
                       rules={[
                         {
                           required: true,
-                          message: 'Required field'
+                          message: t('required-field')
                         }
                       ]}
                     >
-                      <Input placeholder='Cinema' disabled />
+                      <Input placeholder={t('cinema')} disabled />
                     </Form.Item>
                   )}
                   <Form.Item
-                    label='Email'
+                    label={t('email')}
                     name='email'
                     colon={false}
                     style={{ marginBottom: 24 }}
@@ -127,18 +129,18 @@ export default function InformationPage() {
                     rules={[
                       {
                         required: true,
-                        message: 'Required field'
+                        message: t('required-field')
                       },
                       {
                         type: 'email',
-                        message: 'Please enter a valid email'
+                        message: t('rule-email')
                       }
                     ]}
                   >
-                    <Input placeholder='Email' type='email' disabled />
+                    <Input placeholder={t('email')} type='email' disabled />
                   </Form.Item>
                   <Form.Item
-                    label='Full name'
+                    label={t('full-name')}
                     name='name'
                     colon={false}
                     labelCol={{ sm: 24, md: 6 }}
@@ -147,14 +149,14 @@ export default function InformationPage() {
                     rules={[
                       {
                         required: true,
-                        message: 'Required field'
+                        message: t('required-field')
                       }
                     ]}
                   >
-                    <Input placeholder='Full name' />
+                    <Input placeholder={t('full-name')} />
                   </Form.Item>
                   <Form.Item
-                    label='Phone number'
+                    label={t('phone')}
                     name='phone'
                     colon={false}
                     style={{ marginBottom: 24 }}
@@ -163,19 +165,19 @@ export default function InformationPage() {
                     rules={[
                       {
                         required: true,
-                        message: 'Required field'
+                        message: t('required-field')
                       },
                       {
                         pattern:
                           /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-                        message: 'Please enter a valid phone number'
+                        message: t('rule-phone')
                       }
                     ]}
                   >
-                    <Input placeholder='Phone number' />
+                    <Input placeholder={t('phone')} />
                   </Form.Item>
                   <Form.Item
-                    label='Birthday'
+                    label={t('date-of-birth')}
                     name='date_of_birth'
                     colon={false}
                     style={{ marginBottom: 24 }}
@@ -184,7 +186,7 @@ export default function InformationPage() {
                     rules={[
                       {
                         required: true,
-                        message: 'Required field'
+                        message: t('required-field')
                       }
                     ]}
                   >
@@ -201,7 +203,7 @@ export default function InformationPage() {
                       xl={{ span: 8, offset: 10 }}
                     >
                       <Button block type='primary' onClick={handleSubmit} loading={false}>
-                        Save
+                        {t('save')}
                       </Button>
                     </Col>
                   </Row>

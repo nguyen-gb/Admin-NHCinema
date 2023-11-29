@@ -3,6 +3,7 @@ import { Form, Modal, Button, Select, DatePicker, Row, Col, TimePicker } from 'a
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 
 import { Showtime, ShowtimeCreate } from 'src/types/showtime.type'
 import { ErrorResponse } from 'src/types/utils.type'
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export const PopupForm: React.FC<Props> = (props) => {
+  const { t } = useTranslation('showtimes')
   const { profile } = useContext(AppContext)
   const [form] = Form.useForm<ShowtimeCreate>()
 
@@ -66,7 +68,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           }
           updateShowtime.mutate(body, {
             onSuccess: () => {
-              toast.success('Update thành công')
+              toast.success(t('update-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -84,7 +86,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           }
           createShowtime.mutate(body, {
             onSuccess: () => {
-              toast.success('Create thành công')
+              toast.success(t('create-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -133,9 +135,9 @@ export const PopupForm: React.FC<Props> = (props) => {
           type='primary'
           onClick={handleSubmit}
           style={{ width: '100%', marginTop: '0px' }}
-          // disabled={isLoadingCreate || isLoadingUpdate}
+          disabled={createShowtime.isLoading || updateShowtime.isLoading}
         >
-          {props.formType}
+          {props.formType === 'UPDATE' ? t('update') : t('add-new')}
         </Button>
       ]}
     >
@@ -154,9 +156,9 @@ export const PopupForm: React.FC<Props> = (props) => {
             : {}
         }
       >
-        <Form.Item name='movie_id' label='Movie' rules={[{ required: true, message: 'Required field' }]}>
+        <Form.Item name='movie_id' label={t('movie')} rules={[{ required: true, message: t('required-field') }]}>
           <Select
-            placeholder='Movie'
+            placeholder={t('movie')}
             showSearch={false}
             options={movies?.map((movie) => {
               return {
@@ -166,9 +168,9 @@ export const PopupForm: React.FC<Props> = (props) => {
             })}
           />
         </Form.Item>
-        <Form.Item name='room_id' label='Room' rules={[{ required: true, message: 'Required field' }]}>
+        <Form.Item name='room_id' label={t('room')} rules={[{ required: true, message: t('required-field') }]}>
           <Select
-            placeholder='Room'
+            placeholder={t('room')}
             showSearch={false}
             options={rooms?.map((room) => {
               return {
@@ -182,15 +184,12 @@ export const PopupForm: React.FC<Props> = (props) => {
           <Col span={12}>
             <Form.Item
               name='time'
-              label='Date'
+              label={t('date')}
               rules={[
+                { required: true, message: t('required-field') },
                 {
                   validator: (_, value) =>
-                    value
-                      ? value.isBefore(dayjs().add(4, 'days'), 'day')
-                        ? Promise.reject('Showtimes must be created at least four days in advance')
-                        : Promise.resolve()
-                      : Promise.reject('Required field')
+                    value.isBefore(dayjs().add(4, 'days'), 'day') ? Promise.reject(t('rule-date')) : Promise.resolve()
                 }
               ]}
             >
@@ -198,7 +197,7 @@ export const PopupForm: React.FC<Props> = (props) => {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name='showtime' label='Time' rules={[{ required: true, message: 'Required field' }]}>
+            <Form.Item name='showtime' label={t('time')} rules={[{ required: true, message: t('required-field') }]}>
               <TimePicker format='HH:mm' />
             </Form.Item>
           </Col>

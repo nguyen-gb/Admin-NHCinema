@@ -1,14 +1,14 @@
 {
-  "banner": "Banner",
-  "title": "Tiêu đề",
+  "room": "Phòng",
+  "room-number": "Số phòng",
   "action": "Hành động",
   "add-new": "Thêm mới",
-  "create": "Tạo",
+  "create": "Tạo mới",
   "update": "Cập nhật",
-  "delete": "Xoá",
+  "delete": "Xóa",
   "search": "Tìm kiếm",
   "create-success": "Tạo thành công",
-  "delete-success": "Xoá thành công",
-  "update-success": "cập nhật thành công",
+  "delete-success": "Xóa thành công",
+  "update-success": "Cập nhật thành công",
   "required-field": "Trường bắt buộc"
 }

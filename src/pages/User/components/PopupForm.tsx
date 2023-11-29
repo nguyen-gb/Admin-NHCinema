@@ -3,11 +3,11 @@ import { toast } from 'react-toastify'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Form, Input, Modal, Button, Select, DatePicker } from 'antd'
 import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 
 import { User } from 'src/types/user.type'
 import userApi from 'src/apis/user.api'
 import { ErrorResponse } from 'src/types/utils.type'
-import { AppContext } from 'src/contexts/app.context'
 import cinemaApi from 'src/apis/cinema.api'
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export const PopupForm: React.FC<Props> = (props) => {
-  const { profile } = useContext(AppContext)
+  const { t } = useTranslation('user')
   const [form] = Form.useForm<User>()
   // api
 
@@ -51,7 +51,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           console.log(body)
           updateUser.mutate(body, {
             onSuccess: () => {
-              toast.success('Update thành công')
+              toast.success(t('update-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -73,7 +73,7 @@ export const PopupForm: React.FC<Props> = (props) => {
               }
           createUser.mutate(body, {
             onSuccess: () => {
-              toast.success('Create thành công')
+              toast.success(t('create-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -122,9 +122,9 @@ export const PopupForm: React.FC<Props> = (props) => {
           type='primary'
           onClick={handleSubmit}
           style={{ width: '100%', marginTop: '0px' }}
-          // disabled={isLoadingCreate || isLoadingUpdate}
+          disabled={createUser.isLoading || updateUser.isLoading}
         >
-          {props.formType}
+          {props.formType === 'UPDATE' ? t('update') : t('add-new')}
         </Button>
       ]}
     >
@@ -135,12 +135,12 @@ export const PopupForm: React.FC<Props> = (props) => {
           ...props.formData
         }}
       >
-        <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Required field' }]}>
-          <Input placeholder='Name' />
+        <Form.Item name='name' label={t('full-name')} rules={[{ required: true, message: t('required-field') }]}>
+          <Input placeholder={t('full-name')} />
         </Form.Item>
-        <Form.Item name='theater_id' label='Cinema' rules={[{ required: true, message: 'Required field' }]}>
+        <Form.Item name='theater_id' label={t('cinema')} rules={[{ required: true, message: t('required-field') }]}>
           <Select
-            placeholder='Movie'
+            placeholder={t('cinema')}
             showSearch={false}
             options={dataCinemas?.map((cinema) => {
               return {
@@ -150,42 +150,41 @@ export const PopupForm: React.FC<Props> = (props) => {
             })}
           />
         </Form.Item>
-        <Form.Item name='email' label='Email' rules={[{ required: true, message: 'Required field' }]}>
-          <Input placeholder='Email' />
+        <Form.Item name='email' label={t('email')} rules={[{ required: true, message: t('required-field') }]}>
+          <Input placeholder={t('email')} />
         </Form.Item>
-        <Form.Item name='phone' label='Phone' rules={[{ required: true, message: 'Required field' }]}>
-          <Input placeholder='Phone' />
+        <Form.Item name='phone' label={t('phone')} rules={[{ required: true, message: t('required-field') }]}>
+          <Input placeholder={t('phone')} />
         </Form.Item>
-        <Form.Item name='gender' label='Gender'>
+        <Form.Item name='gender' label={t('gender')}>
           <Select
-            placeholder='Gender'
+            placeholder={t('gender')}
             showSearch={false}
             options={[
               {
                 value: 'Male',
-                label: 'Male'
+                label: t('male')
               },
               {
                 value: 'Female',
-                label: 'Female'
+                label: t('female')
               },
               {
                 value: 'Other',
-                label: 'Other'
+                label: t('other')
               }
             ]}
           />
         </Form.Item>
         <Form.Item
           name='date_of_birth'
-          label='Birthday'
+          label={t('date-of-birth')}
           rules={[
+            { required: true, message: t('required-field') },
             {
               validator: (_, value) =>
-                value
-                  ? value.isAfter(dayjs(), 'day')
-                    ? Promise.reject('Birthday must be a date in the past')
-                    : Promise.resolve()
+                value.isAfter(dayjs(), 'day')
+                  ? Promise.reject('Birthday must be a date in the past')
                   : Promise.resolve()
             }
           ]}

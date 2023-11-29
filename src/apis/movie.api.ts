@@ -12,6 +12,15 @@ const movieApi = {
   },
   getMovieDetail(id: string) {
     return http.get<SuccessResponse<Movie>>(`${URL}/${id}`)
+  },
+  createMovie(body: Movie) {
+    return http.post(URL, body)
+  },
+  updateMovie(_id: string, body: Movie) {
+    return http.post(`${URL}/${_id}/update`, body)
+  },
+  deleteMovie(_ids: string[]) {
+    return http.post(`${URL}/delete`, _ids)
   }
 }
 

@@ -1,0 +1,18 @@
+{
+  "showtimes": "Lịch chiếu",
+  "movie": "Phim",
+  "room": "Phòng",
+  "date": "Ngày",
+  "time": "Giờ",
+  "action": "Hành động",
+  "add-new": "Thêm mới",
+  "create": "Tạo mới",
+  "update": "Cập nhật",
+  "delete": "Xóa",
+  "search": "Tìm kiếm",
+  "create-success": "Tạo thành công",
+  "delete-success": "Xóa thành công",
+  "update-success": "Cập nhật thành công",
+  "required-field": "Trường bắt buộc",
+  "rule-date": "Lịch chiếu phải được tạo trước ít nhất bốn ngày"
+}

@@ -92,7 +92,7 @@ export const BannerPage = () => {
 
   return (
     <Card
-      title='Banner'
+      title={t('banner')}
       extra={
         <Space>
           <Button type='primary' size='middle' icon={<Icon.PlusOutlined />} onClick={handleOpenModal}>

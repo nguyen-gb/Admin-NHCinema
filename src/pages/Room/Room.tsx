@@ -10,9 +10,11 @@ import { PopupForm } from './components/PopupForm'
 import roomApi from 'src/apis/room.api'
 import { Room } from 'src/types/room.type'
 import { ErrorResponse } from 'src/types/utils.type'
+import { useTranslation } from 'react-i18next'
 
 export const RoomPage = () => {
   // hook
+  const { t } = useTranslation('room')
 
   // query api
   const [currentPage, setCurrentPage] = useState(1)
@@ -60,7 +62,7 @@ export const RoomPage = () => {
     const body = isDeleMore ? selectedRowKeys : [idDelete]
     deleteRoom.mutate(body as string[], {
       onSuccess: () => {
-        toast.success('Delete thành công')
+        toast.success(t('delete-success'))
 
         if (isDeleMore) {
           setIsOpenDeleteMultiModal(false)
@@ -90,18 +92,18 @@ export const RoomPage = () => {
 
   return (
     <Card
-      title='Room'
+      title={t('room')}
       extra={
         <Space>
           <Button type='primary' size='middle' icon={<Icon.PlusOutlined />} onClick={handleOpenModal}>
-            Add new
+            {t('add-new')}
           </Button>
         </Space>
       }
     >
       <Space wrap>
         <Input.Search
-          placeholder='Search'
+          placeholder={t('search')}
           onSearch={() => {
             setCurrentPage(1)
             setKeyword(keywordInput)
@@ -142,16 +144,16 @@ export const RoomPage = () => {
             render: (_, __, index) => index + 1
           },
           {
-            title: 'Name',
-            dataIndex: 'name',
+            title: t('room-number'),
+            dataIndex: 'room_number',
             render: (_, room) => room.room_number
           },
           {
-            title: 'Action',
+            title: t('action'),
             align: 'right',
             render: (_, room) => (
               <Space direction='horizontal'>
-                <Tooltip title={<div>Update</div>}>
+                <Tooltip title={<div>{t('update')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -159,7 +161,7 @@ export const RoomPage = () => {
                     onClick={() => handleUpdate(room)}
                   ></Button>
                 </Tooltip>
-                <Tooltip title={<div>Delete</div>}>
+                <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -176,7 +178,7 @@ export const RoomPage = () => {
 
       <PopupForm
         key={formData?._id}
-        title={formData ? 'Update' : 'Add new'}
+        title={formData ? t('update') : t('add-new')}
         open={isOpenModal}
         formData={formData}
         onCancel={handleCloseModal}

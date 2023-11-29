@@ -1,0 +1,18 @@
+{
+  "combo": "Combo",
+  "name": "Tên",
+  "description": "Mô tả",
+  "price": "Giá",
+  "type": "Loại",
+  "action": "Hành động",
+  "add-new": "Thêm mới",
+  "create": "Tạo",
+  "update": "Cập nhật",
+  "delete": "Xoá",
+  "search": "Tìm kiếm",
+  "create-success": "Tạo thành công",
+  "delete-success": "Xoá thành công",
+  "update-success": "Cập nhật thành công",
+  "required-field": "Trường bắt buộc",
+  "rule-price": "Giá phải lớn hơn hoặc bằng 0"
+}

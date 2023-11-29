@@ -3,6 +3,7 @@ import { Table, Button, Card, Space, Divider, Input, Tooltip } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 import DeleteNav from './components/DeleteNav'
 import ModalDelete from './components/DeleteModel'
@@ -12,6 +13,7 @@ import { Combo, comboType } from 'src/types/combo.type'
 import { ErrorResponse } from 'src/types/utils.type'
 
 export const ComboPage = () => {
+  const { t } = useTranslation('combo')
   // hook
 
   // query api
@@ -60,7 +62,7 @@ export const ComboPage = () => {
     const body = isDeleMore ? selectedRowKeys : [idDelete]
     deleteCombo.mutate(body as string[], {
       onSuccess: () => {
-        toast.success('Delete thành công')
+        toast.success(t('delete-success'))
 
         if (isDeleMore) {
           setIsOpenDeleteMultiModal(false)
@@ -90,18 +92,18 @@ export const ComboPage = () => {
 
   return (
     <Card
-      title='Combo'
+      title={t('combo')}
       extra={
         <Space>
           <Button type='primary' size='middle' icon={<Icon.PlusOutlined />} onClick={handleOpenModal}>
-            Add new
+            {t('add-new')}
           </Button>
         </Space>
       }
     >
       <Space wrap>
         <Input.Search
-          placeholder='Search'
+          placeholder={t('search')}
           onSearch={() => {
             setCurrentPage(1)
             setKeyword(keywordInput)
@@ -142,31 +144,31 @@ export const ComboPage = () => {
             render: (_, __, index) => index + 1
           },
           {
-            title: 'Name',
+            title: t('name'),
             dataIndex: 'name',
             render: (_, combo) => combo.name
           },
           {
-            title: 'Description',
+            title: t('description'),
             dataIndex: 'description',
             render: (_, combo) => combo.description
           },
           {
-            title: 'Price',
+            title: t('price'),
             dataIndex: 'price',
             render: (_, combo) => combo.price
           },
           {
-            title: 'Type',
+            title: t('type'),
             dataIndex: 'type',
             render: (_, combo) => comboType[combo.type - 1]
           },
           {
-            title: 'Action',
+            title: t('action'),
             align: 'right',
             render: (_, combo) => (
               <Space direction='horizontal'>
-                <Tooltip title={<div>Update</div>}>
+                <Tooltip title={<div>{t('update')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -174,7 +176,7 @@ export const ComboPage = () => {
                     onClick={() => handleUpdate(combo)}
                   ></Button>
                 </Tooltip>
-                <Tooltip title={<div>Delete</div>}>
+                <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -191,7 +193,7 @@ export const ComboPage = () => {
 
       <PopupForm
         key={formData?._id}
-        title={formData ? 'Update' : 'Add new'}
+        title={formData ? t('update') : t('add-new')}
         open={isOpenModal}
         formData={formData}
         onCancel={handleCloseModal}

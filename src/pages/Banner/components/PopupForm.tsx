@@ -135,7 +135,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           ...props.formData
         }}
       >
-        <Form.Item name='title' label={t('title')} rules={[{ required: true, message: 'Required field' }]}>
+        <Form.Item name='title' label={t('title')} rules={[{ required: true, message: t('required-field') }]}>
           <Input placeholder={t('title')} />
         </Form.Item>
         <Form.Item
@@ -143,7 +143,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           label={t('banner')}
           rules={[
             {
-              validator: () => (file ? Promise.resolve() : Promise.reject('Required field'))
+              validator: () => (file ? Promise.resolve() : Promise.reject(t('required-field')))
             }
           ]}
         >

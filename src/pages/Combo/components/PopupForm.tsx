@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Form, Input, Modal, Button, Select } from 'antd'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 import { Combo, comboType } from 'src/types/combo.type'
 import comboApi from 'src/apis/combo.api'
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export const PopupForm: React.FC<Props> = (props) => {
+  const { t } = useTranslation('combo')
   const [form] = Form.useForm<Combo>()
   // api
   const createCombo = useMutation({
@@ -41,7 +43,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           console.log(body)
           updateCombo.mutate(body, {
             onSuccess: () => {
-              toast.success('Update thành công')
+              toast.success(t('update-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -55,7 +57,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           }
           createCombo.mutate(body, {
             onSuccess: () => {
-              toast.success('Create thành công')
+              toast.success(t('create-success'))
               props.onDone()
             },
             onError: (error) => {
@@ -104,9 +106,9 @@ export const PopupForm: React.FC<Props> = (props) => {
           type='primary'
           onClick={handleSubmit}
           style={{ width: '100%', marginTop: '0px' }}
-          // disabled={isLoadingCreate || isLoadingUpdate}
+          disabled={createCombo.isLoading || updateCombo.isLoading}
         >
-          {props.formType}
+          {props.formType === 'UPDATE' ? t('update') : t('add-new')}
         </Button>
       ]}
     >
@@ -117,31 +119,31 @@ export const PopupForm: React.FC<Props> = (props) => {
           ...props.formData
         }}
       >
-        <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Required field' }]}>
-          <Input placeholder='Name' />
+        <Form.Item name='name' label={t('name')} rules={[{ required: true, message: t('required-field') }]}>
+          <Input placeholder={t('name')} />
         </Form.Item>
-        <Form.Item name='description' label='Description' rules={[{ required: true, message: 'Required field' }]}>
-          <Input placeholder='Description' />
+        <Form.Item
+          name='description'
+          label={t('description')}
+          rules={[{ required: true, message: t('required-field') }]}
+        >
+          <Input placeholder={t('description')} />
         </Form.Item>
         <Form.Item
           name='price'
-          label='Price'
+          label={t('price')}
           rules={[
+            { required: true, message: t('required-field') },
             {
-              validator: (_, value) =>
-                value
-                  ? value < 0
-                    ? Promise.reject('Price must be greater than or equal to 0')
-                    : Promise.resolve()
-                  : Promise.reject('Required field')
+              validator: (_, value) => (value < 0 ? Promise.reject(t('rule-price')) : Promise.resolve())
             }
           ]}
         >
-          <Input type='number' min={0} placeholder='Price' />
+          <Input type='number' min={0} placeholder={t('price')} />
         </Form.Item>
-        <Form.Item name='type' label='Type' rules={[{ required: true, message: 'Required field' }]}>
+        <Form.Item name='type' label={t('type')} rules={[{ required: true, message: t('required-field') }]}>
           <Select
-            placeholder='Type'
+            placeholder={t('type')}
             showSearch={false}
             options={comboType.map((combo, index) => {
               return {

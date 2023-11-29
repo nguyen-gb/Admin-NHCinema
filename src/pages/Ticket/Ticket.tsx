@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { Table, Button, Card, Space, Divider, Input, Tooltip } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 import ticketApi from 'src/apis/ticket.api'
 import { Ticket } from 'src/types/ticket.type'
 import { seatArray } from 'src/constants/seat'
 
 export const TicketPage = () => {
+  const { t } = useTranslation('ticket')
   // hook
 
   // query api
@@ -39,10 +41,10 @@ export const TicketPage = () => {
   }
 
   return (
-    <Card title='Ticket'>
+    <Card title={t('ticket')}>
       <Space wrap>
         <Input.Search
-          placeholder='Search'
+          placeholder={t('search')}
           onSearch={() => {
             setCurrentPage(1)
             setKeyword(keywordInput)
@@ -80,37 +82,37 @@ export const TicketPage = () => {
             render: (_, __, index) => index + 1
           },
           {
-            title: 'Name',
+            title: t('name'),
             dataIndex: 'name',
             render: (_, ticket) => ticket.user_name
           },
           {
-            title: 'Movie',
+            title: t('movie'),
             dataIndex: 'movie_name',
             render: (_, ticket) => ticket.movie_name
           },
           {
-            title: 'Showtime',
+            title: t('showtime'),
             dataIndex: ['time', 'showtime'],
             render: (_, ticket) => `${ticket.showtime} ${ticket.time}`
           },
           {
-            title: 'Room',
+            title: t('room'),
             dataIndex: 'room_number',
             render: (_, ticket) => ticket.room_number
           },
           {
-            title: 'Seat',
+            title: t('seat'),
             dataIndex: 'seat',
             render: (_, ticket) => ticket.seats.map((seat) => seatArray[Number(seat.seat_number) - 1]).join(', ')
           },
           {
-            title: 'Action',
+            title: t('action'),
             align: 'right',
             render: (_, ticket) => (
               <Space direction='horizontal'>
-                <Tooltip title={<div>Update</div>}>
-                  <Button loading={false} size='middle' icon={<Icon.EditOutlined />}></Button>
+                <Tooltip title={<div>{t('view')}</div>}>
+                  <Button loading={false} size='middle' icon={<Icon.EyeOutlined />}></Button>
                 </Tooltip>
               </Space>
             )

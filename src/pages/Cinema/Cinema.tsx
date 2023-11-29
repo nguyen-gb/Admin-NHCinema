@@ -3,6 +3,7 @@ import { Table, Button, Card, Space, Divider, Input, Tooltip } from 'antd'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 import DeleteNav from './components/DeleteNav'
 import ModalDelete from './components/DeleteModel'
@@ -12,6 +13,7 @@ import { Cinema } from 'src/types/cinema.type'
 import { ErrorResponse } from 'src/types/utils.type'
 
 export const CinemaPage = () => {
+  const { t } = useTranslation('cinema')
   // hook
 
   // query api
@@ -60,7 +62,7 @@ export const CinemaPage = () => {
     const body = isDeleMore ? selectedRowKeys : [idDelete]
     deleteCinema.mutate(body as string[], {
       onSuccess: () => {
-        toast.success('Delete thành công')
+        toast.success(t('delete-success'))
 
         if (isDeleMore) {
           setIsOpenDeleteMultiModal(false)
@@ -90,18 +92,18 @@ export const CinemaPage = () => {
 
   return (
     <Card
-      title='Cinema'
+      title={t('cinema')}
       extra={
         <Space>
           <Button type='primary' size='middle' icon={<Icon.PlusOutlined />} onClick={handleOpenModal}>
-            Add new
+            {t('add-new')}
           </Button>
         </Space>
       }
     >
       <Space wrap>
         <Input.Search
-          placeholder='Search'
+          placeholder={t('search')}
           onSearch={() => {
             setCurrentPage(1)
             setKeyword(keywordInput)
@@ -142,21 +144,21 @@ export const CinemaPage = () => {
             render: (_, __, index) => index + 1
           },
           {
-            title: 'Name',
+            title: t('name'),
             dataIndex: 'name',
             render: (_, cinema) => cinema.name
           },
           {
-            title: 'Address',
+            title: t('address'),
             dataIndex: 'address',
             render: (_, cinema) => cinema.address
           },
           {
-            title: 'Action',
+            title: t('action'),
             align: 'right',
             render: (_, cinema) => (
               <Space direction='horizontal'>
-                <Tooltip title={<div>Update</div>}>
+                <Tooltip title={<div>{t('update')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -164,7 +166,7 @@ export const CinemaPage = () => {
                     onClick={() => handleUpdate(cinema)}
                   ></Button>
                 </Tooltip>
-                <Tooltip title={<div>Delete</div>}>
+                <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -181,7 +183,7 @@ export const CinemaPage = () => {
 
       <PopupForm
         key={formData?._id}
-        title={formData ? 'Update' : 'Add new'}
+        title={formData ? t('update') : t('add-new')}
         open={isOpenModal}
         formData={formData}
         onCancel={handleCloseModal}

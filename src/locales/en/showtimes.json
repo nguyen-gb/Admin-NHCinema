@@ -1,6 +1,9 @@
 {
-  "banner": "Banner",
-  "title": "Title",
+  "showtimes": "Showtimes",
+  "movie": "Movie",
+  "room": "Room",
+  "date": "Date",
+  "time": "Time",
   "action": "Action",
   "add-new": "Add new",
   "create": "Create",
@@ -10,5 +13,6 @@
   "create-success": "Create success",
   "delete-success": "Delete success",
   "update-success": "Update success",
-  "required-field": "Required field"
+  "required-field": "Required field",
+  "rule-date": "Showtimes must be created at least four days in advance"
 }

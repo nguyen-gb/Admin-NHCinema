@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Modal } from 'antd'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   open: boolean
@@ -10,13 +11,15 @@ interface Props {
 }
 
 export default function ModalDelete({ onDelete, open, setIsOpenDeleteModal, isLoadingDelete, countItem }: Props) {
+  const { t } = useTranslation('general')
+
   const handleDelete = () => {
     onDelete()
   }
 
   return (
     <Modal
-      title='Delete'
+      title={t('delete')}
       confirmLoading={false}
       forceRender
       open={open}
@@ -32,14 +35,16 @@ export default function ModalDelete({ onDelete, open, setIsOpenDeleteModal, isLo
           style={{ width: '100%', marginTop: '0px' }}
           disabled={isLoadingDelete}
         >
-          Delete
+          {t('delete')}
         </Button>
       ]}
     >
       {countItem ? (
-        <div style={{ textAlign: 'center', padding: '16px 0' }}>{`Bạn có chắc chắn muốn xoá ${countItem} hàng?`}</div>
+        <div style={{ textAlign: 'center', padding: '16px 0' }}>{`${t('delete-confirm-multi')} ${countItem} ${t(
+          'row'
+        )}?`}</div>
       ) : (
-        <div style={{ textAlign: 'center', padding: '16px 0' }}>Bạn có chắc chắn muốn xoá?</div>
+        <div style={{ textAlign: 'center', padding: '16px 0' }}>{t('delete-confirm')}</div>
       )}
     </Modal>
   )

@@ -40,7 +40,7 @@ export default function ForgotPasswordConfirm() {
       if (getFieldValue('password') === value || (!getFieldValue('password') && !value)) {
         return Promise.resolve()
       }
-      return Promise.reject(new Error("Confirm password doesn't match your password"))
+      return Promise.reject(new Error(t('rule-pass-confirm')))
     }
   })
 
@@ -113,7 +113,7 @@ export default function ForgotPasswordConfirm() {
               </Form.Item>
               <Form.Item
                 name='otp'
-                rules={[{ required: true, message: 'Required field' }]}
+                rules={[{ required: true, message: t('required-field') }]}
                 style={{ marginBottom: 24 }}
               >
                 <Input
@@ -132,7 +132,7 @@ export default function ForgotPasswordConfirm() {
                 rules={[
                   {
                     required: true,
-                    message: 'Required field'
+                    message: t('required-field')
                   }
                 ]}
               >
@@ -151,7 +151,7 @@ export default function ForgotPasswordConfirm() {
                 rules={[
                   {
                     required: true,
-                    message: 'Required field'
+                    message: t('required-field')
                   },
                   confirmPasswordValidator
                 ]}

@@ -111,7 +111,7 @@ export default function LoginPage() {
               </Form.Item>
               <Form.Item
                 name='email'
-                rules={[{ required: true, message: 'Required field' }]}
+                rules={[{ required: true, message: t('required-field') }]}
                 style={{ marginBottom: 24 }}
               >
                 <Input
@@ -123,7 +123,7 @@ export default function LoginPage() {
               </Form.Item>
               <Form.Item
                 name='password'
-                rules={[{ required: true, message: 'Required field' }]}
+                rules={[{ required: true, message: t('required-field') }]}
                 style={{ marginBottom: 24 }}
               >
                 <Input.Password

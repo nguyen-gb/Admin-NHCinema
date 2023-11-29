@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 import DeleteNav from './components/DeleteNav'
 import ModalDelete from './components/DeleteModel'
@@ -16,6 +17,7 @@ import { isBeforeFourDay } from 'src/utils/utils'
 
 export const ShowtimesPage = () => {
   // hook
+  const { t } = useTranslation('showtimes')
   const { profile } = useContext(AppContext)
 
   // query api
@@ -94,18 +96,18 @@ export const ShowtimesPage = () => {
 
   return (
     <Card
-      title='Showtime'
+      title={t('showtimes')}
       extra={
         <Space>
           <Button type='primary' size='middle' icon={<Icon.PlusOutlined />} onClick={handleOpenModal}>
-            Add new
+            {t('add-new')}
           </Button>
         </Space>
       }
     >
       <Space wrap>
         <Input.Search
-          placeholder='Search'
+          placeholder={t('add-new')}
           onSearch={() => {
             setCurrentPage(1)
             setKeyword(keywordInput)
@@ -146,31 +148,31 @@ export const ShowtimesPage = () => {
             render: (_, __, index) => index + 1
           },
           {
-            title: 'Name',
-            dataIndex: 'name',
+            title: t('movie'),
+            dataIndex: 'movie_name',
             render: (_, showtime) => showtime.movie_name
           },
           {
-            title: 'Date',
+            title: t('date'),
             dataIndex: 'time',
             render: (_, showtime) => dayjs(showtime.time, 'YYYY-MM-DD').format('DD/MM/YYYY')
           },
           {
-            title: 'Time',
+            title: t('time'),
             dataIndex: 'showtime',
             render: (_, showtime) => showtime.showtime
           },
           {
-            title: 'Room',
+            title: t('room'),
             dataIndex: 'room_name',
             render: (_, showtime) => showtime.room_name
           },
           {
-            title: 'Action',
+            title: t('action'),
             align: 'right',
             render: (_, showtime) => (
               <Space direction='horizontal'>
-                <Tooltip title={<div>Update</div>}>
+                <Tooltip title={<div>{t('update')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -179,7 +181,7 @@ export const ShowtimesPage = () => {
                     disabled={isBeforeFourDay(showtime.time, showtime.showtime)}
                   ></Button>
                 </Tooltip>
-                <Tooltip title={<div>Delete</div>}>
+                <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -197,7 +199,7 @@ export const ShowtimesPage = () => {
 
       <PopupForm
         key={formData?._id}
-        title={formData ? 'Update' : 'Add new'}
+        title={formData ? t('update') : t('add-new')}
         open={isOpenModal}
         formData={formData}
         onCancel={handleCloseModal}

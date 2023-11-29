@@ -1,6 +1,6 @@
 {
-  "banner": "Banner",
-  "title": "Title",
+  "room": "Room",
+  "room-number": "Room number",
   "action": "Action",
   "add-new": "Add new",
   "create": "Create",

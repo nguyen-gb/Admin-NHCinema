@@ -1,6 +1,7 @@
 {
-  "banner": "Banner",
-  "title": "Title",
+  "cinema": "Cinema",
+  "name": "Name",
+  "address": "Address",
   "action": "Action",
   "add-new": "Add new",
   "create": "Create",

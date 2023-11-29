@@ -1,6 +1,7 @@
 {
-  "banner": "Banner",
-  "title": "Tiêu đề",
+  "cinema": "Rạp chiếu phim",
+  "name": "Tên",
+  "address": "Địa chỉ",
   "action": "Hành động",
   "add-new": "Thêm mới",
   "create": "Tạo",
@@ -9,6 +10,6 @@
   "search": "Tìm kiếm",
   "create-success": "Tạo thành công",
   "delete-success": "Xoá thành công",
-  "update-success": "cập nhật thành công",
+  "update-success": "Cập nhật thành công",
   "required-field": "Trường bắt buộc"
 }
