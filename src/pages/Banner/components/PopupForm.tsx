@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useMutation } from '@tanstack/react-query'
-import { Form, Input, Modal, Button, Image } from 'antd'
+import { Form, Input, Modal, Button, Image, InputRef } from 'antd'
 import { useTranslation } from 'react-i18next'
+import * as Icon from '@ant-design/icons'
 
 import { Banner } from 'src/types/banner.type'
 import bannerApi from 'src/apis/banner.api'
@@ -20,8 +21,9 @@ interface Props {
 export const PopupForm: React.FC<Props> = (props) => {
   const { t } = useTranslation('banner')
   const [form] = Form.useForm<Banner>()
-  const [url, setUrl] = useState<string>((props.formData?.file as string) ?? '')
+  const [url, setUrl] = useState<string>(props.formData?.file ?? '')
   const [file, setFile] = useState<File>()
+  const imageRef = useRef<InputRef>(null)
   // api
   const createBanner = useMutation({
     mutationKey: ['banner'],
@@ -70,7 +72,7 @@ export const PopupForm: React.FC<Props> = (props) => {
         } else {
           const body = {
             ...value,
-            file: file as File
+            image: file as File
           }
           createBanner.mutate(body, {
             onSuccess: () => {
@@ -96,6 +98,7 @@ export const PopupForm: React.FC<Props> = (props) => {
   useEffect(() => {
     if (!props.open) {
       form.resetFields()
+      setUrl('')
     }
   }, [form, props.open])
 
@@ -123,7 +126,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           type='primary'
           onClick={handleSubmit}
           style={{ width: '100%', marginTop: '0px' }}
-          disabled={createBanner.isLoading || updateBanner.isLoading}
+          loading={createBanner.isLoading || updateBanner.isLoading}
         >
           {props.formType === 'UPDATE' ? t('update') : t('add-new')}
         </Button>
@@ -139,9 +142,9 @@ export const PopupForm: React.FC<Props> = (props) => {
         <Form.Item name='title' label={t('title')} rules={[{ required: true, message: t('required-field') }]}>
           <Input placeholder={t('title')} />
         </Form.Item>
-        <Image src={url} />
         <Form.Item
-          name='file'
+          required
+          name='image'
           label={t('banner')}
           rules={[
             {
@@ -149,7 +152,16 @@ export const PopupForm: React.FC<Props> = (props) => {
             }
           ]}
         >
-          <Input type='file' onChange={handleOnChange}></Input>
+          <Image src={url} />
+          <Input ref={imageRef} type='file' onChange={handleOnChange} style={{ display: 'none' }}></Input>
+          <Button
+            icon={<Icon.DownloadOutlined />}
+            onClick={() => imageRef.current?.input?.click()}
+            style={{ width: '100%', marginTop: 10 }}
+            loading={createBanner.isLoading || updateBanner.isLoading}
+          >
+            {t('upload')}
+          </Button>
         </Form.Item>
       </Form>
     </Modal>
