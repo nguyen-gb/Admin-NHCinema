@@ -9,10 +9,18 @@ const bannerApi = {
     return http.get<SuccessResponse<Banner[]>>(`${URL}`)
   },
   createBanner(body: Banner) {
-    return http.post(URL, body)
+    return http.post(URL, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   },
   updateBanner(_id: string, body: Banner) {
-    return http.post(`${URL}/${_id}/update`, body)
+    return http.post(`${URL}/${_id}/update`, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   },
   deleteBanner(_ids: string[]) {
     return http.post(`${URL}/delete`, _ids)

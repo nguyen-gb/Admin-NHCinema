@@ -20,7 +20,8 @@ interface Props {
 export const PopupForm: React.FC<Props> = (props) => {
   const { t } = useTranslation('banner')
   const [form] = Form.useForm<Banner>()
-  const [file, setFile] = useState(props.formData?.file ?? '')
+  const [url, setUrl] = useState<string>((props.formData?.file as string) ?? '')
+  const [file, setFile] = useState<File>()
   // api
   const createBanner = useMutation({
     mutationKey: ['banner'],
@@ -35,11 +36,12 @@ export const PopupForm: React.FC<Props> = (props) => {
     const file = e.target.files?.[0]
 
     if (file) {
+      setFile(file)
       const reader = new FileReader()
 
       reader.onloadend = () => {
         const base64String = reader.result?.toString().split(',')[1]
-        setFile(`data:${file.type};base64,${base64String}`)
+        setUrl(`data:${file.type};base64,${base64String}`)
       }
 
       reader.readAsDataURL(file)
@@ -53,8 +55,7 @@ export const PopupForm: React.FC<Props> = (props) => {
         if (props.formType === 'UPDATE') {
           const body = {
             ...props.formData,
-            ...value,
-            file: file
+            ...value
           }
           console.log(body)
           updateBanner.mutate(body, {
@@ -69,7 +70,7 @@ export const PopupForm: React.FC<Props> = (props) => {
         } else {
           const body = {
             ...value,
-            file: file
+            file: file as File
           }
           createBanner.mutate(body, {
             onSuccess: () => {
@@ -138,18 +139,18 @@ export const PopupForm: React.FC<Props> = (props) => {
         <Form.Item name='title' label={t('title')} rules={[{ required: true, message: t('required-field') }]}>
           <Input placeholder={t('title')} />
         </Form.Item>
+        <Image src={url} />
         <Form.Item
           name='file'
           label={t('banner')}
           rules={[
             {
-              validator: () => (file ? Promise.resolve() : Promise.reject(t('required-field')))
+              validator: () => (url ? Promise.resolve() : Promise.reject(t('required-field')))
             }
           ]}
         >
-          <Image src={file} />
+          <Input type='file' onChange={handleOnChange}></Input>
         </Form.Item>
-        <Input type='file' onChange={handleOnChange}></Input>
       </Form>
     </Modal>
   )
