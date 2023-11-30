@@ -97,15 +97,23 @@ export default function ForgotPasswordConfirm() {
         }}
       >
         <Col xl={{ span: 6 }}>
-          <Spin spinning={false} indicator={<Icon.LoadingOutlined />} style={{ display: 'block' }}>
+          <Spin
+            spinning={forgotPassMutation.isLoading}
+            indicator={<Icon.LoadingOutlined />}
+            style={{ display: 'block' }}
+          >
             <Form form={form}>
               <Form.Item>
-                <Spin spinning={false} size='small' style={{ display: 'flex', justifyContent: 'center' }}>
+                <Spin
+                  spinning={forgotPassMutation.isLoading}
+                  size='small'
+                  style={{ display: 'flex', justifyContent: 'center' }}
+                >
                   <Image src={logo} preview={false}></Image>
                 </Spin>
               </Form.Item>
               <Form.Item>
-                <Spin spinning={false} size='small'>
+                <Spin spinning={forgotPassMutation.isLoading} size='small'>
                   <Typography.Title level={4} style={{ marginBottom: 0 }}>
                     {t('forgot-password')}
                   </Typography.Title>
@@ -167,7 +175,7 @@ export default function ForgotPasswordConfirm() {
                 type='primary'
                 block={true}
                 size='large'
-                loading={false}
+                loading={forgotPassMutation.isLoading}
                 onClick={handleSubmit}
               >
                 {t('send')}

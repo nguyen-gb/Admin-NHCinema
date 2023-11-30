@@ -122,7 +122,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           type='primary'
           onClick={handleSubmit}
           style={{ width: '100%', marginTop: '0px' }}
-          disabled={createUser.isLoading || updateUser.isLoading}
+          loading={createUser.isLoading || updateUser.isLoading}
         >
           {props.formType === 'UPDATE' ? t('update') : t('add-new')}
         </Button>

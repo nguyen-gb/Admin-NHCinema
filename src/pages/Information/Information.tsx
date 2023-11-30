@@ -80,7 +80,7 @@ export default function InformationPage() {
   }, [window.innerWidth])
 
   return (
-    <Spin spinning={false}>
+    <Spin spinning={updateMutation.isLoading}>
       <Card className='setting-override' title={t('personal-information')}>
         <Row gutter={[24, 24]}>
           <Col span={24}>
@@ -202,7 +202,7 @@ export default function InformationPage() {
                       lg={{ span: 12, offset: 9 }}
                       xl={{ span: 8, offset: 10 }}
                     >
-                      <Button block type='primary' onClick={handleSubmit} loading={false}>
+                      <Button block type='primary' onClick={handleSubmit} loading={updateMutation.isLoading}>
                         {t('save')}
                       </Button>
                     </Col>
