@@ -57,7 +57,8 @@ export const PopupForm: React.FC<Props> = (props) => {
         if (props.formType === 'UPDATE') {
           const body = {
             ...props.formData,
-            ...value
+            ...value,
+            image: file as File
           }
           console.log(body)
           updateBanner.mutate(body, {

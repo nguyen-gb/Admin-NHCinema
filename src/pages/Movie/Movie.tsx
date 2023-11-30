@@ -153,12 +153,12 @@ export const MoviePage = () => {
           {
             title: t('poster'),
             dataIndex: 'poster',
-            render: (_, movie) => <Image src={movie.poster} style={{ maxHeight: '50px' }} />
+            render: (_, movie) => <Image src={movie.poster as string} style={{ maxHeight: '50px' }} />
           },
           {
             title: t('thumbnail'),
             dataIndex: 'thumbnail',
-            render: (_, movie) => <Image src={movie.thumbnail} style={{ maxWidth: '100px' }} />
+            render: (_, movie) => <Image src={movie.thumbnail as string} style={{ maxWidth: '100px' }} />
           },
           {
             title: t('duration'),

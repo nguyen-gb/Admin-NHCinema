@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react'
-import { Form, Input, Modal, Button, DatePicker, Select } from 'antd'
+import React, { useEffect, useRef, useState } from 'react'
+import { Form, Input, Modal, Button, DatePicker, Select, Image, InputRef } from 'antd'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { useMutation } from '@tanstack/react-query'
+import * as Icon from '@ant-design/icons'
 
 import { Movie } from 'src/types/movie.type'
+import movieApi from 'src/apis/movie.api'
+import { ErrorResponse } from 'src/types/utils.type'
+import dayjs from 'dayjs'
 
 interface Props {
   title: string
@@ -16,42 +22,95 @@ interface Props {
 export const PopupForm: React.FC<Props> = (props) => {
   const { t } = useTranslation('movie')
   const [form] = Form.useForm<Movie>()
+
+  const [urlPoster, setUrlPoster] = useState<string>((props.formData?.poster as string) ?? '')
+  const [poster, setPoster] = useState<File>()
+  const posterRef = useRef<InputRef>(null)
+
+  const [urlThumbnail, setUrlThumbnail] = useState<string>((props.formData?.poster as string) ?? '')
+  const [thumbnail, setThumbnail] = useState<File>()
+  const thumbnailRef = useRef<InputRef>(null)
+
   // api
+  const createMovie = useMutation({
+    mutationKey: ['combo'],
+    mutationFn: (body: Movie) => movieApi.createMovie(body)
+  })
+  const updateMovie = useMutation({
+    mutationKey: ['combo'],
+    mutationFn: (body: Movie) => movieApi.updateMovie(props.formData?._id as string, body)
+  })
+
+  const handleOnChangePoster = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+
+    if (file) {
+      setPoster(file)
+      const reader = new FileReader()
+
+      reader.onloadend = () => {
+        const base64String = reader.result?.toString().split(',')[1]
+        setUrlPoster(`data:${file.type};base64,${base64String}`)
+      }
+
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleOnChangeThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+
+    if (file) {
+      setThumbnail(file)
+      const reader = new FileReader()
+
+      reader.onloadend = () => {
+        const base64String = reader.result?.toString().split(',')[1]
+        setUrlThumbnail(`data:${file.type};base64,${base64String}`)
+      }
+
+      reader.readAsDataURL(file)
+    }
+  }
+
   const handleSubmit = () => {
     form
       .validateFields()
       .then((value) => {
-        // if (props.formType === 'UPDATE') {
-        //   const body = {
-        //     ...props.formData,
-        //     ...value,
-        //     price: Number(value.price)
-        //   }
-        //   console.log(body)
-        //   updateCombo.mutate(body, {
-        //     onSuccess: () => {
-        //       toast.success(t('update-success'))
-        //       props.onDone()
-        //     },
-        //     onError: (error) => {
-        //       toast.error((error as ErrorResponse<any>).message)
-        //     }
-        //   })
-        // } else {
-        //   const body = {
-        //     ...value,
-        //     price: Number(value.price)
-        //   }
-        //   createCombo.mutate(body, {
-        //     onSuccess: () => {
-        //       toast.success(t('create-success'))
-        //       props.onDone()
-        //     },
-        //     onError: (error) => {
-        //       toast.error((error as ErrorResponse<any>).message)
-        //     }
-        //   })
-        // }
+        if (props.formType === 'UPDATE') {
+          const body = {
+            ...props.formData,
+            ...value,
+            poster: poster as File,
+            thumbnail: thumbnail as File,
+            release: dayjs(value.release).format('YYYY-MM-DD')
+          }
+          updateMovie.mutate(body, {
+            onSuccess: () => {
+              toast.success(t('update-success'))
+              props.onDone()
+            },
+            onError: (error) => {
+              toast.error((error as ErrorResponse<any>).message)
+            }
+          })
+        } else {
+          const body = {
+            ...value,
+            poster: poster as File,
+            thumbnail: thumbnail as File,
+            release: dayjs(value.release).format('YYYY-MM-DD')
+          }
+          createMovie.mutate(body, {
+            onSuccess: () => {
+              toast.success(t('create-success'))
+              props.onDone()
+            },
+            onError: (error) => {
+              toast.error((error as ErrorResponse<any>).message)
+            }
+          })
+        }
       })
       .catch(
         (err) =>
@@ -93,7 +152,7 @@ export const PopupForm: React.FC<Props> = (props) => {
           type='primary'
           onClick={handleSubmit}
           style={{ width: '100%', marginTop: '0px' }}
-          //disabled={createCombo.isLoading || updateCombo.isLoading}
+          loading={createMovie.isLoading || updateMovie.isLoading}
         >
           {props.formType === 'UPDATE' ? t('update') : t('add-new')}
         </Button>
@@ -116,11 +175,47 @@ export const PopupForm: React.FC<Props> = (props) => {
         >
           <Input placeholder={t('english-name')} />
         </Form.Item>
-        <Form.Item name='poster' label={t('poster')} rules={[{ required: true, message: t('required-field') }]}>
-          <Input placeholder={t('poster')} />
+        <Form.Item
+          required
+          name='poster'
+          label={t('poster')}
+          rules={[
+            {
+              validator: () => (urlPoster ? Promise.resolve() : Promise.reject(t('required-field')))
+            }
+          ]}
+        >
+          <Image src={urlPoster} />
+          <Input ref={posterRef} type='file' onChange={handleOnChangePoster} style={{ display: 'none' }}></Input>
+          <Button
+            icon={<Icon.DownloadOutlined />}
+            onClick={() => posterRef.current?.input?.click()}
+            style={{ width: '100%', marginTop: 10 }}
+            loading={createMovie.isLoading || updateMovie.isLoading}
+          >
+            {t('upload')}
+          </Button>
         </Form.Item>
-        <Form.Item name='thumbnail' label={t('thumbnail')} rules={[{ required: true, message: t('required-field') }]}>
-          <Input placeholder={t('thumbnail')} />
+        <Form.Item
+          required
+          name='thumbnail'
+          label={t('thumbnail')}
+          rules={[
+            {
+              validator: () => (urlThumbnail ? Promise.resolve() : Promise.reject(t('required-field')))
+            }
+          ]}
+        >
+          <Image src={urlThumbnail} />
+          <Input ref={thumbnailRef} type='file' onChange={handleOnChangeThumbnail} style={{ display: 'none' }}></Input>
+          <Button
+            icon={<Icon.DownloadOutlined />}
+            onClick={() => thumbnailRef.current?.input?.click()}
+            style={{ width: '100%', marginTop: 10 }}
+            loading={createMovie.isLoading || updateMovie.isLoading}
+          >
+            {t('upload')}
+          </Button>
         </Form.Item>
         <Form.Item name='trailer' label={t('trailer')} rules={[{ required: true, message: t('required-field') }]}>
           <Input placeholder={t('trailer')} />

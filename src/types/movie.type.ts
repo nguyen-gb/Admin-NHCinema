@@ -11,8 +11,8 @@ export interface Movie {
   director: string
   performer: string
   description: string
-  poster: string
-  thumbnail: string
+  poster: string | File
+  thumbnail: string | File
   trailer: string
   rating: number
   status: number
