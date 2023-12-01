@@ -243,7 +243,7 @@ export const PopupForm: React.FC<Props> = (props) => {
             placeholder={t('genres')}
             mode='multiple'
             showSearch={false}
-            options={genres.map((genre) => {
+            options={genres?.map((genre) => {
               return {
                 value: genre._id,
                 label: genre.name
