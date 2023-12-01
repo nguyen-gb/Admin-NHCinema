@@ -2,13 +2,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Form, Input, Modal, Button, DatePicker, Select, Image, InputRef } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
+import dayjs from 'dayjs'
 
 import { Movie } from 'src/types/movie.type'
 import movieApi from 'src/apis/movie.api'
 import { ErrorResponse } from 'src/types/utils.type'
-import dayjs from 'dayjs'
+import genreApi from 'src/apis/genre.api'
+import { Genre } from 'src/types/genre.type'
 
 interface Props {
   title: string
@@ -32,12 +34,18 @@ export const PopupForm: React.FC<Props> = (props) => {
   const thumbnailRef = useRef<InputRef>(null)
 
   // api
+  const { data: dataGenre } = useQuery({
+    queryKey: ['genre'],
+    queryFn: genreApi.getGenres
+  })
+  const genres = dataGenre?.data.data as Genre[]
+
   const createMovie = useMutation({
-    mutationKey: ['combo'],
+    mutationKey: ['movie'],
     mutationFn: (body: Movie) => movieApi.createMovie(body)
   })
   const updateMovie = useMutation({
-    mutationKey: ['combo'],
+    mutationKey: ['movie'],
     mutationFn: (body: Movie) => movieApi.updateMovie(props.formData?._id as string, body)
   })
 
@@ -83,7 +91,8 @@ export const PopupForm: React.FC<Props> = (props) => {
             ...value,
             poster: poster as File,
             thumbnail: thumbnail as File,
-            release: dayjs(value.release).format('YYYY-MM-DD')
+            release: dayjs(value.release).format('YYYY-MM-DD'),
+            genres: (value.genres as string[]).join(', ')
           }
           updateMovie.mutate(body, {
             onSuccess: () => {
@@ -99,7 +108,8 @@ export const PopupForm: React.FC<Props> = (props) => {
             ...value,
             poster: poster as File,
             thumbnail: thumbnail as File,
-            release: dayjs(value.release).format('YYYY-MM-DD')
+            release: dayjs(value.release).format('YYYY-MM-DD'),
+            genres: (value.genres as string[]).join(', ')
           }
           createMovie.mutate(body, {
             onSuccess: () => {
@@ -125,6 +135,8 @@ export const PopupForm: React.FC<Props> = (props) => {
   useEffect(() => {
     if (!props.open) {
       form.resetFields()
+      setUrlPoster('')
+      setUrlThumbnail('')
     }
   }, [form, props.open])
 
@@ -231,16 +243,12 @@ export const PopupForm: React.FC<Props> = (props) => {
             placeholder={t('genres')}
             mode='multiple'
             showSearch={false}
-            options={[
-              {
-                value: '2D',
-                label: '2D'
-              },
-              {
-                value: '3D',
-                label: '3D'
+            options={genres.map((genre) => {
+              return {
+                value: genre._id,
+                label: genre.name
               }
-            ]}
+            })}
           />
         </Form.Item>
         <Form.Item name='director' label={t('director')} rules={[{ required: true, message: t('required-field') }]}>

@@ -168,7 +168,7 @@ export const MoviePage = () => {
           {
             title: t('release'),
             dataIndex: 'release',
-            render: (_, movie) => movie.release
+            render: (_, movie) => movie.release as string
           },
           {
             title: t('genres'),

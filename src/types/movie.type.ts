@@ -2,7 +2,7 @@ export interface Movie {
   _id: string
   name: string
   english_name: string
-  genres: string
+  genres: string | string[]
   title: string
   format: string
   age: string
