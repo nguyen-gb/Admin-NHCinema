@@ -227,7 +227,21 @@ export const PopupForm: React.FC<Props> = (props) => {
           <DatePicker style={{ width: '100%' }} format='DD/MM/YYYY' />
         </Form.Item>
         <Form.Item name='genres' label={t('genres')} rules={[{ required: true, message: t('required-field') }]}>
-          <Input placeholder={t('genres')} />
+          <Select
+            placeholder={t('genres')}
+            mode='multiple'
+            showSearch={false}
+            options={[
+              {
+                value: '2D',
+                label: '2D'
+              },
+              {
+                value: '3D',
+                label: '3D'
+              }
+            ]}
+          />
         </Form.Item>
         <Form.Item name='director' label={t('director')} rules={[{ required: true, message: t('required-field') }]}>
           <Input placeholder={t('director')} />

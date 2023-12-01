@@ -33,7 +33,7 @@ export default function ModalDelete({ onDelete, open, setIsOpenDeleteModal, isLo
           type='primary'
           onClick={handleDelete}
           style={{ width: '100%', marginTop: '0px' }}
-          disabled={isLoadingDelete}
+          loading={isLoadingDelete}
         >
           {t('delete')}
         </Button>
