@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip, Image } from 'antd'
+import React, { useContext, useState } from 'react'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Image, Select } from 'antd'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
@@ -7,12 +7,16 @@ import { toast } from 'react-toastify'
 
 import DeleteNav from './components/DeleteNav'
 import ModalDelete from './components/DeleteModel'
-import { Movie, MovieListConfig } from 'src/types/movie.type'
+import { Movie } from 'src/types/movie.type'
 import { PopupForm } from './components/PopupForm'
 import movieApi from 'src/apis/movie.api'
-import { ErrorResponse } from 'src/types/utils.type'
+import { ErrorResponse, Params } from 'src/types/utils.type'
+import { AppContext } from 'src/contexts/app.context'
+import genreApi from 'src/apis/genre.api'
+import { Genre } from 'src/types/genre.type'
 
 export const MoviePage = () => {
+  const { profile } = useContext(AppContext)
   const { t } = useTranslation('movie')
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
@@ -24,24 +28,33 @@ export const MoviePage = () => {
   const [idDelete, setIdDelete] = useState<string>('')
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [keywordInput, setKeywordInput] = useState('')
+  const [genres, setGenres] = useState<string[]>([])
 
   const queryConfig = {
-    key_search: keyword
+    page: currentPage,
+    page_size: pageSize,
+    key_search: keyword,
+    genres: genres.join(',')
   }
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['movie', queryConfig],
-    queryFn: () => {
-      return movieApi.getMovies(queryConfig as MovieListConfig)
-    }
-    // keepPreviousData: true,
-    // staleTime: 3 * 60 * 1000
+    queryFn: () => movieApi.getMovies(queryConfig as Params),
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
   })
   const dataTable = data?.data.data
+  const total = data?.data.total_record
 
   const deleteMovie = useMutation({
     mutationKey: ['movie'],
     mutationFn: (body: string[]) => movieApi.deleteMovie(body)
   })
+
+  const { data: dataGenre } = useQuery({
+    queryKey: ['genre'],
+    queryFn: genreApi.getGenres
+  })
+  const genresApi = dataGenre?.data.data as Genre[]
 
   // reset & refresh
   const resetParamsAndRefresh = () => {
@@ -49,6 +62,7 @@ export const MoviePage = () => {
     setPageSize(20)
     setKeyword('')
     setKeywordInput('')
+    setGenres([])
   }
   //update
   const handleUpdate = (movie: Movie) => {
@@ -89,6 +103,7 @@ export const MoviePage = () => {
   const handleCloseModal = () => {
     setIsOpenModal(false)
     setFormData(undefined)
+    refetch()
   }
 
   return (
@@ -115,6 +130,19 @@ export const MoviePage = () => {
           }}
           loading={isLoading}
         />
+        <Select
+          style={{ minWidth: 200 }}
+          placeholder={t('genres')}
+          mode='multiple'
+          showSearch={false}
+          options={genresApi?.map((genre) => {
+            return {
+              value: genre._id,
+              label: genre.name
+            }
+          })}
+          onChange={(value) => setGenres(value)}
+        />
         <Button
           type='primary'
           loading={isLoading}
@@ -138,7 +166,7 @@ export const MoviePage = () => {
         pagination={{
           current: currentPage,
           pageSize: pageSize,
-          total: 20,
+          total: total,
           onChange(page, pageSize) {
             setCurrentPage(page)
             setPageSize(pageSize)
@@ -187,6 +215,7 @@ export const MoviePage = () => {
               <Space direction='horizontal'>
                 <Tooltip title={<div>{t('update')}</div>}>
                   <Button
+                    disabled={profile?.role === 1}
                     loading={false}
                     size='middle'
                     icon={<Icon.EditOutlined />}
@@ -195,6 +224,7 @@ export const MoviePage = () => {
                 </Tooltip>
                 <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
+                    disabled={profile?.role === 1}
                     loading={false}
                     size='middle'
                     danger={true}

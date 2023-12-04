@@ -3,6 +3,7 @@ export interface Movie {
   name: string
   english_name: string
   genres: string | string[]
+  genre_ids: string[]
   title: string
   format: string
   age: string
@@ -11,18 +12,12 @@ export interface Movie {
   director: string
   performer: string
   description: string
-  poster: string | File
-  thumbnail: string | File
+  poster: string | File | undefined
+  thumbnail: string | File | undefined
   trailer: string
   rating: number
   status: number
   times: string[]
   created_at?: string
   updated_at?: string
-}
-
-export interface MovieListConfig {
-  genre_id?: number
-  status?: number
-  key_search?: string
 }

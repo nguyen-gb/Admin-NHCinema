@@ -1,13 +1,20 @@
 import http from 'src/utils/http'
-import { Movie, MovieListConfig } from './../types/movie.type'
-import { SuccessResponse } from 'src/types/utils.type'
+import { Movie } from './../types/movie.type'
+import { SuccessResponse, Params } from 'src/types/utils.type'
+import { removeNullish } from 'src/utils/utils'
 
 const URL = 'unauth/movie'
 
+const queryConfig = {
+  page: null,
+  page_size: null,
+  key_search: null
+}
+
 const movieApi = {
-  getMovies(params?: MovieListConfig) {
-    return http.get<SuccessResponse<Movie[]>>(URL, {
-      params
+  getMovies(params?: Params) {
+    return http.get<SuccessResponse<Movie[]>>(`${URL}/admin`, {
+      params: removeNullish(params ?? queryConfig)
     })
   },
   getMovieDetail(id: string) {

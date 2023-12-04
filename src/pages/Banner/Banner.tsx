@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip, Image } from 'antd'
+import { Table, Button, Card, Space, Divider, Tooltip, Image } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
@@ -13,17 +13,19 @@ import { Banner } from 'src/types/banner.type'
 import { ErrorResponse } from 'src/types/utils.type'
 
 export const BannerPage = () => {
-  const { t } = useTranslation('banner')
   // hook
+  const { t } = useTranslation('banner')
 
   // query api
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
-  const [keyword, setKeyword] = useState('')
+  // const [keyword, setKeyword] = useState('')
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['banner'],
-    queryFn: bannerApi.getBanners
+    queryFn: bannerApi.getBanners,
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
   })
   const dataTable = data?.data.data
 
@@ -39,15 +41,15 @@ export const BannerPage = () => {
   const [formData, setFormData] = useState<Banner>()
   const [idDelete, setIdDelete] = useState<string>('')
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-  const [keywordInput, setKeywordInput] = useState('')
+  // // const [keywordInput, setKeywordInput] = useState('')
 
   // handle action
-  const resetParamsAndRefresh = () => {
-    setCurrentPage(1)
-    setPageSize(20)
-    setKeyword('')
-    setKeywordInput('')
-  }
+  // const resetParamsAndRefresh = () => {
+  //   setCurrentPage(1)
+  //   setPageSize(20)
+  //   setKeyword('')
+  //   setKeywordInput('')
+  // }
   //update
   const handleUpdate = (banner: Banner) => {
     setFormData(banner)
@@ -101,7 +103,7 @@ export const BannerPage = () => {
         </Space>
       }
     >
-      <Space wrap>
+      {/* <Space wrap>
         <Input.Search
           placeholder={t('search')}
           onSearch={() => {
@@ -113,7 +115,7 @@ export const BannerPage = () => {
             setKeywordInput(event.target.value)
           }}
         />
-      </Space>
+      </Space> */}
       <Divider />
       {selectedRowKeys.length > 0 && (
         <DeleteNav countItem={selectedRowKeys.length} setIsOpenDeleteMultiModal={setIsOpenDeleteMultiModal} />

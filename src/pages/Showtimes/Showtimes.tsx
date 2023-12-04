@@ -25,11 +25,21 @@ export const ShowtimesPage = () => {
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
 
+  const queryConfig = {
+    theater_id: profile?.theater_id,
+    page: currentPage,
+    page_size: pageSize,
+    key_search: keyword
+  }
+
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['showtime'],
-    queryFn: () => showtimeApi.getShowtimes({ theater_id: profile?.theater_id as string })
+    queryKey: ['showtime', queryConfig],
+    queryFn: () => showtimeApi.getShowtimes(queryConfig),
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
   })
   const dataTable = data?.data.data
+  const total = data?.data.total_record
 
   const deleteShowtime = useMutation({
     mutationKey: ['showtime'],
@@ -117,6 +127,12 @@ export const ShowtimesPage = () => {
             setKeywordInput(event.target.value)
           }}
         />
+        <Button
+          type='primary'
+          loading={isLoading}
+          icon={<Icon.ReloadOutlined />}
+          onClick={resetParamsAndRefresh}
+        ></Button>
       </Space>
       <Divider />
       {selectedRowKeys.length > 0 && (
@@ -134,7 +150,7 @@ export const ShowtimesPage = () => {
         pagination={{
           current: currentPage,
           pageSize: pageSize,
-          total: 20,
+          total: total,
           onChange(page, pageSize) {
             setCurrentPage(page)
             setPageSize(pageSize)

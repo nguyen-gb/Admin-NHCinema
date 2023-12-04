@@ -13,19 +13,28 @@ import { Cinema } from 'src/types/cinema.type'
 import { ErrorResponse } from 'src/types/utils.type'
 
 export const CinemaPage = () => {
-  const { t } = useTranslation('cinema')
   // hook
+  const { t } = useTranslation('cinema')
 
   // query api
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
 
+  const queryConfig = {
+    page: currentPage,
+    page_size: pageSize,
+    key_search: keyword
+  }
+
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['cinema'],
-    queryFn: cinemaApi.getCinemas
+    queryKey: ['cinema', queryConfig],
+    queryFn: () => cinemaApi.getCinemas(queryConfig),
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
   })
   const dataTable = data?.data.data
+  const total = data?.data.total_record
 
   const deleteCinema = useMutation({
     mutationKey: ['cinema'],
@@ -113,6 +122,12 @@ export const CinemaPage = () => {
             setKeywordInput(event.target.value)
           }}
         />
+        <Button
+          type='primary'
+          loading={isLoading}
+          icon={<Icon.ReloadOutlined />}
+          onClick={resetParamsAndRefresh}
+        ></Button>
       </Space>
       <Divider />
       {selectedRowKeys.length > 0 && (
@@ -130,7 +145,7 @@ export const CinemaPage = () => {
         pagination={{
           current: currentPage,
           pageSize: pageSize,
-          total: 20,
+          total: total,
           onChange(page, pageSize) {
             setCurrentPage(page)
             setPageSize(pageSize)

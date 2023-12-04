@@ -89,8 +89,9 @@ export const PopupForm: React.FC<Props> = (props) => {
           const body = {
             ...props.formData,
             ...value,
-            poster: poster as File,
-            thumbnail: thumbnail as File,
+            english_name: value.english_name ? value.english_name : '',
+            poster: poster,
+            thumbnail: thumbnail,
             release: dayjs(value.release).format('YYYY-MM-DD'),
             genres: (value.genres as string[]).join(', ')
           }
@@ -106,6 +107,7 @@ export const PopupForm: React.FC<Props> = (props) => {
         } else {
           const body = {
             ...value,
+            english_name: value.english_name ? value.english_name : '',
             poster: poster as File,
             thumbnail: thumbnail as File,
             release: dayjs(value.release).format('YYYY-MM-DD'),
@@ -174,17 +176,15 @@ export const PopupForm: React.FC<Props> = (props) => {
         form={form}
         layout='vertical'
         initialValues={{
-          ...props?.formData
+          ...props?.formData,
+          genres: props.formData?.genre_ids ?? [],
+          release: dayjs(props.formData?.release as string, 'DD/MM/YYYY') ?? dayjs('DD/MM/YYYY')
         }}
       >
         <Form.Item name='name' label={t('name')} rules={[{ required: true, message: t('required-field') }]}>
           <Input placeholder={t('name')} />
         </Form.Item>
-        <Form.Item
-          name='english_name'
-          label={t('english-name')}
-          rules={[{ required: true, message: t('required-field') }]}
-        >
+        <Form.Item name='english_name' label={t('english-name')}>
           <Input placeholder={t('english-name')} />
         </Form.Item>
         <Form.Item

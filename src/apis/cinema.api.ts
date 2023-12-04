@@ -1,12 +1,21 @@
 import { Cinema } from 'src/types/cinema.type'
-import { SuccessResponse } from 'src/types/utils.type'
+import { SuccessResponse, Params } from 'src/types/utils.type'
 import http from 'src/utils/http'
+import { removeNullish } from 'src/utils/utils'
 
 const URL = 'unauth/theater'
 
+const queryConfig = {
+  page: null,
+  page_size: null,
+  key_search: null
+}
+
 const cinemaApi = {
-  getCinemas() {
-    return http.get<SuccessResponse<Cinema[]>>(URL)
+  getCinemas(params?: Params) {
+    return http.get<SuccessResponse<Cinema[]>>(`${URL}/admin`, {
+      params: removeNullish(params ?? queryConfig)
+    })
   },
   createCinema(body: Cinema) {
     return http.post(URL, body)

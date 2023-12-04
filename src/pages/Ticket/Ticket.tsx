@@ -1,35 +1,43 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Table, Button, Card, Space, Divider, Input, Tooltip } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 
 import ticketApi from 'src/apis/ticket.api'
-import { Ticket } from 'src/types/ticket.type'
 import { seatArray } from 'src/constants/seat'
 
 export const TicketPage = () => {
-  const { t } = useTranslation('ticket')
   // hook
+  const { t } = useTranslation('ticket')
 
   // query api
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ['ticket'],
-    queryFn: ticketApi.getTickets
+  const queryConfig = {
+    page: currentPage,
+    page_size: pageSize,
+    key_search: keyword
+  }
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['ticket', queryConfig],
+    queryFn: () => ticketApi.getTickets(queryConfig),
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
   })
   const dataTable = data?.data.data
+  const total = data?.data.total_record
 
   // state
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
-  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false)
-  const [isOpenDeleteMultiModal, setIsOpenDeleteMultiModal] = useState<boolean>(false)
-  const [formData, setFormData] = useState<Ticket>()
-  const [idDelete, setIdDelete] = useState<string>('')
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+  // const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+  // const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false)
+  // const [isOpenDeleteMultiModal, setIsOpenDeleteMultiModal] = useState<boolean>(false)
+  // const [formData, setFormData] = useState<Ticket>()
+  // const [idDelete, setIdDelete] = useState<string>('')
+  // const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [keywordInput, setKeywordInput] = useState('')
 
   // handle action
@@ -54,6 +62,12 @@ export const TicketPage = () => {
             setKeywordInput(event.target.value)
           }}
         />
+        <Button
+          type='primary'
+          loading={isLoading}
+          icon={<Icon.ReloadOutlined />}
+          onClick={resetParamsAndRefresh}
+        ></Button>
       </Space>
       <Divider />
       <Table
@@ -68,7 +82,7 @@ export const TicketPage = () => {
         pagination={{
           current: currentPage,
           pageSize: pageSize,
-          total: 20,
+          total: total,
           onChange(page, pageSize) {
             setCurrentPage(page)
             setPageSize(pageSize)

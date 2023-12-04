@@ -38,7 +38,7 @@ export const PopupForm: React.FC<Props> = (props) => {
 
   const { data: dataRoom } = useQuery({
     queryKey: ['room'],
-    queryFn: roomApi.getRooms
+    queryFn: () => roomApi.getRooms()
   })
   const rooms = dataRoom?.data.data as Room[]
 

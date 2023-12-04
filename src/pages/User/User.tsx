@@ -22,11 +22,20 @@ export const UserPage = () => {
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
 
+  const queryConfig = {
+    page: currentPage,
+    page_size: pageSize,
+    key_search: keyword
+  }
+
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['user'],
-    queryFn: userApi.getUsers
+    queryKey: ['user', queryConfig],
+    queryFn: () => userApi.getUsers(queryConfig),
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
   })
   const dataTable = data?.data.data
+  const total = data?.data.total_record
 
   const deleteUser = useMutation({
     mutationKey: ['user'],
@@ -114,6 +123,12 @@ export const UserPage = () => {
             setKeywordInput(event.target.value)
           }}
         />
+        <Button
+          type='primary'
+          loading={isLoading}
+          icon={<Icon.ReloadOutlined />}
+          onClick={resetParamsAndRefresh}
+        ></Button>
       </Space>
       <Divider />
       {selectedRowKeys.length > 0 && (
@@ -131,7 +146,7 @@ export const UserPage = () => {
         pagination={{
           current: currentPage,
           pageSize: pageSize,
-          total: 20,
+          total: total,
           onChange(page, pageSize) {
             setCurrentPage(page)
             setPageSize(pageSize)

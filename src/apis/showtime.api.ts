@@ -1,13 +1,20 @@
 import { Showtime, ShowtimeCreate } from 'src/types/showtime.type'
-import { SuccessResponse } from 'src/types/utils.type'
+import { SuccessResponse, Params } from 'src/types/utils.type'
 import http from 'src/utils/http'
+import { removeNullish } from 'src/utils/utils'
 
 const URL = 'unauth/showtime'
 
+const queryConfig = {
+  page: null,
+  page_size: null,
+  key_search: null
+}
+
 const showtimeApi = {
-  getShowtimes(params: { theater_id: string; time?: string; movie_id?: string }) {
+  getShowtimes(params?: Params) {
     return http.get<SuccessResponse<Showtime[]>>(`${URL}`, {
-      params
+      params: removeNullish(params ?? queryConfig)
     })
   },
   createShowtime(body: ShowtimeCreate) {

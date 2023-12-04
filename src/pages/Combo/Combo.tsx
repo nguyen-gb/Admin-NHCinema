@@ -13,19 +13,28 @@ import { Combo, comboType } from 'src/types/combo.type'
 import { ErrorResponse } from 'src/types/utils.type'
 
 export const ComboPage = () => {
-  const { t } = useTranslation('combo')
   // hook
+  const { t } = useTranslation('combo')
 
   // query api
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
 
+  const queryConfig = {
+    page: currentPage,
+    page_size: pageSize,
+    key_search: keyword
+  }
+
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['combo'],
-    queryFn: comboApi.getCombos
+    queryKey: ['combo', queryConfig],
+    queryFn: () => comboApi.getCombos(queryConfig),
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
   })
   const dataTable = data?.data.data
+  const total = data?.data.total_record
 
   const deleteCombo = useMutation({
     mutationKey: ['combo'],
@@ -113,6 +122,12 @@ export const ComboPage = () => {
             setKeywordInput(event.target.value)
           }}
         />
+        <Button
+          type='primary'
+          loading={isLoading}
+          icon={<Icon.ReloadOutlined />}
+          onClick={resetParamsAndRefresh}
+        ></Button>
       </Space>
       <Divider />
       {selectedRowKeys.length > 0 && (
@@ -130,7 +145,7 @@ export const ComboPage = () => {
         pagination={{
           current: currentPage,
           pageSize: pageSize,
-          total: 20,
+          total: total,
           onChange(page, pageSize) {
             setCurrentPage(page)
             setPageSize(pageSize)

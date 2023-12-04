@@ -78,12 +78,8 @@ export const isTodayShowTime = (date: string) => {
 }
 
 export const isBeforeFourDay = (date: string, time: string) => {
-  return dayjs(`${dayjs(date, 'YYYY-MM-DD')} ${dayjs(time, 'HH:mm')}`, 'YYYY-MM-DD HH:mm').isBefore(
-    dayjs().add(4, 'days')
-  )
+  return dayjs(`${date} ${time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs().add(4, 'days'))
 }
 
-export const getAvatarURL = (avatarName?: string) =>
-  avatarName
-    ? `${config.baseUrl}images/${avatarName}`
-    : 'https://img6.thuthuatphanmem.vn/uploads/2022/11/18/anh-avatar-don-gian-ma-dep_081757969.jpg'
+export const removeNullish = (obj: { [s: string]: unknown } | ArrayLike<unknown>) =>
+  Object.entries(obj).reduce((a: { [s: string]: unknown }, [k, v]) => (v ? ((a[k] = v), a) : a), {})
