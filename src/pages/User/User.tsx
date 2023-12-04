@@ -59,10 +59,10 @@ export const UserPage = () => {
     setKeywordInput('')
   }
   //update
-  const handleUpdate = (user: User) => {
-    setFormData(user)
-    handleOpenModal()
-  }
+  // const handleUpdate = (user: User) => {
+  //   setFormData(user)
+  //   handleOpenModal()
+  // }
   //delete
   const handleOnClickDelete = (id: string) => {
     setIdDelete(id)

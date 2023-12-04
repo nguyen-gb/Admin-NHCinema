@@ -123,7 +123,7 @@ export const TicketPage = () => {
           {
             title: t('action'),
             align: 'right',
-            render: (_, ticket) => (
+            render: () => (
               <Space direction='horizontal'>
                 <Tooltip title={<div>{t('view')}</div>}>
                   <Button loading={false} size='middle' icon={<Icon.EyeOutlined />}></Button>

@@ -1,7 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import dayjs from 'dayjs'
 
-import config from 'src/constants/config'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import { ErrorResponse } from 'src/types/utils.type'
 
