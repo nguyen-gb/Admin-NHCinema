@@ -175,11 +175,15 @@ export const PopupForm: React.FC<Props> = (props) => {
       <Form
         form={form}
         layout='vertical'
-        initialValues={{
-          ...props?.formData,
-          genres: props.formData?.genre_ids ?? [],
-          release: dayjs(props.formData?.release as string, 'DD/MM/YYYY') ?? dayjs('DD/MM/YYYY')
-        }}
+        initialValues={
+          props.formData
+            ? {
+                ...props?.formData,
+                genres: props.formData?.genre_ids ?? [],
+                release: dayjs(props.formData?.release as string, 'DD/MM/YYYY')
+              }
+            : {}
+        }
       >
         <Form.Item name='name' label={t('name')} rules={[{ required: true, message: t('required-field') }]}>
           <Input placeholder={t('name')} />
