@@ -7,5 +7,7 @@
   "room": "Room",
   "seat": "Seat",
   "action": "Action",
-  "view": "View"
+  "view": "View",
+  "total": "Total",
+  "VND": "VND"
 }

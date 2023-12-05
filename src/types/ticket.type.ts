@@ -1,3 +1,4 @@
+import { Combo } from './combo.type'
 import { Seat } from './showtime.type'
 
 export interface Ticket {
@@ -12,7 +13,7 @@ export interface Ticket {
   room_id: string
   room_number: string
   seats: Seat[]
-  combos: []
+  combos: Combo[]
   time: string
   showtime: string
   payment_method: number

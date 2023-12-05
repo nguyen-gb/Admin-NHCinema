@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import ticketApi from 'src/apis/ticket.api'
 import { seatArray } from 'src/constants/seat'
+import { formatCurrency } from 'src/utils/utils'
 
 export const TicketPage = () => {
   // hook
@@ -121,16 +122,26 @@ export const TicketPage = () => {
             render: (_, ticket) => ticket.seats.map((seat) => seatArray[Number(seat.seat_number) - 1]).join(', ')
           },
           {
-            title: t('action'),
-            align: 'right',
-            render: () => (
-              <Space direction='horizontal'>
-                <Tooltip title={<div>{t('view')}</div>}>
-                  <Button loading={false} size='middle' icon={<Icon.EyeOutlined />}></Button>
-                </Tooltip>
-              </Space>
-            )
+            title: 'Combo',
+            dataIndex: 'combo',
+            render: (_, ticket) => ticket.combos?.map((combo) => `${combo.name} (${combo.quantity})`).join(', ') || '-'
+          },
+          {
+            title: t('total'),
+            dataIndex: 'total_amount',
+            render: (_, ticket) => `${formatCurrency(ticket.total_amount)} ${t('VND')}`
           }
+          // {
+          //   title: t('action'),
+          //   align: 'right',
+          //   render: () => (
+          //     <Space direction='horizontal'>
+          //       <Tooltip title={<div>{t('view')}</div>}>
+          //         <Button loading={false} size='middle' icon={<Icon.EyeOutlined />}></Button>
+          //       </Tooltip>
+          //     </Space>
+          //   )
+          // }
         ]}
       />
     </Card>
