@@ -4,6 +4,7 @@ export interface Combo {
   description: string
   price: number
   type: ComboType
+  status: number
 }
 
 export enum ComboType {

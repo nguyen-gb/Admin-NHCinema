@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Select, Tag } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
@@ -21,11 +21,13 @@ export const UserPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
+  const [role, setRole] = useState<number | null>(null)
 
   const queryConfig = {
     page: currentPage,
     page_size: pageSize,
-    key_search: keyword
+    key_search: keyword,
+    role: role
   }
 
   const { data, isLoading, refetch } = useQuery({
@@ -57,12 +59,15 @@ export const UserPage = () => {
     setPageSize(20)
     setKeyword('')
     setKeywordInput('')
+    setRole(null)
   }
+
   //update
   // const handleUpdate = (user: User) => {
   //   setFormData(user)
   //   handleOpenModal()
   // }
+
   //delete
   const handleOnClickDelete = (id: string) => {
     setIdDelete(id)
@@ -106,7 +111,7 @@ export const UserPage = () => {
       extra={
         <Space>
           <Button type='primary' size='middle' icon={<Icon.PlusOutlined />} onClick={handleOpenModal}>
-            {t('add-new')}
+            {`${t('add-new')} (${t('manager')})`}
           </Button>
         </Space>
       }
@@ -122,6 +127,19 @@ export const UserPage = () => {
           onChange={(event) => {
             setKeywordInput(event.target.value)
           }}
+        />
+        <Select
+          allowClear
+          style={{ minWidth: 150 }}
+          placeholder={t('role')}
+          showSearch={false}
+          options={Array.from({ length: 2 }).map((_, index) => {
+            return {
+              value: index,
+              label: index === 0 ? t('user') : t('manager')
+            }
+          })}
+          onChange={(value) => setRole(value)}
         />
         <Button
           type='primary'
@@ -199,7 +217,13 @@ export const UserPage = () => {
             title: t('status'),
             dataIndex: 'status',
             render: (_, user) =>
-              user.status === 0 ? t('not-activated') : user.status === 1 ? t('activated') : t('stop-working')
+              user.status === 0 ? (
+                <Tag color='yellow'>{t('not-activated')}</Tag>
+              ) : user.status === 1 ? (
+                <Tag color='blue'>{t('activated')}</Tag>
+              ) : (
+                <Tag color='red'>{t('stop-working')}</Tag>
+              )
           },
           {
             title: t('action'),

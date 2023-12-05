@@ -26,7 +26,7 @@ export const PopupForm: React.FC<Props> = (props) => {
 
   const { data } = useQuery({
     queryKey: ['cinema'],
-    queryFn: cinemaApi.getCinemas
+    queryFn: () => cinemaApi.getCinemas()
   })
   const dataCinemas = data?.data.data
 

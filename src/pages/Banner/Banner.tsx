@@ -23,7 +23,7 @@ export const BannerPage = () => {
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['banner'],
-    queryFn: bannerApi.getBanners,
+    queryFn: () => bannerApi.getBanners(),
     keepPreviousData: true,
     staleTime: 3 * 60 * 1000
   })

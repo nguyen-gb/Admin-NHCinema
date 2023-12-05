@@ -30,9 +30,7 @@ export const PopupForm: React.FC<Props> = (props) => {
 
   const { data: dataMovies } = useQuery({
     queryKey: ['movie'],
-    queryFn: () => {
-      return movieApi.getMovies()
-    }
+    queryFn: () => movieApi.getMoviesActive()
   })
   const movies = dataMovies?.data.data as Movie[]
 
@@ -193,7 +191,7 @@ export const PopupForm: React.FC<Props> = (props) => {
                 }
               ]}
             >
-              <DatePicker format='DD-MM-YYYY' />
+              <DatePicker format='DD/MM/YYYY' />
             </Form.Item>
           </Col>
           <Col span={12}>

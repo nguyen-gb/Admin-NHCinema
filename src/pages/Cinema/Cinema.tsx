@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Tag } from 'antd'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
 import { toast } from 'react-toastify'
@@ -167,6 +167,12 @@ export const CinemaPage = () => {
             title: t('address'),
             dataIndex: 'address',
             render: (_, cinema) => cinema.address
+          },
+          {
+            title: t('status'),
+            dataIndex: 'status',
+            render: (_, cinema) =>
+              cinema.status === 0 ? <Tag color='red'>Disable</Tag> : <Tag color='blue'>Available</Tag>
           },
           {
             title: t('action'),

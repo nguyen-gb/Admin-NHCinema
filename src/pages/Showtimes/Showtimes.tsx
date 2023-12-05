@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Select, DatePicker } from 'antd'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
 import dayjs from 'dayjs'
@@ -14,6 +14,7 @@ import { Showtime } from 'src/types/showtime.type'
 import { ErrorResponse } from 'src/types/utils.type'
 import { AppContext } from 'src/contexts/app.context'
 import { isBeforeFourDay } from 'src/utils/utils'
+import movieApi from 'src/apis/movie.api'
 
 export const ShowtimesPage = () => {
   // hook
@@ -24,12 +25,16 @@ export const ShowtimesPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
+  const [movie, setMovie] = useState('')
+  const [showtime, setShowtime] = useState('')
 
   const queryConfig = {
     theater_id: profile?.theater_id,
     page: currentPage,
     page_size: pageSize,
-    key_search: keyword
+    key_search: keyword,
+    movie_id: movie,
+    time: showtime
   }
 
   const { data, isLoading, refetch } = useQuery({
@@ -40,6 +45,14 @@ export const ShowtimesPage = () => {
   })
   const dataTable = data?.data.data
   const total = data?.data.total_record
+
+  const { data: dataMovie } = useQuery({
+    queryKey: ['movie', queryConfig],
+    queryFn: () => movieApi.getMovies(),
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
+  })
+  const movies = dataMovie?.data.data
 
   const deleteShowtime = useMutation({
     mutationKey: ['showtime'],
@@ -117,7 +130,7 @@ export const ShowtimesPage = () => {
     >
       <Space wrap>
         <Input.Search
-          placeholder={t('add-new')}
+          placeholder={t('search')}
           onSearch={() => {
             setCurrentPage(1)
             setKeyword(keywordInput)
@@ -127,6 +140,20 @@ export const ShowtimesPage = () => {
             setKeywordInput(event.target.value)
           }}
         />
+        <Select
+          allowClear
+          style={{ minWidth: 200 }}
+          placeholder={t('movie')}
+          showSearch={false}
+          options={movies?.map((movie) => {
+            return {
+              value: movie._id,
+              label: movie.name
+            }
+          })}
+          onChange={(value) => setMovie(value)}
+        />
+        <DatePicker format='DD/MM/YYYY' onChange={(value) => setShowtime(value?.format('YYYY-MM-DD') || '')} />
         <Button
           type='primary'
           loading={isLoading}

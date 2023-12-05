@@ -17,6 +17,11 @@ const movieApi = {
       params: removeNullish(params ?? queryConfig)
     })
   },
+  getMoviesActive(params?: Params) {
+    return http.get<SuccessResponse<Movie[]>>(`${URL}`, {
+      params: removeNullish(params ?? queryConfig)
+    })
+  },
   getMovieDetail(id: string) {
     return http.get<SuccessResponse<Movie>>(`${URL}/${id}`)
   },

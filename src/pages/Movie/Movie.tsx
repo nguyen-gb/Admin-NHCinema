@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip, Image, Select } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Image, Select, Tag } from 'antd'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
@@ -52,7 +52,9 @@ export const MoviePage = () => {
 
   const { data: dataGenre } = useQuery({
     queryKey: ['genre'],
-    queryFn: genreApi.getGenres
+    queryFn: () => genreApi.getGenres(),
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
   })
   const genresApi = dataGenre?.data.data as Genre[]
 
@@ -111,7 +113,13 @@ export const MoviePage = () => {
       title={t('movie')}
       extra={
         <Space>
-          <Button type='primary' size='middle' icon={<Icon.PlusOutlined />} onClick={handleOpenModal}>
+          <Button
+            type='primary'
+            size='middle'
+            icon={<Icon.PlusOutlined />}
+            onClick={handleOpenModal}
+            disabled={profile?.role === 1}
+          >
             {t('add-new')}
           </Button>
         </Space>
@@ -196,7 +204,7 @@ export const MoviePage = () => {
           {
             title: t('release'),
             dataIndex: 'release',
-            render: (_, movie) => movie.release as string
+            render: (_, movie) => movie.release
           },
           {
             title: t('genres'),
@@ -207,6 +215,12 @@ export const MoviePage = () => {
             title: t('format'),
             dataIndex: 'format',
             render: (_, movie) => movie.format
+          },
+          {
+            title: t('status'),
+            dataIndex: 'status',
+            render: (_, movie) =>
+              movie.status === 0 ? <Tag color='red'>Disable</Tag> : <Tag color='blue'>Available</Tag>
           },
           {
             title: t('action'),

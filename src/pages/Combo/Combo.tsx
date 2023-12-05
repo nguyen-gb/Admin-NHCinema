@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Select, Tag } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
@@ -20,11 +20,13 @@ export const ComboPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
+  const [type, setType] = useState<number | null>(null)
 
   const queryConfig = {
     page: currentPage,
     page_size: pageSize,
-    key_search: keyword
+    key_search: keyword,
+    type: type
   }
 
   const { data, isLoading, refetch } = useQuery({
@@ -56,6 +58,7 @@ export const ComboPage = () => {
     setPageSize(20)
     setKeyword('')
     setKeywordInput('')
+    setType(null)
   }
   //update
   const handleUpdate = (combo: Combo) => {
@@ -122,6 +125,18 @@ export const ComboPage = () => {
             setKeywordInput(event.target.value)
           }}
         />
+        <Select
+          style={{ minWidth: 150 }}
+          placeholder={t('type')}
+          showSearch={false}
+          options={comboType.map((combo, index) => {
+            return {
+              value: index + 1,
+              label: combo
+            }
+          })}
+          onChange={(value) => setType(value)}
+        />
         <Button
           type='primary'
           loading={isLoading}
@@ -177,6 +192,12 @@ export const ComboPage = () => {
             title: t('type'),
             dataIndex: 'type',
             render: (_, combo) => comboType[combo.type - 1]
+          },
+          {
+            title: t('status'),
+            dataIndex: 'status',
+            render: (_, movie) =>
+              movie.status === 0 ? <Tag color='red'>Disable</Tag> : <Tag color='blue'>Available</Tag>
           },
           {
             title: t('action'),

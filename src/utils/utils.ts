@@ -81,4 +81,9 @@ export const isBeforeFourDay = (date: string, time: string) => {
 }
 
 export const removeNullish = (obj: { [s: string]: unknown } | ArrayLike<unknown>) =>
-  Object.entries(obj).reduce((a: { [s: string]: unknown }, [k, v]) => (v ? ((a[k] = v), a) : a), {})
+  Object.entries(obj).reduce((a: { [s: string]: unknown }, [k, v]) => {
+    if (v !== null && v !== undefined && v !== '') {
+      a[k] = v
+    }
+    return a
+  }, {})

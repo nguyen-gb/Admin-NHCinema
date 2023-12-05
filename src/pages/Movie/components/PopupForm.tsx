@@ -36,7 +36,7 @@ export const PopupForm: React.FC<Props> = (props) => {
   // api
   const { data: dataGenre } = useQuery({
     queryKey: ['genre'],
-    queryFn: genreApi.getGenres
+    queryFn: () => genreApi.getGenres()
   })
   const genres = dataGenre?.data.data as Genre[]
 
