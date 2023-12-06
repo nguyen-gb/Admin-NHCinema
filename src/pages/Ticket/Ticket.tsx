@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip } from 'antd'
+import { Table, Button, Card, Space, Divider, Input } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'

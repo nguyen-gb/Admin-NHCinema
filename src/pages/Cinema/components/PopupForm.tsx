@@ -21,7 +21,8 @@ interface Props {
 const defaultSubmit: Cinema = {
   _id: '',
   name: '',
-  address: ''
+  address: '',
+  status: 1
 }
 
 const defaultSubmitWithoutId = omit(defaultSubmit, '_id')
