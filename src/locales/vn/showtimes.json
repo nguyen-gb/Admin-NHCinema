@@ -14,5 +14,7 @@
   "delete-success": "Xóa thành công",
   "update-success": "Cập nhật thành công",
   "required-field": "Trường bắt buộc",
-  "rule-date": "Lịch chiếu phải được tạo trước ít nhất bốn ngày"
+  "rule-date": "Lịch chiếu phải được tạo trước ít nhất bốn ngày",
+  "cant-update": "Không thể cập nhật lịch chiếu đã hiển thị cho người dùng",
+  "cant-delete": "Không thể xoá lịch chiếu đã hiển thị cho người dùng"
 }

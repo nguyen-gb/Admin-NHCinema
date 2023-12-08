@@ -215,23 +215,23 @@ export const ShowtimesPage = () => {
             align: 'right',
             render: (_, showtime) => (
               <Space direction='horizontal'>
-                <Tooltip title={<div>{t('update')}</div>}>
+                <Tooltip title={<div>{isBeforeFourDay(showtime.time) ? t('cant-update') : t('update')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
                     icon={<Icon.EditOutlined />}
                     onClick={() => handleUpdate(showtime)}
-                    disabled={isBeforeFourDay(showtime.time, showtime.showtime)}
+                    disabled={isBeforeFourDay(showtime.time)}
                   ></Button>
                 </Tooltip>
-                <Tooltip title={<div>{t('delete')}</div>}>
+                <Tooltip title={<div>{isBeforeFourDay(showtime.time) ? t('cant-delete') : t('delete')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
                     danger={true}
                     icon={<Icon.DeleteOutlined />}
                     onClick={() => handleOnClickDelete(showtime._id)}
-                    disabled={isBeforeFourDay(showtime.time, showtime.showtime)}
+                    disabled={isBeforeFourDay(showtime.time)}
                   ></Button>
                 </Tooltip>
               </Space>

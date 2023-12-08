@@ -76,8 +76,8 @@ export const isTodayShowTime = (date: string) => {
   }
 }
 
-export const isBeforeFourDay = (date: string, time: string) => {
-  return dayjs(`${date} ${time}`, 'YYYY-MM-DD HH:mm').isBefore(dayjs().add(4, 'days'))
+export const isBeforeFourDay = (date: string) => {
+  return dayjs(`${date}`, 'YYYY-MM-DD').isBefore(dayjs().add(4, 'days'))
 }
 
 export const removeNullish = (obj: { [s: string]: unknown } | ArrayLike<unknown>) =>

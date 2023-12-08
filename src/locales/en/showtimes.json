@@ -14,5 +14,7 @@
   "delete-success": "Delete success",
   "update-success": "Update success",
   "required-field": "Required field",
-  "rule-date": "Showtimes must be created at least four days in advance"
+  "rule-date": "Showtimes must be created at least four days in advance",
+  "cant-update": "Unable to update the displayed schedule for the user",
+  "cant-delete": "Unable to delete the displayed schedule for the user"
 }
