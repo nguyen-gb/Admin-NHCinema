@@ -140,6 +140,7 @@ export const UserPage = () => {
             }
           })}
           onChange={(value) => setRole(value)}
+          value={role}
         />
         <Button
           type='primary'

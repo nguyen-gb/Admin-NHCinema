@@ -136,6 +136,7 @@ export const ComboPage = () => {
             }
           })}
           onChange={(value) => setType(value)}
+          value={type}
         />
         <Button
           type='primary'

@@ -150,6 +150,7 @@ export const MoviePage = () => {
             }
           })}
           onChange={(value) => setGenres(value)}
+          value={genres}
         />
         <Button
           type='primary'

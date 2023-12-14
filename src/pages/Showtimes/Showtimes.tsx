@@ -25,8 +25,8 @@ export const ShowtimesPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
-  const [movie, setMovie] = useState('')
-  const [showtime, setShowtime] = useState('')
+  const [movie, setMovie] = useState<string | undefined>(undefined)
+  const [showtime, setShowtime] = useState<string | undefined>(undefined)
 
   const queryConfig = {
     theater_id: profile?.theater_id,
@@ -74,6 +74,8 @@ export const ShowtimesPage = () => {
     setPageSize(20)
     setKeyword('')
     setKeywordInput('')
+    setMovie(undefined)
+    setShowtime(undefined)
   }
   //update
   const handleUpdate = (showtime: Showtime) => {
@@ -152,8 +154,13 @@ export const ShowtimesPage = () => {
             }
           })}
           onChange={(value) => setMovie(value)}
+          value={movie}
         />
-        <DatePicker format='DD/MM/YYYY' onChange={(value) => setShowtime(value?.format('YYYY-MM-DD') || '')} />
+        <DatePicker
+          format='DD/MM/YYYY'
+          onChange={(value) => setShowtime(value?.format('YYYY-MM-DD') ?? '')}
+          value={showtime ? dayjs(showtime, 'YYYY-MM-DD') : undefined}
+        />
         <Button
           type='primary'
           loading={isLoading}
