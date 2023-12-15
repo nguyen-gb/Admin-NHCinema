@@ -91,7 +91,7 @@ export const ShowtimesPage = () => {
     const body = isDeleMore ? selectedRowKeys : idDelete
     deleteShowtime.mutate(body as string, {
       onSuccess: () => {
-        toast.success('Delete thành công')
+        toast.success(t('delete-success'))
 
         if (isDeleMore) {
           setIsOpenDeleteMultiModal(false)
