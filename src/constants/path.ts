@@ -15,7 +15,11 @@ const path = {
   userManagement: '/user-management',
   combo: '/combo',
   forgotPassword: '/forgot-password',
-  forgotPasswordConfirm: '/forgot-password-confirm/:_id'
+  forgotPasswordConfirm: '/forgot-password-confirm/:_id',
+  statistics: '/statistics',
+  statisticsByDay: '/statistics/day',
+  statisticsByMonth: '/statistics/month',
+  statisticsByYear: '/statistics/year'
 } as const
 
 export default path

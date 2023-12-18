@@ -15,6 +15,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.0.3",
     "@floating-ui/react": "^0.24.1",
     "@hookform/resolvers": "^3.1.0",
     "@tailwindcss/line-clamp": "^0.4.4",

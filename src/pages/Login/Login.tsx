@@ -98,16 +98,12 @@ export default function LoginPage() {
           <Spin spinning={loginMutation.isLoading} indicator={<Icon.LoadingOutlined />} style={{ display: 'block' }}>
             <Form form={form}>
               <Form.Item>
-                <Spin
-                  spinning={loginMutation.isLoading}
-                  size='small'
-                  style={{ display: 'flex', justifyContent: 'center' }}
-                >
+                <Spin spinning={false} size='small' style={{ display: 'flex', justifyContent: 'center' }}>
                   <Image src={logo} preview={false}></Image>
                 </Spin>
               </Form.Item>
               <Form.Item>
-                <Spin spinning={loginMutation.isLoading} size='small'>
+                <Spin spinning={false} size='small'>
                   <Typography.Title level={4} style={{ marginBottom: 0 }}>
                     {t('login')}
                   </Typography.Title>

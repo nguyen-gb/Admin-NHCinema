@@ -81,6 +81,12 @@ function MainLayoutInner({ children }: Props) {
             icon: <PiPopcorn />,
             label: t('combo'),
             path: path.combo
+          },
+          {
+            key: path.statisticsByDay,
+            icon: <Icon.LineChartOutlined />,
+            label: t('statistics'),
+            path: path.statisticsByDay
           }
         ]
       : [
@@ -101,6 +107,12 @@ function MainLayoutInner({ children }: Props) {
             icon: <BsTicketPerforated />,
             label: t('ticket'),
             path: path.ticket
+          },
+          {
+            key: path.statisticsByDay,
+            icon: <Icon.LineChartOutlined />,
+            label: t('statistics'),
+            path: path.statisticsByDay
           }
         ]
 

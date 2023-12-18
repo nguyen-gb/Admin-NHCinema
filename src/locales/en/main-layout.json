@@ -8,5 +8,6 @@
   "ticket": "Ticket",
   "personal-information": "Personal information",
   "change-password": "Change password",
-  "logout": "Logout"
+  "logout": "Logout",
+  "statistics": "Statistics"
 }

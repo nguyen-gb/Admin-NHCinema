@@ -13,6 +13,7 @@ import MOVIE_EN from 'src/locales/en/movie.json'
 import ROOM_EN from 'src/locales/en/room.json'
 import SHOWTIMES_EN from 'src/locales/en/showtimes.json'
 import TICKET_EN from 'src/locales/en/ticket.json'
+import STATISTICS_EN from 'src/locales/en/statistics.json'
 
 import LOGIN_VN from 'src/locales/vn/login.json'
 import MAIN_LAYOUT_VN from 'src/locales/vn/main-layout.json'
@@ -26,6 +27,7 @@ import MOVIE_VN from 'src/locales/vn/movie.json'
 import ROOM_VN from 'src/locales/vn/room.json'
 import SHOWTIMES_VN from 'src/locales/vn/showtimes.json'
 import TICKET_VN from 'src/locales/vn/ticket.json'
+import STATISTICS_VN from 'src/locales/vn/statistics.json'
 
 import { getLanguageFromLS } from 'src/utils/language'
 
@@ -47,7 +49,8 @@ export const resources = {
     movie: MOVIE_EN,
     room: ROOM_EN,
     showtimes: SHOWTIMES_EN,
-    ticket: TICKET_EN
+    ticket: TICKET_EN,
+    statistics: STATISTICS_EN
   },
   'vi-VN': {
     login: LOGIN_VN,
@@ -61,7 +64,8 @@ export const resources = {
     movie: MOVIE_VN,
     room: ROOM_VN,
     showtimes: SHOWTIMES_VN,
-    ticket: TICKET_VN
+    ticket: TICKET_VN,
+    statistics: STATISTICS_VN
   }
 }
 
@@ -84,7 +88,8 @@ i18n.use(initReactI18next).init({
     'movie',
     'room',
     'showtimes',
-    'ticket'
+    'ticket',
+    'statistics'
   ],
   defaultNS,
   fallbackLng: 'vi-VN',

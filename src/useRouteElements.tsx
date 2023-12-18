@@ -14,6 +14,10 @@ const TicketPage = lazy(() => import('./pages/Ticket'))
 const BannerPage = lazy(() => import('./pages/Banner'))
 const UserPage = lazy(() => import('./pages/User'))
 const ComboPage = lazy(() => import('./pages/Combo'))
+const StatisticsPage = lazy(() => import('./pages/Statistics'))
+const StatisticsByDay = lazy(() => import('./pages/Statistics/pages/StatisticsByDay'))
+const StatisticsByMonth = lazy(() => import('./pages/Statistics/pages/StatisticsByMonth'))
+const StatisticsByYear = lazy(() => import('./pages/Statistics/pages/StatisticsByYear'))
 const InformationPage = lazy(() => import('./pages/Information'))
 const ChangePasswordPage = lazy(() => import('./pages/ChangePassword'))
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPassword'))
@@ -104,6 +108,40 @@ export default function useRouteElements() {
                   <ComboPage />
                 </Suspense>
               )
+            },
+            {
+              path: path.statistics,
+              element: (
+                <Suspense>
+                  <StatisticsPage />
+                </Suspense>
+              ),
+              children: [
+                {
+                  path: path.statisticsByDay,
+                  element: (
+                    <Suspense>
+                      <StatisticsByDay />
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.statisticsByMonth,
+                  element: (
+                    <Suspense>
+                      <StatisticsByMonth />
+                    </Suspense>
+                  )
+                },
+                {
+                  path: path.statisticsByYear,
+                  element: (
+                    <Suspense>
+                      <StatisticsByYear />
+                    </Suspense>
+                  )
+                }
+              ]
             },
             {
               path: path.profile,
