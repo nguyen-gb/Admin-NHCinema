@@ -58,6 +58,7 @@ export default function Home() {
         scroll={{ x: 1080 }}
         loading={isLoading}
         dataSource={dataTable}
+        pagination={false}
         columns={[
           {
             title: '#',
