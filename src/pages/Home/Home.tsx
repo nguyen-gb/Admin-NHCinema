@@ -75,7 +75,8 @@ export default function Home() {
             title: t('total-revenue'),
             dataIndex: 'total_revenue',
             render: (_, statistic) => statistic.total_revenue,
-            sorter: (a, b) => b.total_revenue - a.total_revenue
+            sorter: (a, b) => b.total_revenue - a.total_revenue,
+            defaultSortOrder: 'ascend'
           },
           {
             title: t('total-booking'),
