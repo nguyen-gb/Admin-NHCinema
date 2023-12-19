@@ -34,7 +34,7 @@ export default function StatisticsByYear() {
   const config = {
     data: statistics,
     xField: 'date',
-    yField: 'total_revenue'
+    yField: 'value'
   }
 
   const { data: dataMovie } = useQuery({

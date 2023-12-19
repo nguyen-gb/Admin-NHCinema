@@ -7,6 +7,7 @@ import MainLayout from './layouts/MainLayout'
 
 const Login = lazy(() => import('./pages/Login'))
 const CinemaPage = lazy(() => import('./pages/Cinema'))
+const HomePage = lazy(() => import('./pages/Home'))
 const MoviePage = lazy(() => import('./pages/Movie'))
 const RoomPage = lazy(() => import('./pages/Room'))
 const ShowtimesPage = lazy(() => import('./pages/Showtimes'))
@@ -47,6 +48,14 @@ export default function useRouteElements() {
             {
               index: true,
               path: path.home,
+              element: (
+                <Suspense>
+                  <HomePage />
+                </Suspense>
+              )
+            },
+            {
+              path: path.movie,
               element: (
                 <Suspense>
                   <MoviePage />

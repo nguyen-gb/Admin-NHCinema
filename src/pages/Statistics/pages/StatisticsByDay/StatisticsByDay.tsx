@@ -34,7 +34,7 @@ export default function StatisticsByDay() {
   const config = {
     data: statistics,
     xField: 'date',
-    yField: 'total_revenue',
+    yField: 'value',
     smooth: true
   }
 

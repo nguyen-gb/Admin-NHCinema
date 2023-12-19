@@ -54,9 +54,15 @@ function MainLayoutInner({ children }: Props) {
       ? [
           {
             key: path.home,
+            icon: <Icon.HomeOutlined />,
+            label: t('home'),
+            path: path.home
+          },
+          {
+            key: path.movie,
             icon: <BiMoviePlay />,
             label: t('movie'),
-            path: path.home
+            path: path.movie
           },
           {
             key: path.banner,
@@ -92,9 +98,15 @@ function MainLayoutInner({ children }: Props) {
       : [
           {
             key: path.home,
+            icon: <Icon.HomeOutlined />,
+            label: t('home'),
+            path: path.home
+          },
+          {
+            key: path.movie,
             icon: <BiMoviePlay />,
             label: t('movie'),
-            path: path.home
+            path: path.movie
           },
           {
             key: path.showtimes,

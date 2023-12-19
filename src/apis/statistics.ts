@@ -1,8 +1,8 @@
-import { Statistics } from 'src/types/statistics.type'
+import { Statistics, StatisticsHome } from 'src/types/statistics.type'
 import { SuccessResponse } from 'src/types/utils.type'
 import http from 'src/utils/http'
 
-const URL = 'auth/statistical/revenue'
+const URL = 'auth/statistical'
 
 interface Params {
   time: string
@@ -14,7 +14,10 @@ interface Params {
 
 const statisticsApi = {
   getStatistics(params?: Params) {
-    return http.get<SuccessResponse<Statistics[]>>(URL, { params: params })
+    return http.get<SuccessResponse<Statistics[]>>(`${URL}/revenue`, { params: params })
+  },
+  getStatisticsHome() {
+    return http.get<SuccessResponse<StatisticsHome>>(`${URL}/overview`)
   }
 }
 

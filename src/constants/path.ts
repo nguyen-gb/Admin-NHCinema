@@ -1,5 +1,6 @@
 const path = {
   home: '/',
+  movie: '/movie',
   cinema: '/cinema',
   room: '/room',
   showtimes: '/show-times',
