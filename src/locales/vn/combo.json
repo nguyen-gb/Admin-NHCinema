@@ -15,5 +15,6 @@
   "delete-success": "Xoá thành công",
   "update-success": "Cập nhật thành công",
   "required-field": "Trường bắt buộc",
-  "rule-price": "Giá phải lớn hơn hoặc bằng 0"
+  "rule-price": "Giá phải lớn hơn hoặc bằng 0",
+  "vnd": "đ"
 }

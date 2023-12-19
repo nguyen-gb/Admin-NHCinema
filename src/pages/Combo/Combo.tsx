@@ -11,6 +11,7 @@ import { PopupForm } from './components/PopupForm'
 import comboApi from 'src/apis/combo.api'
 import { Combo, comboType } from 'src/types/combo.type'
 import { ErrorResponse } from 'src/types/utils.type'
+import { formatCurrency } from 'src/utils/utils'
 
 export const ComboPage = () => {
   // hook
@@ -185,9 +186,9 @@ export const ComboPage = () => {
             render: (_, combo) => combo.description
           },
           {
-            title: t('price'),
+            title: `${t('price')} (${t('vnd')})`,
             dataIndex: 'price',
-            render: (_, combo) => combo.price
+            render: (_, combo) => `${formatCurrency(combo.price)} `
           },
           {
             title: t('type'),

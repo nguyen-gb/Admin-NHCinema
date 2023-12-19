@@ -15,5 +15,6 @@
   "delete-success": "Delete success",
   "update-success": "Update success",
   "required-field": "Required field",
-  "rule-price": "Price must be greater than or equal to 0"
+  "rule-price": "Price must be greater than or equal to 0",
+  "vnd": "VND"
 }

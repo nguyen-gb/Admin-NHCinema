@@ -5,6 +5,7 @@ import { Formatter } from 'antd/es/statistic/utils'
 
 import { Card, Col, Divider, Row, Statistic, Table } from 'antd'
 import statisticsApi from 'src/apis/statistics'
+import { formatCurrency } from 'src/utils/utils'
 
 export default function Home() {
   // hook
@@ -20,14 +21,14 @@ export default function Home() {
   const dataStatistics = data?.data.data
   const dataTable = data?.data.data.movie_statistic
 
-  const formatter = (value: number) => <CountUp end={value} separator=',' />
+  const formatter = (value: number) => <CountUp end={value} separator='.' />
 
   return (
     <Card title={t('home')}>
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} lg={6}>
           <Statistic
-            title={t('total-revenue')}
+            title={`${t('total-revenue')} (${t('vnd')})`}
             value={dataStatistics?.total_revenue}
             precision={3}
             formatter={formatter as Formatter}
@@ -72,9 +73,9 @@ export default function Home() {
             render: (_, statistic) => statistic.movie_name
           },
           {
-            title: t('total-revenue'),
+            title: `${t('total-revenue')} (${t('vnd')})`,
             dataIndex: 'total_revenue',
-            render: (_, statistic) => statistic.total_revenue,
+            render: (_, statistic) => `${formatCurrency(statistic.total_revenue)}`,
             sorter: (a, b) => b.total_revenue - a.total_revenue,
             defaultSortOrder: 'ascend'
           },
