@@ -2,13 +2,16 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import CountUp from 'react-countup'
 import { Formatter } from 'antd/es/statistic/utils'
-
+import { useContext } from 'react'
 import { Card, Col, Divider, Row, Statistic, Table } from 'antd'
+
 import statisticsApi from 'src/apis/statistics'
 import { formatCurrency } from 'src/utils/utils'
+import { AppContext } from 'src/contexts/app.context'
 
 export default function Home() {
   // hook
+  const { profile } = useContext(AppContext)
   const { t } = useTranslation('home')
 
   // query api
@@ -48,7 +51,7 @@ export default function Home() {
             formatter={formatter as Formatter}
           />
         </Col>
-        <Col xs={24} sm={12} lg={6}>
+        <Col xs={24} sm={12} lg={6} style={{ display: `${(profile?.role as number) === 2 ? '' : 'none'}` }}>
           <Statistic title={t('total-user')} value={dataStatistics?.user_count} formatter={formatter as Formatter} />
         </Col>
       </Row>
