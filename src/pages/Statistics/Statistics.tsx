@@ -26,7 +26,7 @@ export default function Statistics() {
   return (
     <Card
       headStyle={{ minHeight: 'unset' }}
-      bodyStyle={{ padding: '0 32px' }}
+      bodyStyle={{ padding: '32px' }}
       title={
         <Menu
           theme='light'
