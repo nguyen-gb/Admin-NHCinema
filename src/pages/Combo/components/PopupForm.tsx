@@ -141,6 +141,18 @@ export const PopupForm: React.FC<Props> = (props) => {
         >
           <Input type='number' min={0} placeholder={t('price')} />
         </Form.Item>
+        <Form.Item
+          name='exchange_point'
+          label={t('exchange-point')}
+          rules={[
+            { required: true, message: t('required-field') },
+            {
+              validator: (_, value) => (value < 0 ? Promise.reject(t('rule-exchange-point')) : Promise.resolve())
+            }
+          ]}
+        >
+          <Input type='number' min={0} placeholder={t('exchange-point')} />
+        </Form.Item>
         <Form.Item name='type' label={t('type')} rules={[{ required: true, message: t('required-field') }]}>
           <Select
             placeholder={t('type')}

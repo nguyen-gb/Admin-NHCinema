@@ -16,5 +16,7 @@
   "update-success": "Cập nhật thành công",
   "required-field": "Trường bắt buộc",
   "rule-price": "Giá phải lớn hơn hoặc bằng 0",
-  "vnd": "đ"
+  "vnd": "đ",
+  "exchange-point": "Điểm quy đổi",
+  "rule-exchange-point": "Điểm quy đổi phải lớn hơn hoặc bằng 0"
 }

@@ -188,7 +188,12 @@ export const ComboPage = () => {
           {
             title: `${t('price')} (${t('vnd')})`,
             dataIndex: 'price',
-            render: (_, combo) => `${formatCurrency(combo.price)} `
+            render: (_, combo) => `${formatCurrency(combo.price)}`
+          },
+          {
+            title: `${t('exchange-point')}`,
+            dataIndex: 'exchange_point',
+            render: (_, combo) => combo.exchange_point
           },
           {
             title: t('type'),

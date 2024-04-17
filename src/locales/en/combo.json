@@ -16,5 +16,7 @@
   "update-success": "Update success",
   "required-field": "Required field",
   "rule-price": "Price must be greater than or equal to 0",
-  "vnd": "VND"
+  "vnd": "VND",
+  "exchange-point": "Exchange point",
+  "rule-exchange-point": "Exchange point must be greater than or equal to 0"
 }

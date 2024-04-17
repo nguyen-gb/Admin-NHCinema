@@ -3,6 +3,7 @@ export interface Combo {
   name: string
   description: string
   price: number
+  exchange_point: number
   type: ComboType
   status: number
   quantity?: number
