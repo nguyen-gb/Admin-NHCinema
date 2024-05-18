@@ -14,7 +14,7 @@ export default function Home() {
   // hook
   const { profile } = useContext(AppContext)
   const { t } = useTranslation('home')
-  const [reportType, setReportType] = useState(1)
+  const [reportType, setReportType] = useState(0)
 
   // query api
   const { data, isLoading } = useQuery({
