@@ -5,7 +5,10 @@
   "total-booking": "Tổng vé",
   "showing-movie": "Phim đang chiếu",
   "upcoming-movie": "Phim sắp chiếu",
-  "total-user": "Tông người dùng",
+  "total-user": "Tổng người dùng",
   "top-10": "Mười bộ phim có doanh thu cao nhất",
-  "vnd": "đ"
+  "vnd": "đ",
+  "month": "Tháng",
+  "year": "Năm",
+  "all": "Toàn bộ"
 }

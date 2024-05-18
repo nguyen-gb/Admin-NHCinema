@@ -3,6 +3,7 @@ import { Seat } from './showtime.type'
 
 export interface Ticket {
   _id: string
+  code: string
   theater_name: string
   user_id: string
   email: string

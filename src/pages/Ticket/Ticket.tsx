@@ -97,6 +97,11 @@ export const TicketPage = () => {
             render: (_, __, index) => index + 1
           },
           {
+            title: t('code'),
+            dataIndex: 'code',
+            render: (_, ticket) => ticket.code
+          },
+          {
             title: t('name'),
             dataIndex: 'name',
             render: (_, ticket) => ticket.user_name
@@ -128,6 +133,7 @@ export const TicketPage = () => {
           },
           {
             title: t('total'),
+            width: '100px',
             dataIndex: 'total_amount',
             render: (_, ticket) => `${formatCurrency(ticket.total_amount)} ${t('VND')}`
           }

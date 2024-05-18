@@ -11,6 +11,21 @@ export interface StatisticsHome {
   movie_statistic: MovieStatistic[]
 }
 
+export const StatisticsType = [
+  {
+    label: 'month',
+    value: 0
+  },
+  {
+    label: 'year',
+    value: 1
+  },
+  {
+    label: 'all',
+    value: 2
+  }
+]
+
 interface MovieStatistic {
   movie_name: string
   total_revenue: number

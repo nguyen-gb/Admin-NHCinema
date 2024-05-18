@@ -9,5 +9,6 @@
   "action": "Action",
   "view": "View",
   "total": "Total",
-  "VND": "VND"
+  "VND": "VND",
+  "code": "Code"
 }

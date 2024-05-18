@@ -16,8 +16,12 @@ const statisticsApi = {
   getStatistics(params?: Params) {
     return http.get<SuccessResponse<Statistics[]>>(`${URL}/revenue`, { params: params })
   },
-  getStatisticsHome() {
-    return http.get<SuccessResponse<StatisticsHome>>(`${URL}/overview`)
+  getStatisticsHome(reportType: number) {
+    return http.get<SuccessResponse<StatisticsHome>>(`${URL}/overview`, {
+      params: {
+        report_type: reportType
+      }
+    })
   }
 }
 

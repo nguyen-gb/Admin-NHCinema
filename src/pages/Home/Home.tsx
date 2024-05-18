@@ -2,24 +2,24 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import CountUp from 'react-countup'
 import { Formatter } from 'antd/es/statistic/utils'
-import { useContext } from 'react'
-import { Card, Col, Divider, Row, Statistic, Table } from 'antd'
+import { useContext, useState } from 'react'
+import { Card, Col, Divider, Row, Select, Space, Statistic, Table } from 'antd'
 
 import statisticsApi from 'src/apis/statistics'
 import { formatCurrency } from 'src/utils/utils'
 import { AppContext } from 'src/contexts/app.context'
+import { StatisticsType } from 'src/types/statistics.type'
 
 export default function Home() {
   // hook
   const { profile } = useContext(AppContext)
   const { t } = useTranslation('home')
+  const [reportType, setReportType] = useState(1)
 
   // query api
   const { data, isLoading } = useQuery({
-    queryKey: ['home'],
-    queryFn: () => statisticsApi.getStatisticsHome(),
-    keepPreviousData: true,
-    staleTime: 3 * 60 * 1000
+    queryKey: ['home', reportType],
+    queryFn: () => statisticsApi.getStatisticsHome(reportType)
   })
   const dataStatistics = data?.data.data
   const dataTable = data?.data.data.movie_statistic
@@ -27,7 +27,25 @@ export default function Home() {
   const formatter = (value: number) => <CountUp end={value} separator='.' />
 
   return (
-    <Card title={t('home')}>
+    <Card
+      title={
+        <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span>{t('home')}</span>
+          <Select
+            style={{ minWidth: 100 }}
+            showSearch={false}
+            options={StatisticsType.map((type) => {
+              return {
+                value: type.value,
+                label: t(type.label as any)
+              }
+            })}
+            onChange={(value) => setReportType(value)}
+            value={reportType}
+          />
+        </Space>
+      }
+    >
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} lg={6}>
           <Statistic
