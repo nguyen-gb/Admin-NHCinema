@@ -104,16 +104,19 @@ export const TicketPage = () => {
           {
             title: t('name'),
             dataIndex: 'name',
+            width: '200px',
             render: (_, ticket) => ticket.user_name
           },
           {
             title: t('movie'),
             dataIndex: 'movie_name',
+            width: '400px',
             render: (_, ticket) => ticket.movie_name
           },
           {
             title: t('showtime'),
             dataIndex: ['time', 'showtime'],
+            width: '400px',
             render: (_, ticket) => `${ticket.showtime} ${ticket.time}`
           },
           {
@@ -124,18 +127,38 @@ export const TicketPage = () => {
           {
             title: t('seat'),
             dataIndex: 'seat',
+            width: '400px',
             render: (_, ticket) => ticket.seats.map((seat) => seatArray[Number(seat.seat_number) - 1]).join(', ')
           },
           {
             title: 'Combo',
             dataIndex: 'combo',
+            width: '500px',
             render: (_, ticket) => ticket.combos?.map((combo) => `${combo.name} (${combo.quantity})`).join(', ') || '-'
+          },
+          {
+            title: t('payment'),
+            width: '100px',
+            dataIndex: 'total_amount',
+            render: (_, ticket) => `${formatCurrency(ticket.total_amount / 1.1)} ${t('VND')}`
+          },
+          {
+            title: 'VAT (10%)',
+            width: '100px',
+            dataIndex: 'total_amount',
+            render: (_, ticket) => `${formatCurrency(ticket.total_amount / 11)} ${t('VND')}`
+          },
+          {
+            title: t('discount'),
+            width: '100px',
+            dataIndex: 'discount_price',
+            render: (_, ticket) => `${formatCurrency(ticket.discount_price)} ${t('VND')}`
           },
           {
             title: t('total'),
             width: '100px',
             dataIndex: 'total_amount',
-            render: (_, ticket) => `${formatCurrency(ticket.total_amount)} ${t('VND')}`
+            render: (_, ticket) => `${formatCurrency(ticket.total_amount - ticket.discount_price)} ${t('VND')}`
           }
           // {
           //   title: t('action'),

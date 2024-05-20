@@ -10,5 +10,7 @@
   "view": "Xem",
   "total": "Tổng",
   "VND": "đ",
-  "code": "Mã vé"
+  "code": "Mã vé",
+  "payment": "Thanh toán",
+  "discount": "Giảm giá"
 }

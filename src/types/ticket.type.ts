@@ -20,4 +20,5 @@ export interface Ticket {
   payment_method: number
   payment_status: number
   total_amount: number
+  discount_price: number
 }

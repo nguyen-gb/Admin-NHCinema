@@ -10,5 +10,7 @@
   "view": "View",
   "total": "Total",
   "VND": "VND",
-  "code": "Code"
+  "code": "Code",
+  "payment": "Payment",
+  "discount": "Discount"
 }
