@@ -137,28 +137,28 @@ export const TicketPage = () => {
             render: (_, ticket) => ticket.combos?.map((combo) => `${combo.name} (${combo.quantity})`).join(', ') || '-'
           },
           {
-            title: t('payment'),
+            title: `${t('payment')} (${t('VND')})`,
             width: '100px',
             dataIndex: 'total_amount',
-            render: (_, ticket) => `${formatCurrency(ticket.total_amount / 1.1)} ${t('VND')}`
+            render: (_, ticket) => `${formatCurrency(ticket.total_amount / 1.1)}`
           },
           {
-            title: 'VAT (10%)',
+            title: `VAT (10%) (${t('VND')})`,
             width: '100px',
             dataIndex: 'total_amount',
-            render: (_, ticket) => `${formatCurrency(ticket.total_amount / 11)} ${t('VND')}`
+            render: (_, ticket) => `${formatCurrency(ticket.total_amount / 11)}`
           },
           {
-            title: t('discount'),
+            title: `${t('discount')} (${t('VND')})`,
             width: '100px',
             dataIndex: 'discount_price',
-            render: (_, ticket) => `${formatCurrency(ticket.discount_price)} ${t('VND')}`
+            render: (_, ticket) => `${formatCurrency(ticket.discount_price)}`
           },
           {
-            title: t('total'),
+            title: `${t('total')} (${t('VND')})`,
             width: '100px',
             dataIndex: 'total_amount',
-            render: (_, ticket) => `${formatCurrency(ticket.total_amount - ticket.discount_price)} ${t('VND')}`
+            render: (_, ticket) => `${formatCurrency(ticket.total_amount - ticket.discount_price)}`
           }
           // {
           //   title: t('action'),
