@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip, Image, Select, Tag } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Image, Select, Tag, Switch } from 'antd'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
@@ -76,11 +76,11 @@ export const MoviePage = () => {
     setIdDelete(id)
     setIsOpenDeleteModal(true)
   }
-  const handleDeleteMovie = (isDeleMore: boolean) => {
-    const body = isDeleMore ? selectedRowKeys : [idDelete]
+  const handleDeleteMovie = (isDeleMore: boolean, id: string = idDelete) => {
+    const body = isDeleMore ? selectedRowKeys : [id]
     deleteMovie.mutate(body as string[], {
       onSuccess: () => {
-        toast.success(t('delete-success'))
+        toast.success(t('update-success'))
 
         if (isDeleMore) {
           setIsOpenDeleteMultiModal(false)
@@ -220,8 +220,15 @@ export const MoviePage = () => {
           {
             title: t('status'),
             dataIndex: 'status',
-            render: (_, movie) =>
-              movie.status === 0 ? <Tag color='red'>Disable</Tag> : <Tag color='blue'>Available</Tag>
+            render: (_, movie) => (
+              <Switch
+                loading={deleteMovie.isLoading}
+                defaultChecked={Boolean(movie.status)}
+                onChange={() => {
+                  handleDeleteMovie(false, movie._id)
+                }}
+              />
+            )
           },
           {
             title: t('action'),
@@ -237,7 +244,7 @@ export const MoviePage = () => {
                     onClick={() => handleUpdate(movie)}
                   ></Button>
                 </Tooltip>
-                <Tooltip title={<div>{t('delete')}</div>}>
+                {/* <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
                     disabled={profile?.role === 1}
                     loading={false}
@@ -246,7 +253,7 @@ export const MoviePage = () => {
                     icon={<Icon.DeleteOutlined />}
                     onClick={() => handleOnClickDelete(movie._id)}
                   ></Button>
-                </Tooltip>
+                </Tooltip> */}
               </Space>
             )
           }
