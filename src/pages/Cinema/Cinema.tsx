@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip, Tag } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Switch } from 'antd'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
 import { toast } from 'react-toastify'
@@ -63,15 +63,11 @@ export const CinemaPage = () => {
     handleOpenModal()
   }
   //delete
-  const handleOnClickDelete = (id: string) => {
-    setIdDelete(id)
-    setIsOpenDeleteModal(true)
-  }
-  const handleDeleteCinema = (isDeleMore: boolean) => {
-    const body = isDeleMore ? selectedRowKeys : [idDelete]
+  const handleDeleteCinema = (isDeleMore: boolean, id: string = idDelete) => {
+    const body = isDeleMore ? selectedRowKeys : [id]
     deleteCinema.mutate(body as string[], {
       onSuccess: () => {
-        toast.success(t('delete-success'))
+        toast.success(t('update-success'))
 
         if (isDeleMore) {
           setIsOpenDeleteMultiModal(false)
@@ -137,10 +133,6 @@ export const CinemaPage = () => {
         rowKey='_id'
         scroll={{ x: 1080 }}
         loading={isLoading}
-        rowSelection={{
-          selectedRowKeys: selectedRowKeys,
-          onChange: setSelectedRowKeys
-        }}
         dataSource={dataTable}
         pagination={{
           current: currentPage,
@@ -171,8 +163,17 @@ export const CinemaPage = () => {
           {
             title: t('status'),
             dataIndex: 'status',
-            render: (_, cinema) =>
-              cinema.status === 0 ? <Tag color='red'>Disable</Tag> : <Tag color='blue'>Available</Tag>
+            render: (_, cinema) => {
+              return (
+                <Switch
+                  loading={deleteCinema.isLoading}
+                  defaultChecked={Boolean(cinema.status)}
+                  onChange={() => {
+                    handleDeleteCinema(false, cinema._id)
+                  }}
+                />
+              )
+            }
           },
           {
             title: t('action'),
@@ -187,7 +188,7 @@ export const CinemaPage = () => {
                     onClick={() => handleUpdate(cinema)}
                   ></Button>
                 </Tooltip>
-                <Tooltip title={<div>{t('delete')}</div>}>
+                {/* <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -195,7 +196,7 @@ export const CinemaPage = () => {
                     icon={<Icon.DeleteOutlined />}
                     onClick={() => handleOnClickDelete(cinema._id)}
                   ></Button>
-                </Tooltip>
+                </Tooltip> */}
               </Space>
             )
           }

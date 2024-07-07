@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip, Select, Tag } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Select, Tag, Switch } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import dayjs from 'dayjs'
+import { useTranslation } from 'react-i18next'
 
 import DeleteNav from './components/DeleteNav'
 import ModalDelete from './components/DeleteModel'
@@ -10,8 +12,6 @@ import { PopupForm } from './components/PopupForm'
 import userApi from 'src/apis/user.api'
 import { User } from 'src/types/user.type'
 import { ErrorResponse } from 'src/types/utils.type'
-import dayjs from 'dayjs'
-import { useTranslation } from 'react-i18next'
 
 export const UserPage = () => {
   // hook
@@ -69,15 +69,11 @@ export const UserPage = () => {
   // }
 
   //delete
-  const handleOnClickDelete = (id: string) => {
-    setIdDelete(id)
-    setIsOpenDeleteModal(true)
-  }
-  const handleDeleteUser = (isDeleMore: boolean) => {
-    const body = isDeleMore ? selectedRowKeys : [idDelete]
+  const handleDeleteUser = (isDeleMore: boolean, id: string = idDelete) => {
+    const body = isDeleMore ? selectedRowKeys : [id]
     deleteUser.mutate(body as string[], {
       onSuccess: () => {
-        toast.success(t('delete-success'))
+        toast.success(t('update-success'))
 
         if (isDeleMore) {
           setIsOpenDeleteMultiModal(false)
@@ -220,37 +216,41 @@ export const UserPage = () => {
             render: (_, user) =>
               user.status === 0 ? (
                 <Tag color='yellow'>{t('not-activated')}</Tag>
-              ) : user.status === 1 ? (
-                <Tag color='blue'>{t('activated')}</Tag>
               ) : (
-                <Tag color='red'>{t('stop-working')}</Tag>
+                <Switch
+                  loading={deleteUser.isLoading}
+                  defaultChecked={Boolean(user.status === 1)}
+                  onChange={() => {
+                    handleDeleteUser(false, user._id)
+                  }}
+                />
               )
-          },
-          {
-            title: t('action'),
-            align: 'right',
-            render: (_, user) => (
-              <Space direction='horizontal'>
-                {/* <Tooltip title={<div>Update</div>}>
-                  <Button
-                    loading={false}
-                    size='middle'
-                    icon={<Icon.EditOutlined />}
-                    onClick={() => handleUpdate(user)}
-                  ></Button>
-                </Tooltip> */}
-                <Tooltip title={<div>{t('delete')}</div>}>
-                  <Button
-                    loading={false}
-                    size='middle'
-                    danger={true}
-                    icon={<Icon.DeleteOutlined />}
-                    onClick={() => handleOnClickDelete(user._id)}
-                  ></Button>
-                </Tooltip>
-              </Space>
-            )
           }
+          // {
+          //   title: t('action'),
+          //   align: 'right',
+          //   render: (_, user) => (
+          //     <Space direction='horizontal'>
+          //       {/* <Tooltip title={<div>Update</div>}>
+          //         <Button
+          //           loading={false}
+          //           size='middle'
+          //           icon={<Icon.EditOutlined />}
+          //           onClick={() => handleUpdate(user)}
+          //         ></Button>
+          //       </Tooltip> */}
+          //       <Tooltip title={<div>{t('delete')}</div>}>
+          //         <Button
+          //           loading={false}
+          //           size='middle'
+          //           danger={true}
+          //           icon={<Icon.DeleteOutlined />}
+          //           onClick={() => handleOnClickDelete(user._id)}
+          //         ></Button>
+          //       </Tooltip>
+          //     </Space>
+          //   )
+          // }
         ]}
       />
 
