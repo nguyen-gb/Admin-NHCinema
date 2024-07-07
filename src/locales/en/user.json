@@ -54,5 +54,7 @@
   "create-success": "Create success",
   "delete-success": "Delete success",
   "update-success": "Update success",
-  "required-field": "Required field"
+  "required-field": "Required field",
+  "validated-email-field": "Invalid email format",
+  "validated-phone-field": "Invalid phone number format"
 }

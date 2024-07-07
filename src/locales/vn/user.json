@@ -54,5 +54,7 @@
   "create-success": "Tạo thành công",
   "delete-success": "Xoá thành công",
   "update-success": "Cập nhật thành công",
-  "required-field": "Trường bắt buộc"
+  "required-field": "Trường bắt buộc",
+  "validated-email-field": "Email không đúng định dạng",
+  "validated-phone-field": "Số điện thoại không đúng định dạng"
 }

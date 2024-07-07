@@ -150,10 +150,24 @@ export const PopupForm: React.FC<Props> = (props) => {
             })}
           />
         </Form.Item>
-        <Form.Item name='email' label={t('email')} rules={[{ required: true, message: t('required-field') }]}>
+        <Form.Item
+          name='email'
+          label={t('email')}
+          rules={[
+            { required: true, message: t('required-field') },
+            { type: 'email', message: t('validated-email-field') }
+          ]}
+        >
           <Input placeholder={t('email')} />
         </Form.Item>
-        <Form.Item name='phone' label={t('phone')} rules={[{ required: true, message: t('required-field') }]}>
+        <Form.Item
+          name='phone'
+          label={t('phone')}
+          rules={[
+            { required: true, message: t('required-field') },
+            { pattern: /^[0-9]+$/, message: t('validated-phone-field') }
+          ]}
+        >
           <Input placeholder={t('phone')} />
         </Form.Item>
         <Form.Item name='gender' label={t('gender')}>
