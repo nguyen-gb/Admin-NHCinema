@@ -10,7 +10,7 @@ import ModalDelete from './components/DeleteModel'
 import { Movie } from 'src/types/movie.type'
 import { PopupForm } from './components/PopupForm'
 import movieApi from 'src/apis/movie.api'
-import { ErrorResponse, Params } from 'src/types/utils.type'
+import { Params } from 'src/types/utils.type'
 import { AppContext } from 'src/contexts/app.context'
 import genreApi from 'src/apis/genre.api'
 import { Genre } from 'src/types/genre.type'
@@ -70,7 +70,6 @@ export const MoviePage = () => {
   const handleUpdate = (movie: Movie) => {
     setFormData(movie)
     handleOpenModal()
-    refetch()
   }
   //delete
   // const handleOnClickDelete = (id: string) => {
@@ -92,9 +91,6 @@ export const MoviePage = () => {
         }
 
         refetch()
-      },
-      onError: (error) => {
-        toast.error((error as ErrorResponse<any>).message)
       }
     })
   }
@@ -226,6 +222,7 @@ export const MoviePage = () => {
                 disabled={profile?.role === 1}
                 loading={deleteMovie.isLoading}
                 defaultChecked={Boolean(movie.status)}
+                checked={Boolean(movie.status)}
                 onChange={() => {
                   handleDeleteMovie(false, movie._id)
                 }}
