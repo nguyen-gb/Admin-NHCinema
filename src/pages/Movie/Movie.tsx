@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip, Image, Select, Tag, Switch } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Image, Select, Switch } from 'antd'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as Icon from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
@@ -72,10 +72,10 @@ export const MoviePage = () => {
     handleOpenModal()
   }
   //delete
-  const handleOnClickDelete = (id: string) => {
-    setIdDelete(id)
-    setIsOpenDeleteModal(true)
-  }
+  // const handleOnClickDelete = (id: string) => {
+  //   setIdDelete(id)
+  //   setIsOpenDeleteModal(true)
+  // }
   const handleDeleteMovie = (isDeleMore: boolean, id: string = idDelete) => {
     const body = isDeleMore ? selectedRowKeys : [id]
     deleteMovie.mutate(body as string[], {
