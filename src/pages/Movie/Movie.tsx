@@ -70,6 +70,7 @@ export const MoviePage = () => {
   const handleUpdate = (movie: Movie) => {
     setFormData(movie)
     handleOpenModal()
+    refetch()
   }
   //delete
   // const handleOnClickDelete = (id: string) => {
@@ -222,6 +223,7 @@ export const MoviePage = () => {
             dataIndex: 'status',
             render: (_, movie) => (
               <Switch
+                disabled={profile?.role === 1}
                 loading={deleteMovie.isLoading}
                 defaultChecked={Boolean(movie.status)}
                 onChange={() => {
