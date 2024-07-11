@@ -69,6 +69,10 @@ export const UserPage = () => {
   // }
 
   //delete
+  const handleOnClickDelete = (id: string) => {
+    setIdDelete(id)
+    setIsOpenDeleteModal(true)
+  }
   const handleDeleteUser = (isDeleMore: boolean, id: string = idDelete) => {
     const body = isDeleMore ? selectedRowKeys : [id]
     deleteUser.mutate(body as string[], {
@@ -220,8 +224,9 @@ export const UserPage = () => {
                 <Switch
                   loading={deleteUser.isLoading}
                   defaultChecked={Boolean(user.status === 1)}
+                  checked={Boolean(user.status === 1)}
                   onChange={() => {
-                    handleDeleteUser(false, user._id)
+                    handleOnClickDelete(user._id)
                   }}
                 />
               )

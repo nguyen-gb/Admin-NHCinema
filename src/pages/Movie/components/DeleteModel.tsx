@@ -19,7 +19,7 @@ export default function ModalDelete({ onDelete, open, setIsOpenDeleteModal, isLo
 
   return (
     <Modal
-      title={t('delete')}
+      title={t('update')}
       confirmLoading={false}
       forceRender
       open={open}
@@ -35,16 +35,16 @@ export default function ModalDelete({ onDelete, open, setIsOpenDeleteModal, isLo
           style={{ width: '100%', marginTop: '0px' }}
           loading={isLoadingDelete}
         >
-          {t('delete')}
+          {t('update')}
         </Button>
       ]}
     >
       {countItem ? (
-        <div style={{ textAlign: 'center', padding: '16px 0' }}>{`${t('delete-confirm-multi')} ${countItem} ${t(
+        <div style={{ textAlign: 'center', padding: '16px 0' }}>{`${t('update-confirm-multi')} ${countItem} ${t(
           'row'
         )}?`}</div>
       ) : (
-        <div style={{ textAlign: 'center', padding: '16px 0' }}>{t('delete-confirm')}</div>
+        <div style={{ textAlign: 'center', padding: '16px 0' }}>{t('update-confirm')}</div>
       )}
     </Modal>
   )

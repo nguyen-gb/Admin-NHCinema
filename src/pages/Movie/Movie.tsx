@@ -72,10 +72,10 @@ export const MoviePage = () => {
     handleOpenModal()
   }
   //delete
-  // const handleOnClickDelete = (id: string) => {
-  //   setIdDelete(id)
-  //   setIsOpenDeleteModal(true)
-  // }
+  const handleOnClickDelete = (id: string) => {
+    setIdDelete(id)
+    setIsOpenDeleteModal(true)
+  }
   const handleDeleteMovie = (isDeleMore: boolean, id: string = idDelete) => {
     const body = isDeleMore ? selectedRowKeys : [id]
     deleteMovie.mutate(body as string[], {
@@ -224,7 +224,7 @@ export const MoviePage = () => {
                 defaultChecked={Boolean(movie.status)}
                 checked={Boolean(movie.status)}
                 onChange={() => {
-                  handleDeleteMovie(false, movie._id)
+                  handleOnClickDelete(movie._id)
                 }}
               />
             )

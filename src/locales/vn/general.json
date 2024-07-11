@@ -2,9 +2,11 @@
   "delete": "Xoá",
   "add-new": "Thêm mới",
   "create": "Tạo",
-  "update": "câoj nhật",
+  "update": "Cập nhật",
   "delete-confirm": "Bạn có chắc chắn muốn xoá?",
+  "update-confirm": "Bạn có chắc chắn muốn cập nhật?",
   "delete-confirm-multi": "Bạn có chắc chắn muốn xoá",
+  "update-confirm-multi": "Bạn có chắc chắn muốn cập nhật",
   "row": "hàng",
   "select": "Chọn"
 }

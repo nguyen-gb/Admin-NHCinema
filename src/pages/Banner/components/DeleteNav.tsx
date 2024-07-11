@@ -27,7 +27,7 @@ export default function DeleteNav({ countItem, setIsOpenDeleteMultiModal }: Prop
           ghost
           onClick={() => setIsOpenDeleteMultiModal(true)}
         >
-          Delete
+          {t('delete')}
         </Button>
       </Space>
       <Divider />

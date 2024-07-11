@@ -63,6 +63,10 @@ export const CinemaPage = () => {
     handleOpenModal()
   }
   //delete
+  const handleOnClickDelete = (id: string) => {
+    setIdDelete(id)
+    setIsOpenDeleteModal(true)
+  }
   const handleDeleteCinema = (isDeleMore: boolean, id: string = idDelete) => {
     const body = isDeleMore ? selectedRowKeys : [id]
     deleteCinema.mutate(body as string[], {
@@ -168,8 +172,9 @@ export const CinemaPage = () => {
                 <Switch
                   loading={deleteCinema.isLoading}
                   defaultChecked={Boolean(cinema.status)}
+                  checked={Boolean(cinema.status)}
                   onChange={() => {
-                    handleDeleteCinema(false, cinema._id)
+                    handleOnClickDelete(cinema._id)
                   }}
                 />
               )
