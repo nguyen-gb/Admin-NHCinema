@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Select, DatePicker } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 
 import ticketApi from 'src/apis/ticket.api'
+import movieApi from 'src/apis/movie.api'
 import { seatArray } from 'src/constants/seat'
 import { formatCurrency } from 'src/utils/utils'
 
@@ -16,11 +18,15 @@ export const TicketPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(20)
   const [keyword, setKeyword] = useState('')
+  const [movie, setMovie] = useState<string | undefined>(undefined)
+  const [showtime, setShowtime] = useState<string | undefined>(undefined)
 
   const queryConfig = {
     page: currentPage,
     page_size: pageSize,
-    key_search: keyword
+    key_search: keyword,
+    movie_id: movie,
+    time: showtime
   }
 
   const { data, isLoading } = useQuery({
@@ -31,6 +37,14 @@ export const TicketPage = () => {
   })
   const dataTable = data?.data.data
   const total = data?.data.total_record
+
+  const { data: dataMovie } = useQuery({
+    queryKey: ['movie', queryConfig],
+    queryFn: () => movieApi.getMovies(),
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
+  })
+  const movies = dataMovie?.data.data
 
   // state
   // const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
@@ -62,6 +76,25 @@ export const TicketPage = () => {
           onChange={(event) => {
             setKeywordInput(event.target.value)
           }}
+        />
+        <Select
+          allowClear
+          style={{ minWidth: 200 }}
+          placeholder={t('movie')}
+          showSearch={false}
+          options={movies?.map((movie) => {
+            return {
+              value: movie._id,
+              label: movie.name
+            }
+          })}
+          onChange={(value) => setMovie(value)}
+          value={movie}
+        />
+        <DatePicker
+          format='DD/MM/YYYY'
+          onChange={(value) => setShowtime(value?.format('YYYY-MM-DD') ?? '')}
+          value={showtime ? dayjs(showtime, 'YYYY-MM-DD') : undefined}
         />
         <Button
           type='primary'
