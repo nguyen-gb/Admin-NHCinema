@@ -3,12 +3,12 @@ import { Form, Input, Modal, Button } from 'antd'
 import { omit } from 'lodash'
 import { toast } from 'react-toastify'
 import { useMutation } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 
 import { Room } from 'src/types/room.type'
 import roomApi from 'src/apis/room.api'
 import { ErrorResponse } from 'src/types/utils.type'
 import { AppContext } from 'src/contexts/app.context'
-import { useTranslation } from 'react-i18next'
 
 interface Props {
   title: string
@@ -23,7 +23,8 @@ const defaultSubmit: Room = {
   _id: '',
   theater_id: '',
   room_number: '',
-  seat_capacity: 84
+  seat_capacity: 84,
+  status: 1
 }
 
 const defaultSubmitWithoutId = omit(defaultSubmit, '_id')
