@@ -10,6 +10,7 @@ import { TbTheater } from 'react-icons/tb'
 import { useTranslation } from 'react-i18next'
 import { useMutation } from '@tanstack/react-query'
 import { PiPopcorn } from 'react-icons/pi'
+import { MdOutlineMeetingRoom } from 'react-icons/md'
 import * as Icon from '@ant-design/icons'
 
 import path from 'src/constants/path'
@@ -107,6 +108,12 @@ function MainLayoutInner({ children }: Props) {
             icon: <BiMoviePlay />,
             label: t('movie'),
             path: path.movie
+          },
+          {
+            key: path.room,
+            icon: <MdOutlineMeetingRoom />,
+            label: t('room'),
+            path: path.room
           },
           {
             key: path.showtimes,

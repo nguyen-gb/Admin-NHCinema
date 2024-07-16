@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Table, Button, Card, Space, Divider, Input, Tooltip } from 'antd'
+import { Table, Button, Card, Space, Divider, Input, Tooltip, Switch } from 'antd'
 import * as Icon from '@ant-design/icons'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 import DeleteNav from './components/DeleteNav'
 import ModalDelete from './components/DeleteModel'
@@ -10,7 +11,6 @@ import { PopupForm } from './components/PopupForm'
 import roomApi from 'src/apis/room.api'
 import { Room } from 'src/types/room.type'
 import { ErrorResponse } from 'src/types/utils.type'
-import { useTranslation } from 'react-i18next'
 
 export const RoomPage = () => {
   // hook
@@ -71,7 +71,7 @@ export const RoomPage = () => {
     const body = isDeleMore ? selectedRowKeys : [idDelete]
     deleteRoom.mutate(body as string[], {
       onSuccess: () => {
-        toast.success(t('delete-success'))
+        toast.success(t('update-success'))
 
         if (isDeleMore) {
           setIsOpenDeleteMultiModal(false)
@@ -137,10 +137,10 @@ export const RoomPage = () => {
         rowKey='_id'
         scroll={{ x: 1080 }}
         loading={isLoading}
-        rowSelection={{
-          selectedRowKeys: selectedRowKeys,
-          onChange: setSelectedRowKeys
-        }}
+        // rowSelection={{
+        //   selectedRowKeys: selectedRowKeys,
+        //   onChange: setSelectedRowKeys
+        // }}
         dataSource={dataTable}
         pagination={{
           current: currentPage,
@@ -164,6 +164,20 @@ export const RoomPage = () => {
             render: (_, room) => room.room_number
           },
           {
+            title: t('status'),
+            dataIndex: 'status',
+            render: (_, room) => (
+              <Switch
+                loading={deleteRoom.isLoading}
+                defaultChecked={Boolean(room.status)}
+                checked={Boolean(room.status)}
+                onChange={() => {
+                  handleOnClickDelete(room._id)
+                }}
+              />
+            )
+          },
+          {
             title: t('action'),
             align: 'right',
             render: (_, room) => (
@@ -176,7 +190,7 @@ export const RoomPage = () => {
                     onClick={() => handleUpdate(room)}
                   ></Button>
                 </Tooltip>
-                <Tooltip title={<div>{t('delete')}</div>}>
+                {/* <Tooltip title={<div>{t('delete')}</div>}>
                   <Button
                     loading={false}
                     size='middle'
@@ -184,7 +198,7 @@ export const RoomPage = () => {
                     icon={<Icon.DeleteOutlined />}
                     onClick={() => handleOnClickDelete(room._id)}
                   ></Button>
-                </Tooltip>
+                </Tooltip> */}
               </Space>
             )
           }

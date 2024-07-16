@@ -1,6 +1,7 @@
 {
   "room": "Phòng",
   "room-number": "Số phòng",
+  "status": "Trạng thái",
   "action": "Hành động",
   "add-new": "Thêm mới",
   "create": "Tạo mới",

@@ -1,6 +1,7 @@
 {
   "room": "Room",
   "room-number": "Room number",
+  "status": "Status",
   "action": "Action",
   "add-new": "Add new",
   "create": "Create",
